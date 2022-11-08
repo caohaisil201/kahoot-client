@@ -1,2 +1,13 @@
-@import './base/reset';
-@import './base/mixin';
+@use './reset';
+@import './mixin';
+
+#App {
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    @include tablet {
+      padding: 0 90px;
+    }
+  }
+}
