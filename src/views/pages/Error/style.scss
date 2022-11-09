@@ -1,0 +1,30 @@
+@use 'assets/styles/variable' as v;
+
+#error-page {
+  width: 100vw;
+  height: 100vh;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  z-index: 999;
+  background-color: #fff;
+  a {
+    padding: 10px 20px;  
+
+    background: v.$primary-color;
+    color: #fff;
+    text-decoration: none;
+
+    border-radius: 5px;
+    &:visited {
+      color: #fff;
+    }
+  }
+}
