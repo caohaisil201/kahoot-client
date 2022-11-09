@@ -5,6 +5,7 @@ import Header from 'views/components/Header';
 import Error from 'views/pages/Error';
 import HomePage from 'views/pages/Home';
 import Footer from 'views/components/Footer';
+import SignUp from 'views/pages/SignUp';
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
             <Route path="/news-feed" />
             <Route path="/tutorial" />
             <Route path="/sign-in" />
-            <Route path="/sign-up" />
+            <Route path="/sign-up" element={<SignUp />}/>
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<Error />} />
           </Routes>

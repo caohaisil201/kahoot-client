@@ -1,0 +1,15 @@
+@use 'assets/styles/variable' as v;
+#sign-up {
+  background-color: #fff;
+  margin-top: 10px;
+  width: 100%;
+  min-height: calc(100vh - 88px);
+  position: absolute;
+  > .container {
+    .title {
+      span {
+        text-transform: uppercase;
+      }
+    }
+  }
+}
