@@ -1,2 +1,19 @@
-@import './base/reset';
-@import './base/mixin';
+@use './reset';
+@import './mixin';
+
+#App {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  .app-content {
+    flex-grow: 1;
+  }
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    @include tablet {
+      padding: 0 90px;
+    }
+  }
+}

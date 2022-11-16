@@ -1,0 +1,25 @@
+@use 'assets/styles/variable' as v;
+
+.logo {
+  display: flex;
+  align-items: center;
+  .image {
+    width: 55px;
+    height: 55px;
+    padding: 2px;
+    margin-right: 10px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+    border: 1px solid v.$primary-color;
+
+    overflow: hidden;
+    object-fit: cover;
+  }
+  h3 {
+    color: v.$primary-color;
+  }
+}
