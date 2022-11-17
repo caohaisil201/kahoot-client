@@ -2,24 +2,26 @@
 @use './variable' as v;
 @import './mixin';
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  width: 10px;
+  background: v.$light-grey-color;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background: v.$dark-grey-color;
+}
+
 #App {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  .app-content {
-    flex-grow: 1;
-  }
-  .container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    @include tablet {
-      padding: 0 90px;
-    }
-    @include lg-desktop {
-      max-width: 1350px;
-    }
-  }
   .d-none {
     display: none !important;
   }
@@ -1553,140 +1555,156 @@
   }
 
   .py-0{
-    padding-right: 0px !important;
-    padding-left: 0px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
   }
   .py-1{
-    padding-right: 4px !important;
-    padding-left: 4px !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
   }
   .py-2{
-    padding-right: 8px !important;
-    padding-left: 8px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
   }
   .py-3{
-    padding-right: 12px !important;
-    padding-left: 12px !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
   }
   .py-4{
-    padding-right: 16px !important;
-    padding-left: 16px !important;
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
   }
   .py-5{
-    padding-right: 20px !important;
-    padding-left: 20px !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
   }
   .py-6{
-    padding-right: 24px !important;
-    padding-left: 24px !important;
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
   }
   .py-7{
-    padding-right: 28px !important;
-    padding-left: 28px !important;
+    padding-top: 28px !important;
+    padding-bottom: 28px !important;
   }
   .py-8{
-    padding-right: 32px !important;
-    padding-left: 32px !important;
+    padding-top: 32px !important;
+    padding-bottom: 32px !important;
   }
   .py-9{
-    padding-right: 36px !important;
-    padding-left: 36px !important;
+    padding-top: 36px !important;
+    padding-bottom: 36px !important;
   }
   .py-10{
-    padding-right: 40px !important;
-    padding-left: 40px !important;
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
   }
   .py-11{
-    padding-right: 44px !important;
-    padding-left: 44px !important;
+    padding-top: 44px !important;
+    padding-bottom: 44px !important;
   }
   .py-12{
-    padding-right: 48px !important;
-    padding-left: 48px !important;
+    padding-top: 48px !important;
+    padding-bottom: 48px !important;
   }
   .py-13{
-    padding-right: 52px !important;
-    padding-left: 52px !important;
+    padding-top: 52px !important;
+    padding-bottom: 52px !important;
   }
   .py-14{
-    padding-right: 56px !important;
-    padding-left: 56px !important;
+    padding-top: 56px !important;
+    padding-bottom: 56px !important;
   }
   .py-15{
-    padding-right: 60px !important;
-    padding-left: 60px !important;
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
   }
   .py-16{
-    padding-right: 64px !important;
-    padding-left: 64px !important;
+    padding-top: 64px !important;
+    padding-bottom: 64px !important;
   }
   .py-n1{
-    padding-right: -4px !important;
-    padding-left: -4px !important;
+    padding-top: -4px !important;
+    padding-bottom: -4px !important;
   }
   .py-n2{
-    padding-right: -8px !important;
-    padding-left: -8px !important;
+    padding-top: -8px !important;
+    padding-bottom: -8px !important;
   }
   .py-n3{
-    padding-right: -12px !important;
-    padding-left: -12px !important;
+    padding-top: -12px !important;
+    padding-bottom: -12px !important;
   }
   .py-n4{
-    padding-right: -16px !important;
-    padding-left: -16px !important;
+    padding-top: -16px !important;
+    padding-bottom: -16px !important;
   }
   .py-n5{
-    padding-right: -20px !important;
-    padding-left: -20px !important;
+    padding-top: -20px !important;
+    padding-bottom: -20px !important;
   }
   .py-n6{
-    padding-right: -24px !important;
-    padding-left: -24px !important;
+    padding-top: -24px !important;
+    padding-bottom: -24px !important;
   }
   .py-n7{
-    padding-right: -28px !important;
-    padding-left: -28px !important;
+    padding-top: -28px !important;
+    padding-bottom: -28px !important;
   }
   .py-n8{
-    padding-right: -32px !important;
-    padding-left: -32px !important;
+    padding-top: -32px !important;
+    padding-bottom: -32px !important;
   }
   .py-n9{
-    padding-right: -36px !important;
-    padding-left: -36px !important;
+    padding-top: -36px !important;
+    padding-bottom: -36px !important;
   }
   .py-n10{
-    padding-right: -40px !important;
-    padding-left: -40px !important;
+    padding-top: -40px !important;
+    padding-bottom: -40px !important;
   }
   .py-n11{
-    padding-right: -44px !important;
-    padding-left: -44px !important;
+    padding-top: -44px !important;
+    padding-bottom: -44px !important;
   }
   .py-n12{
-    padding-right: -48px !important;
-    padding-left: -48px !important;
+    padding-top: -48px !important;
+    padding-bottom: -48px !important;
   }
   .py-n13{
-    padding-right: -52px !important;
-    padding-left: -52px !important;
+    padding-top: -52px !important;
+    padding-bottom: -52px !important;
   }
   .py-n14{
-    padding-right: -56px !important;
-    padding-left: -56px !important;
+    padding-top: -56px !important;
+    padding-bottom: -56px !important;
   }
   .py-n15{
-    padding-right: -60px !important;
-    padding-left: -60px !important;
+    padding-top: -60px !important;
+    padding-bottom: -60px !important;
   }
   .py-n16{
-    padding-right: -64px !important;
-    padding-left: -64px !important;
+    padding-top: -64px !important;
+    padding-bottom: -64px !important;
   }
   .py-a{
-    padding-right: auto !important;
-    padding-left: auto !important;
+    padding-top: auto !important;
+    padding-bottom: auto !important;
+  }
+
+  .app-content {
+    flex-grow: 1;
+  }
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 90px;
+    @include tablet {
+      padding: 0px;
+    }
+    @include lg-desktop {
+      max-width: 1350px;
+    }
   }
 
   a.button {
@@ -1727,14 +1745,25 @@
   }
 }
 
-::-webkit-scrollbar-track {
-  width: 10px;
-  background: v.$light-grey-color;
-  border-radius: 20px;
+.ant-modal-root {
+  font-family: 'Lato', sans-serif;
+  .ant-modal-title {
+    font-size: 1.5rem;
+  }
+  button.ant-btn {
+    border-radius: 70px;
+    min-width: 150px;
+    min-height: 50px;
+    border: 1px solid v.$primary-color;
+    color: v.$primary-color;
+    font-size: 1.1rem;
+
+    &.ant-btn-primary {
+      background: v.$primary-color;
+      color: #fff;
+    }
+  }
 }
 
-::-webkit-scrollbar-thumb {
-  border-radius: 20px;
-  background: v.$dark-grey-color;
-}
+
 

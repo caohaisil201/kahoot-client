@@ -14,7 +14,7 @@ const HomePage = () => {
       </div>
       <div className="content d-flex flex-column align-center">
         <h1>Giúp lớp học vui nhộn hơn</h1>
-        <Link to='/courses' className="button primary large">
+        <Link to='/groups' className="button primary large">
           Bắt đầu
         </Link>
       </div>

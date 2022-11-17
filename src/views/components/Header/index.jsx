@@ -14,13 +14,13 @@ const Header = () => {
   }
 
   return (
-    <div id="app-header" className="d-flex align-center">
+    <div id="app-header" className="d-flex align-center py-2">
       <div className="container d-flex align-center">
         <Logo />
         <nav className="header-nav d-flex">
           <div className="normal-nav">
             <NavLink className={navLinkClass} to="/" end>Trang chủ</NavLink>
-            <NavLink className={navLinkClass} to="/courses">Danh sách course</NavLink>
+            <NavLink className={navLinkClass} to="/groups">Danh sách course</NavLink>
             <NavLink className={navLinkClass} to="/tutorial">Hướng dẫn sử dụng</NavLink>
           </div>
           {isLogin ? (

@@ -5,7 +5,8 @@ import Header from 'views/components/Header';
 import Error from 'views/pages/Error';
 import HomePage from 'views/pages/Home';
 import Footer from 'views/components/Footer';
-import CourseList from 'views/pages/CourseList';
+import GroupList from 'views/pages/GroupList';
+import Group from 'views/pages/Group';
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
           <Routes>
             <Route path="/news-feed" />
             <Route path="/tutorial" />
-            <Route path="/courses" element={<CourseList />} />
+            <Route path="/groups" element={<GroupList />} />
+            <Route path="/group/:id" element={<Group />} />
             <Route path="/sign-in" />
             <Route path="/sign-up" />
             <Route path="/" element={<HomePage />} />
