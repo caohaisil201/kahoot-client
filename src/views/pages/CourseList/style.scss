@@ -1,0 +1,31 @@
+@use 'assets/styles/variable' as v;
+@import 'assets/styles/mixin';
+
+.course-list {
+  .container {
+    .header {
+      svg {
+        transform: scale(1.5);
+        margin-right: 10px;
+      }
+      h1 {
+        text-transform: uppercase;
+        color: v.$primary-color;
+        font-size: 2rem;
+      }
+    }
+    .groups {
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      @include lg-desktop {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+
+      .group-item {
+        width: 300px;
+        height: 330px;
+      }
+    }
+  }
+}
