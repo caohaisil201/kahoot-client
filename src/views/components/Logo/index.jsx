@@ -8,7 +8,7 @@ const Logo = () => {
       <div className="image" alt="logo">
         <img src={LogoIcon}/>
       </div>
-      <h3> EduBox</h3>
+      <h3 className="mb-0"> EduBox</h3>
     </div>
   )
 }

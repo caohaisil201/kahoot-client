@@ -15,7 +15,7 @@
       }
     }
     .groups {
-      max-height: 380px;
+      max-height: 320px;
       overflow-y: auto;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -41,13 +41,13 @@
             transform: scale(2.5);
           }
         }
-        .body{
+        .body {
           flex-grow: 1;
         }
-        .foot{
+        .foot {
           height: 30px;
           color: v.$primary-color;
-          svg{
+          svg {
             margin-right: 10px;
             color: #000;
           }
@@ -57,6 +57,16 @@
   }
 }
 
-.create-group-modal {
-  width: 722px !important;
+.ant-modal-root {
+  .create-group-modal {
+    width: 722px !important;
+    font-family: 'Lato', sans-serif;
+    .ant-modal-title {
+      font-size: 1.5rem;
+    }
+    footer {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
 }

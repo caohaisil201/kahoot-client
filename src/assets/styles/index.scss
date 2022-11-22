@@ -1716,6 +1716,16 @@
   button, .button {
     cursor: pointer;
   }
+
+  button.outline {
+    border-radius: 70px;
+    min-width: 150px;
+    min-height: 50px;
+    border: 1px solid v.$primary-color;
+    color: v.$primary-color;
+    font-size: 1.1rem;
+  }
+
   button.primary, .button.primary {
     color: #fff;
     background-color: v.$primary-color;
@@ -1752,15 +1762,17 @@
   }
   button.ant-btn {
     border-radius: 70px;
-    min-width: 150px;
-    min-height: 50px;
-    border: 1px solid v.$primary-color;
-    color: v.$primary-color;
+    min-width: 120px;
+    min-height: 40px;
     font-size: 1.1rem;
-
     &.ant-btn-primary {
       background: v.$primary-color;
       color: #fff;
+      &:hover {
+        border: 1px solid v.$primary-color;
+        color: v.$primary-color;
+        background-color: #fff;
+      }
     }
   }
 }

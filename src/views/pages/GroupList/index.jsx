@@ -2,15 +2,14 @@ import React, { useState, useLayoutEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from 'store';
 import { useDocumentTitle } from 'hooks';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { Schema } from 'utils';
+import { Formik, Form, Field } from 'formik';
 import {
   BookOutlined,
   FileImageOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Modal } from 'antd';
+import { Modal, Input } from 'antd';
 import 'antd/dist/antd.css';
 import './style.scss';
 
@@ -90,20 +89,9 @@ const GroupList = () => {
   const navigate = useNavigate();
   const context = useContext(Context);
   const isLogin = context.isLogin;
-  const { user } = context.userState;
+  // const { user } = context.userState;
 
   const createGroupSchema = Schema.createGroupSchema;
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: {errors},
-  } = useForm({
-    resolver: yupResolver(createGroupSchema),
-  });
-
-  
-
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -111,9 +99,9 @@ const GroupList = () => {
     setIsModalOpen(true);
   };
 
-  const onSubmit = () => {
-    console.log(123);
-    setIsModalOpen(false);
+  const onSubmit = (data) => {
+    console.log(data);
+    // setIsModalOpen(false);
   };
 
   const handleCancel = () => {
@@ -125,7 +113,7 @@ const GroupList = () => {
       navigate('/sign-in');
     }
   }, [isLogin]);
-  console.log(isModalOpen);
+  
 
   return (
     <>
@@ -134,7 +122,7 @@ const GroupList = () => {
           <section className="header pt-10 d-flex align-center justify-space-between">
             <div className="d-flex align-center">
               <BookOutlined />
-              <h1>danh sách các khóa học</h1>
+              <h1 className="mb-0">danh sách các khóa học</h1>
             </div>
             <button onClick={createNewGroup} className="primary large">
               Tạo khóa học
@@ -155,7 +143,42 @@ const GroupList = () => {
         className="create-group-modal"
         footer={null}
       >
-        <button type="submit" className="ant-btn ant-btn-primary">Tạo</button>
+        <Formik
+          initialValues={{
+            name: '',
+            description: '',
+            maxUser: 50,
+          }}
+          validationSchema={createGroupSchema}
+          onSubmit={onSubmit}
+        >
+          {({ errors, touched }) => (
+            <Form>
+              <Input name="name" />
+              {errors.name && touched.name ? (
+                <div className="error">{errors.firstName}</div>
+              ) : null}
+              <Input name="description" />
+              {errors.description && touched.description ? (
+                <div className="error">{errors.description}</div>
+              ) : null}
+              <Input name="maxUser" type="number" />
+              {errors.maxUser && touched.maxUser ? (
+                <div className="error">{errors.maxUser}</div>
+              ) : null}
+              <footer>
+                <button className="ant-btn cancel-btn">Hủy</button>
+                <button
+                  type="submit"
+                  className="ant-btn ant-btn-primary"
+                  style={{ marginLeft: '12px' }}
+                >
+                  Tạo
+                </button>
+              </footer>
+            </Form>
+          )}
+        </Formik>
       </Modal>
     </>
   );
