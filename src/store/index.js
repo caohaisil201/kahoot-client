@@ -3,10 +3,10 @@ import React, { useState, createContext } from 'react';
 
 export const Context = createContext();
 
-export default function Provider({children}) {
+export default function Provider({ children }) {
   // All data below is example
   const [user, setUser] = useState({
-    id: '001'
+    id: '001',
   });
 
   /**
@@ -22,5 +22,5 @@ export default function Provider({children}) {
     },
     isLogin,
   };
-  return <Context.Provider value={store}>{children}</Context.Provider>
+  return <Context.Provider value={store}>{children}</Context.Provider>;
 }

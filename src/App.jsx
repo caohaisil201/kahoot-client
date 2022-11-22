@@ -7,6 +7,8 @@ import HomePage from 'views/pages/Home';
 import Footer from 'views/components/Footer';
 import GroupList from 'views/pages/GroupList';
 import Group from 'views/pages/Group';
+import SignUp from 'views/pages/SignUp';
+import SignIn from 'views/pages/SignIn';
 
 function App() {
   return (
@@ -19,8 +21,8 @@ function App() {
             <Route path="/tutorial" />
             <Route path="/groups" element={<GroupList />} />
             <Route path="/group/:id" element={<Group />} />
-            <Route path="/sign-in" />
-            <Route path="/sign-up" />
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<Error />} />
           </Routes>
