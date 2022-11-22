@@ -64,9 +64,27 @@
     .ant-modal-title {
       font-size: 1.5rem;
     }
-    footer {
-      display: flex;
-      justify-content: flex-end;
+    .ant-modal-body {
+      textarea {
+        resize: none;
+      }
+      label {
+        color: #000;
+      }
+      .error {
+        min-height: 16px;
+        p {
+          font-size: 14px;
+          color: red;
+          margin: 0px;
+        }
+      }
+      input,
+      textarea {
+        outline: none;
+        padding: 5px 10px;
+        border-width: thin;
+      }
     }
   }
 }
