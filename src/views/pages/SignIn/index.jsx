@@ -2,10 +2,9 @@ import React from 'react';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from 'hooks';
-import { useContext } from 'react';
 import { Schema } from '../../../utils';
+import { loginUser } from 'api/AuthAPI';
 import 'antd/dist/antd.css';
-import * as Yup from 'yup';
 import './style.scss';
 
 const SignUp = () => {
@@ -19,9 +18,19 @@ const SignUp = () => {
       password: '',
     },
     validationSchema,
-    onSubmit: (values) => {
-      window.alert('Form submitted');
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        console.log(values);
+        const responseSignIn = await loginUser(values.email, values.password);
+        const { data, status } = responseSignIn;
+        if (status !== 200) return;
+
+        const { accessToken } = data;
+        localStorage.setItem('accessToken', accessToken);
+        navigate('/');
+      } catch (err) {
+        throw err;
+      }
     },
   });
 
