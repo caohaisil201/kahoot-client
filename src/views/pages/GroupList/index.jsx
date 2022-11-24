@@ -89,7 +89,7 @@ const GroupList = () => {
   useDocumentTitle('Course List');
   const navigate = useNavigate();
   const context = useContext(Context);
-  const isLogin = context.isLogin;
+  const isLogin = context.loginState.isLogin;
   const { user } = context.userState;
 
   const createGroupSchema = Schema.createGroupSchema;
@@ -97,13 +97,10 @@ const GroupList = () => {
     register,
     handleSubmit,
     reset,
-    formState: {errors},
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(createGroupSchema),
   });
-
-  
-
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -155,7 +152,9 @@ const GroupList = () => {
         className="create-group-modal"
         footer={null}
       >
-        <button type="submit" className="ant-btn ant-btn-primary">Tạo</button>
+        <button type="submit" className="ant-btn ant-btn-primary">
+          Tạo
+        </button>
       </Modal>
     </>
   );

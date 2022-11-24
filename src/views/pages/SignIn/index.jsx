@@ -7,11 +7,14 @@ import { loginUser } from 'api/AuthAPI';
 import 'antd/dist/antd.css';
 import './style.scss';
 import { Divider } from 'antd';
-import { GoogleLogin } from '@react-oauth/google';
-const SignUp = () => {
+import { Context } from 'store';
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { useContext } from 'react';
+import axios from 'axios';
+const SignIn = () => {
   useDocumentTitle('Sign Up');
   const navigate = useNavigate();
-
+  const { loginState } = useContext(Context);
   const validationSchema = Schema.validationSignInSchema;
   const formik = useFormik({
     initialValues: {
@@ -27,13 +30,31 @@ const SignUp = () => {
         if (status !== 200) return;
 
         const { accessToken } = data;
-        localStorage.setItem('accessToken', accessToken);
+        loginState.setIsLogin(true);
+        console.log('login state', loginState.isLogin);
         navigate('/');
       } catch (err) {
         throw err;
       }
     },
   });
+  // const handleGoogleLogin = useGoogleLogin({
+  //   onSuccess: async (res) => {
+  //     axios
+  //       .post(`${process.env.REACT_API_URL}/auth/login-with-google`, {
+  //         code: res.code,
+  //       })
+  //       .then((result) => {
+  //         console.log(result.data);
+  //         loginState.setIsLogin(true);
+  //         navigate('/');
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   },
+  //   flow: 'auth-code',
+  // });
 
   return (
     <section>
@@ -82,16 +103,15 @@ const SignUp = () => {
         <button type="submit" className="primary default">
           Đăng nhập
         </button>
-		<Divider>Hoặc</Divider>
-		<GoogleLogin
-		clientId={process.env.GOOGLE_CLIENT_ID}
-		buttonText="Sign in with Google"
-		// onSuccess={onSuccess}
-		// onFailure={onFailure}
-		/>
+        <Divider>Hoặc</Divider>
+        <GoogleLogin
+          clientId={process.env.GOOGLE_CLIENT_ID}
+          buttonText="Sign in with Google"
+          // onSuccess={handleGoogleLogin}
+        />
       </form>
     </section>
   );
 };
 
-export default SignUp;
+export default SignIn;

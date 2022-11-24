@@ -20,14 +20,16 @@ const SignUp = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      window.alert('Form submitted');
-      console.log(values);
+      // window.alert('Form submitted');
+      // console.log(values);
       const data = await registerUser(
         values.username,
         values.email,
         values.password
       );
-      console.log('data register: ', data);
+      // console.log('data register: ', data);
+      // data.status = 200;
+
       if (data.status !== 200) {
         console.log(data.data);
         return;
