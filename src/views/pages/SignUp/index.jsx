@@ -28,8 +28,8 @@ const SignUp = () => {
         values.password
       );
       console.log('data register: ', data);
-      if (data.meta.code !== 200) {
-        alert(data.data);
+      if (data.status !== 200) {
+        console.log(data.data);
         return;
       }
       alert('Sign Up successfully');

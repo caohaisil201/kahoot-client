@@ -6,7 +6,8 @@ import { Schema } from '../../../utils';
 import { loginUser } from 'api/AuthAPI';
 import 'antd/dist/antd.css';
 import './style.scss';
-
+import { Divider } from 'antd';
+import { GoogleLogin } from '@react-oauth/google';
 const SignUp = () => {
   useDocumentTitle('Sign Up');
   const navigate = useNavigate();
@@ -67,7 +68,7 @@ const SignUp = () => {
           Password <span style={{ color: '#36B5B0' }}>*</span>
         </label>
         <input
-          type="text"
+          type="password"
           id="password"
           name="password"
           value={formik.values.password}
@@ -81,6 +82,13 @@ const SignUp = () => {
         <button type="submit" className="primary default">
           Đăng nhập
         </button>
+		<Divider>Hoặc</Divider>
+		<GoogleLogin
+		clientId={process.env.GOOGLE_CLIENT_ID}
+		buttonText="Sign in with Google"
+		// onSuccess={onSuccess}
+		// onFailure={onFailure}
+		/>
       </form>
     </section>
   );
