@@ -16,7 +16,7 @@ root.render(
 			<QueryClientProvider client={queryClient}>
 				<GoogleOAuthProvider clientId="476406293259-r5mjumke6mjdu6pitqchajv4rirqdsre.apps.googleusercontent.com">
 					<App />
-				</GoogleOAuthProvider>;
+				</GoogleOAuthProvider>
 			</QueryClientProvider>
 		</Provider>
 	</React.StrictMode>

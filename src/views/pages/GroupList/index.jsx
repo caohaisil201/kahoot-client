@@ -1,11 +1,10 @@
 import React, { useState, useLayoutEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from 'store';
-import { useDocumentTitle } from 'hooks';
 import { useFormik } from 'formik';
-import { useQuery } from '@tanstack/react-query';
-import { Schema } from 'utils';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import {
   BookOutlined,
   FileImageOutlined,
@@ -13,6 +12,8 @@ import {
 } from '@ant-design/icons';
 import { Modal } from 'antd';
 import 'antd/dist/antd.css';
+import { Schema } from 'utils';
+import { useDocumentTitle } from 'hooks';
 import './style.scss';
 
 /**
@@ -91,19 +92,30 @@ const GroupList = () => {
   const navigate = useNavigate();
   const context = useContext(Context);
   const isLogin = context.loginState.isLogin;
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const createNewGroup = () => {
     setIsModalOpen(true);
   };
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['createGroup'],
-    queryFn: createGroup,
-  })
+  const createGroup = async () => {
+    try {
+      await axios
+        .get('https://jsonplaceholder.typicode.com/todos/1')
+        .then((response) => console.log(response.data));
+    } catch (err) {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Tạo nhóm thất bại',
+        timer: 1500,
+      });
+    }
+  };
 
-  const createGroup = () => {
-    
-  }
+  const mutation = useMutation({
+    mutationFn: createGroup,
+  });
 
   const createGroupSchema = Schema.createGroupSchema;
   const formik = useFormik({
@@ -114,7 +126,7 @@ const GroupList = () => {
     },
     validationSchema: createGroupSchema,
     onSubmit: (values, { resetForm }) => {
-      console.log(values);
+      mutation.mutate(values);
       setIsModalOpen(false);
       resetForm();
     },
@@ -125,11 +137,20 @@ const GroupList = () => {
     formik.resetForm();
   };
 
-  useLayoutEffect(() => {
-    if (!isLogin) {
-      navigate('/sign-in');
-    }
-  }, [isLogin]);
+  if (mutation.isLoading) {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'info',
+      title: 'Đang tạo nhóm',
+      timer: 1500,
+    });
+  }
+
+  // useLayoutEffect(() => {
+  //   if (!isLogin) {
+  //     navigate('/sign-in');
+  //   }
+  // }, [isLogin]);
 
   return (
     <>
