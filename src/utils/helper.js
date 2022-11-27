@@ -1,3 +1,5 @@
-export default helper = {
+const helper = {
 
-};
+}
+
+export default helper;

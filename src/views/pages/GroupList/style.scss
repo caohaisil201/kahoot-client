@@ -1,0 +1,90 @@
+@use 'assets/styles/variable' as v;
+@import 'assets/styles/mixin';
+
+.course-list {
+  .container {
+    .header {
+      svg {
+        transform: scale(1.5);
+        margin-right: 10px;
+      }
+      h1 {
+        text-transform: uppercase;
+        color: v.$primary-color;
+        font-size: 2rem;
+      }
+    }
+    .groups {
+      max-height: 320px;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: 40px;
+      @include lg-desktop {
+        max-height: 400px;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+      .group-item {
+        width: 300px;
+        height: 330px;
+        background: v.$secondary-color;
+        border-radius: 50px;
+        cursor: pointer;
+        .head {
+          height: 50px;
+          .info {
+            h2 {
+              font-size: 1.11rem;
+            }
+          }
+          svg {
+            transform: scale(2.5);
+          }
+        }
+        .body {
+          flex-grow: 1;
+        }
+        .foot {
+          height: 30px;
+          color: v.$primary-color;
+          svg {
+            margin-right: 10px;
+            color: #000;
+          }
+        }
+      }
+    }
+  }
+}
+
+.ant-modal-root {
+  .create-group-modal {
+    width: 722px !important;
+    font-family: 'Lato', sans-serif;
+    .ant-modal-title {
+      font-size: 1.5rem;
+    }
+    .ant-modal-body {
+      textarea {
+        resize: none;
+      }
+      label {
+        color: #000;
+      }
+      .error {
+        min-height: 16px;
+        p {
+          font-size: 14px;
+          color: red;
+          margin: 0px;
+        }
+      }
+      input,
+      textarea {
+        outline: none;
+        padding: 5px 10px;
+        border-width: thin;
+      }
+    }
+  }
+}
