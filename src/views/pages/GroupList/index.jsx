@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Context } from 'store';
 import { useDocumentTitle } from 'hooks';
 import { useFormik } from 'formik';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { Schema } from 'utils';
 import axios from 'axios';
 import {
@@ -14,6 +14,7 @@ import {
 import { Modal } from 'antd';
 import 'antd/dist/antd.css';
 import './style.scss';
+import Swal from 'sweetalert2';
 
 /**
  * This component will get course list from api
@@ -97,14 +98,30 @@ const GroupList = () => {
     setIsModalOpen(true);
   };
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['createGroup'],
-    queryFn: createGroup,
-  })
+  const createGroup = async (values) => {
+    console.log(values);
+    try {
+      await axios
+      .get('https://jsonplaceholder.typicode.com/todos/1')
+      .then((response) => console.log(response.data));
+    }catch(err) {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Tạo nhóm thất bại',
+        timer: 1500,
+      })
+    }
+  };
 
-  const createGroup = () => {
-    
-  }
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    formik.resetForm();
+  };
+
+  const mutation = useMutation({
+    mutationFn: createGroup,
+  });
 
   const createGroupSchema = Schema.createGroupSchema;
   const formik = useFormik({
@@ -114,17 +131,22 @@ const GroupList = () => {
       maxUser: 20,
     },
     validationSchema: createGroupSchema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
       console.log(values);
+      mutation.mutate(values);
       setIsModalOpen(false);
       resetForm();
     },
   });
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-    formik.resetForm();
-  };
+  if (mutation.isLoading) {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'info',
+      title: 'Đang tạo nhóm',
+      timer: 1500,
+    })
+  }
 
   useLayoutEffect(() => {
     if (!isLogin) {
@@ -142,7 +164,7 @@ const GroupList = () => {
               <h1 className="mb-0">danh sách các khóa học</h1>
             </div>
             <button onClick={createNewGroup} className="primary large">
-              Tạo khóa học
+              Tạo nhóm
             </button>
           </section>
           <section className="groups mt-10">
@@ -178,7 +200,6 @@ const GroupList = () => {
             value={formik.values.description}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            resize={false}
           />
           <div className="error">
             {formik.errors.description && <p>{formik.errors.description}</p>}
@@ -218,3 +239,4 @@ const GroupList = () => {
 };
 
 export default GroupList;
+

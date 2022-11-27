@@ -15,6 +15,7 @@ export default function Provider({children}) {
    * storage instead of isLogin variable
    */
   const isLogin = user.id ? true : false;
+  // const isLogin = false;
   const store = {
     userState: {
       user,
