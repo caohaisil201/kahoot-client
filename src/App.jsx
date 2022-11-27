@@ -9,7 +9,7 @@ import GroupList from 'views/pages/GroupList';
 import Group from 'views/pages/Group';
 import SignUp from 'views/pages/SignUp';
 import SignIn from 'views/pages/SignIn';
-import Auth from 'middlewares/Auth';
+import PrivateRoute from 'middlewares/Auth';
 
 function App() {
   return (
@@ -21,17 +21,17 @@ function App() {
             <Route
               path="/groups"
               element={
-                <Auth>
+                <PrivateRoute>
                   <GroupList />
-                </Auth>
+                </PrivateRoute>
               }
             />
             <Route
               path="/group/:id"
               element={
-                <Auth>
+                <PrivateRoute>
                   <Group />
-                </Auth>
+                </PrivateRoute>
               }
             />
             <Route path="/sign-in" element={<SignIn />} />
