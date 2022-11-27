@@ -1,5 +1,3 @@
-const helper = {
-
-}
+const helper = {};
 
 export default helper;
