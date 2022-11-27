@@ -90,9 +90,8 @@ const GroupList = () => {
   useDocumentTitle('Course List');
   const navigate = useNavigate();
   const context = useContext(Context);
-  const isLogin = context.isLogin;
+  const isLogin = context.loginState.isLogin;
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const createNewGroup = () => {
     setIsModalOpen(true);
   };

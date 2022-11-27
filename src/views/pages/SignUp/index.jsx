@@ -2,12 +2,10 @@ import React from 'react';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from 'hooks';
-import { useContext } from 'react';
 import { Schema } from '../../../utils';
 import 'antd/dist/antd.css';
-import * as Yup from 'yup';
 import './style.scss';
-
+import { registerUser } from 'api/AuthAPI';
 const SignUp = () => {
   useDocumentTitle('Sign Up');
   const navigate = useNavigate();
@@ -21,9 +19,23 @@ const SignUp = () => {
       confirmedPassword: '',
     },
     validationSchema,
-    onSubmit: (values) => {
-      window.alert('Form submitted');
-      console.log(values);
+    onSubmit: async (values) => {
+      // window.alert('Form submitted');
+      // console.log(values);
+      const data = await registerUser(
+        values.username,
+        values.email,
+        values.password
+      );
+      // console.log('data register: ', data);
+      // data.status = 200;
+
+      if (data.status !== 200) {
+        console.log(data.data);
+        return;
+      }
+      alert('Sign Up successfully');
+      navigate('/sign-in');
     },
   });
 
