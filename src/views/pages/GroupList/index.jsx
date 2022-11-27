@@ -2,9 +2,10 @@ import React, { useState, useLayoutEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from 'store';
 import { useDocumentTitle } from 'hooks';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useFormik } from 'formik';
+import { useQuery } from '@tanstack/react-query';
 import { Schema } from 'utils';
+import axios from 'axios';
 import {
   BookOutlined,
   FileImageOutlined,
@@ -90,34 +91,39 @@ const GroupList = () => {
   const navigate = useNavigate();
   const context = useContext(Context);
   const isLogin = context.isLogin;
-  const { user } = context.userState;
-
-  const createGroupSchema = Schema.createGroupSchema;
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: {errors},
-  } = useForm({
-    resolver: yupResolver(createGroupSchema),
-  });
-
-  
-
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const createNewGroup = () => {
     setIsModalOpen(true);
   };
 
-  const onSubmit = () => {
-    console.log(123);
-    setIsModalOpen(false);
-  };
+  const { isLoading, error, data } = useQuery({
+    queryKey: ['createGroup'],
+    queryFn: createGroup,
+  })
+
+  const createGroup = () => {
+    
+  }
+
+  const createGroupSchema = Schema.createGroupSchema;
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      description: '',
+      maxUser: 20,
+    },
+    validationSchema: createGroupSchema,
+    onSubmit: (values, { resetForm }) => {
+      console.log(values);
+      setIsModalOpen(false);
+      resetForm();
+    },
+  });
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    formik.resetForm();
   };
 
   useLayoutEffect(() => {
@@ -125,7 +131,6 @@ const GroupList = () => {
       navigate('/sign-in');
     }
   }, [isLogin]);
-  console.log(isModalOpen);
 
   return (
     <>
@@ -134,7 +139,7 @@ const GroupList = () => {
           <section className="header pt-10 d-flex align-center justify-space-between">
             <div className="d-flex align-center">
               <BookOutlined />
-              <h1>danh sách các khóa học</h1>
+              <h1 className="mb-0">danh sách các khóa học</h1>
             </div>
             <button onClick={createNewGroup} className="primary large">
               Tạo khóa học
@@ -150,12 +155,63 @@ const GroupList = () => {
       <Modal
         title="Tạo nhóm mới"
         open={isModalOpen}
-        onOk={onSubmit}
         onCancel={handleCancel}
         className="create-group-modal"
         footer={null}
       >
-        <button type="submit" className="ant-btn ant-btn-primary">Tạo</button>
+        <form className="d-flex flex-column" onSubmit={formik.handleSubmit}>
+          <label htmlFor="group-name-input">Tên nhóm</label>
+          <input
+            id="group-name-input"
+            name="name"
+            value={formik.values.name}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
+          <div className="error">
+            {formik.errors.name && <p>{formik.errors.name}</p>}
+          </div>
+          <label htmlFor="group-desc-input">Mô tả</label>
+          <textarea
+            id="group-desc-input"
+            name="description"
+            value={formik.values.description}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            resize={false}
+          />
+          <div className="error">
+            {formik.errors.description && <p>{formik.errors.description}</p>}
+          </div>
+          <label htmlFor="group-max-user-input">Số người tối đa</label>
+          <input
+            id="group-max-user-input"
+            name="maxUser"
+            type="number"
+            value={formik.values.maxUser}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
+          <div className="error">
+            {formik.errors.maxUser && <p>{formik.errors.maxUser}</p>}
+          </div>
+          <footer className="mt-4 d-flex justify-end">
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="ant-btn cancel-btn"
+            >
+              Hủy
+            </button>
+            <button
+              type="submit"
+              className="ant-btn ant-btn-primary"
+              style={{ marginLeft: '12px' }}
+            >
+              Tạo
+            </button>
+          </footer>
+        </form>
       </Modal>
     </>
   );
