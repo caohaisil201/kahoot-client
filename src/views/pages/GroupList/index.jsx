@@ -1,6 +1,5 @@
-import React, { useState, useLayoutEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Context } from 'store';
 import { useFormik } from 'formik';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
@@ -88,10 +87,7 @@ const GroupItem = ({ group }) => {
 };
 
 const GroupList = () => {
-  useDocumentTitle('Course List');
-  const navigate = useNavigate();
-  const context = useContext(Context);
-  const isLogin = context.loginState.isLogin;
+  useDocumentTitle('Danh sách nhóm');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const createNewGroup = () => {
@@ -145,12 +141,6 @@ const GroupList = () => {
       timer: 1500,
     });
   }
-
-  // useLayoutEffect(() => {
-  //   if (!isLogin) {
-  //     navigate('/sign-in');
-  //   }
-  // }, [isLogin]);
 
   return (
     <>

@@ -7,7 +7,8 @@ const PrivateRoute = ({ children }) => {
   if(!loginState) {
     return null; // or loading spinner
   }
-  return loginState.isLogin ? children : <Navigate to='/sign-in' />
+  return true ? children : <Navigate to='/sign-in' />
+  // return loginState.isLogin ? children : <Navigate to='/sign-in' />
 };
 
 export default PrivateRoute;
