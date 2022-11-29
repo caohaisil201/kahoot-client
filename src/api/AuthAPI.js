@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { CONSTANT } from 'utils';
 export const registerUser = async (username, email, password, fullName) => {
   try {
     const response = await axios
-      .post(`${process.env.REACT_APP_API_URL}/auth/register`, {
+      .post(`${process.env.REACT_APP_API_URL}/registration`, {
         username: username,
         password: password,
         email: email,
@@ -25,7 +24,7 @@ export const registerUser = async (username, email, password, fullName) => {
 };
 export const loginUser = async (email, password) => {
   const response = await axios
-    .post(`${process.env.REACT_APP_API_URL}/auth/login`, {
+    .post(`${process.env.REACT_APP_API_URL}/login`, {
       username: email,
       password,
     })
