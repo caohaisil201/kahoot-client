@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { CONSTANT } from 'utils';
 export const registerUser = async (username, email, password, fullName) => {
   try {
     const response = await axios
