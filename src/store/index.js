@@ -10,6 +10,8 @@ export default function Provider({ children }) {
 	});
 	const [isLogin, setIsLogin] = useState(false);
 	const [accessToken, setAccessToken] = useState('');
+	const access_token = localStorage.getItem('access_token');
+	!!access_token ? setAccessToken(access_token) : setAccessToken('');
 	/**
 	 * This isLogin is use for test
 	 * We will use token and store token to

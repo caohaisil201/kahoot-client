@@ -10,6 +10,7 @@ import { Divider } from 'antd';
 import { Context } from 'store';
 import { GoogleLogin } from '@react-oauth/google';
 import { useContext } from 'react';
+import Swal from 'sweetalert2';
 const SignIn = () => {
 	useDocumentTitle('Sign Up');
 	const navigate = useNavigate();
@@ -23,11 +24,17 @@ const SignIn = () => {
 		validationSchema,
 		onSubmit: async (values) => {
 			try {
-				const responseSignIn = await loginUser(values.email, values.password);
-				const { data, status } = responseSignIn;
-				if (status !== 200) return;
-				const { accessToken } = data;
-				accessTokenState.setAccessToken(accessToken);
+				const instanceAccessToken = await loginUser(values.email, values.password);
+				if(!instanceAccessToken) {
+					Swal.fire({
+						title: 'Error',
+						text: 'Có lỗi xảy ra!',
+						icon: 'error',
+					})
+					return;
+				}
+				localStorage.setItem('access_token', instanceAccessToken);
+				accessTokenState.setAccessToken(instanceAccessToken);
 				loginState.setIsLogin(true);
 				navigate('/');
 			} catch (err) {
