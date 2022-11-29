@@ -14,7 +14,7 @@ export const createGroupAPI = async (accessToken, groupInfo) => {
         },
       }
     )
-    .then((res) => res)
+    .then((res) => res.data)
     .catch((err) => err);
   const { meta, data } = response;
   return meta.code === 200 ? data : null;
@@ -28,7 +28,7 @@ export const getListGroupAPI = async (accessToken) => {
         Authorization: `Bearer ${accessToken}`,
       },
     })
-    .then((res) => res)
+    .then((res) => res.data)
     .catch((err) => err);
   const { meta, data } = response;
   return meta.code === 200 ? data : null;
@@ -45,10 +45,10 @@ export const getGroupDetailAPI = async (accessToken, groupCode) => {
         },
       }
     )
-    .then((res) => res)
+    .then((res) => res.data)
     .catch((err) => err);
-    const {meta, data} = response;
-    return meta.code === 200 ? data : null;
+  const { meta, data } = response;
+  return meta.code === 200 ? data : null;
 };
 
 export const getGroupMembersAPI = async (accessToken, groupCode) => {
@@ -62,12 +62,28 @@ export const getGroupMembersAPI = async (accessToken, groupCode) => {
         },
       }
     )
-    .then((res) => res)
+    .then((res) => res.data)
     .catch((err) => err);
-    const {meta, data} = response;
-    return meta.code === 200 ? data : null;
-}
+  const { meta, data } = response;
+  return meta.code === 200 ? data : null;
+};
 
-export const changeGroupMemberRoleAPI = async (accessToken, groupCode, memberId) => {
-  
-}
+export const addMemberAPI = async (
+  accessToken,
+  groupCode,
+  memberEmail,
+  role
+) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_API_URL}/group-management/assign`,
+    {
+      groupCode,
+    }
+  );
+};
+
+export const changeGroupMemberRoleAPI = async (
+  accessToken,
+  groupCode,
+  memberId
+) => {};

@@ -10,6 +10,7 @@ import Group from 'views/pages/Group';
 import SignUp from 'views/pages/SignUp';
 import SignIn from 'views/pages/SignIn';
 import PrivateRoute from 'middlewares/Auth';
+import Activate from 'views/pages/Activate';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/activate/:token" element={<Activate />} />
             <Route path="/news-feed" />
             <Route path="/tutorial" />
             <Route path="/" element={<HomePage />} />

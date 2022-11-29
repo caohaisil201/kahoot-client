@@ -17,49 +17,6 @@ import './style.scss';
 import { useContext } from 'react';
 import { Context } from 'store';
 
-/**
- * This component will get course list from api
- * Data below is example
- */
-
-// const groups = [
-//   {
-//     id: 1,
-//     name: 'Group 1',
-//     owner: 'Nguyen Van A',
-//     description: 'Mô tả group',
-//     capacity: 50,
-//   },
-//   {
-//     id: 2,
-//     name: 'Group 1',
-//     owner: 'Nguyen Van A',
-//     description: 'Mô tả group',
-//     capacity: 50,
-//   },
-//   {
-//     id: 3,
-//     name: 'Group 1',
-//     owner: 'Nguyen Van A',
-//     description: 'Mô tả group',
-//     capacity: 50,
-//   },
-//   {
-//     id: 4,
-//     name: 'Group 1',
-//     owner: 'Nguyen Van A',
-//     description: 'Mô tả group',
-//     capacity: 50,
-//   },
-//   {
-//     id: 5,
-//     name: 'Group 1',
-//     owner: 'Nguyen Van A',
-//     description: 'Mô tả group',
-//     capacity: 50,
-//   },
-// ];
-
 const GroupItem = ({ group }) => {
   const navigate = useNavigate();
   const { id, name, owner, description, capacity, code } = group;
@@ -92,14 +49,14 @@ const GroupList = () => {
   useDocumentTitle('Danh sách nhóm');
   const { accessToken } = useContext(Context).accessTokenState;
   const [groups, setGroups] = useState([
-    // {
-    //   id: 5,
-    //   name: 'Group 1',
-    //   owner: 'Nguyen Van A',
-    //   description: 'Mô tả group',
-    //   capacity: 50,
-    //   code: '17sb1',
-    // },
+    {
+      id: 5,
+      name: 'Group 1',
+      owner: 'Nguyen Van A',
+      description: 'Mô tả group',
+      capacity: 50,
+      code: '17sb1',
+    },
   ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

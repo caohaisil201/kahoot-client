@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { Tabs } from 'antd';
 import { useDocumentTitle } from 'hooks';
-import 'antd/dist/antd.css';
-import './style.scss';
-import GroupMembers from './GroupMembers';
-import { useContext } from 'react';
 import { Context } from 'store';
 import GroupDetail from './GroupDetail';
+import GroupMembers from './GroupMembers';
+import 'antd/dist/antd.css';
+import './style.scss';
 
 /**
  * Exmaple with role
@@ -20,7 +19,6 @@ const Group = () => {
   useDocumentTitle('Thông tin nhóm');
   const { id } = useParams();
   const { accessToken } = useContext(Context).accessTokenState;
-
   return (
     <div className="group-detail">
       <div className="container d-flex justify-center">

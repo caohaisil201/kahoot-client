@@ -54,3 +54,13 @@ export const validationSignInSchema = yup.object().shape({
       'Password must be 7-19 characters and contain at least one letter, one number and a special character'
     ),
 });
+
+export const inviteSchema = yup.object().shape({
+  email: yup
+    .string()
+    .required('Email required')
+    .matches(
+      /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+      'Please enter a valid email address'
+    ),
+});
