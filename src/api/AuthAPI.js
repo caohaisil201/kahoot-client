@@ -1,11 +1,12 @@
 import axios from 'axios';
-export const registerUser = async (username, email, password) => {
+export const registerUser = async (username, email, password, fullName) => {
 	try {
 		const response = await axios
 			.post(`${process.env.REACT_API_URL}/auth/register`, {
 				username: username,
 				password: password,
 				email: email,
+				fullName: fullName,
 			})
 			.catch((error) => {
 				if (error.response) {
@@ -16,12 +17,7 @@ export const registerUser = async (username, email, password) => {
 					return objectReturn;
 				}
 			});
-		const { data, status } = response;
-		const objectReturn = {
-			data: data,
-			status: status,
-		};
-		return objectReturn;
+		return !!(response.meta.code === 200);
 	} catch (err) {
 		console.log('err', err);
 	}

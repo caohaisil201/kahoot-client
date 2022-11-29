@@ -23,14 +23,12 @@ const SignIn = () => {
 		validationSchema,
 		onSubmit: async (values) => {
 			try {
-				console.log(values);
 				const responseSignIn = await loginUser(values.email, values.password);
 				const { data, status } = responseSignIn;
 				if (status !== 200) return;
 				const { accessToken } = data;
 				accessTokenState.setAccessToken(accessToken);
 				loginState.setIsLogin(true);
-				console.log('login state', loginState.isLogin);
 				navigate('/');
 			} catch (err) {
 				throw err;

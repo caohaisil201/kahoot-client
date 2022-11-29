@@ -6,6 +6,7 @@ import { Schema } from '../../../utils';
 import 'antd/dist/antd.css';
 import './style.scss';
 import { registerUser } from 'api/AuthAPI';
+import Swal from 'sweetalert2';
 const SignUp = () => {
   useDocumentTitle('Sign Up');
   const navigate = useNavigate();
@@ -20,21 +21,21 @@ const SignUp = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      // window.alert('Form submitted');
-      // console.log(values);
-      const data = await registerUser(
-        values.username,
+      const isSuccessful = await registerUser(
         values.email,
-        values.password
+        values.email,
+        values.password,
+        values.name
       );
-      // console.log('data register: ', data);
-      // data.status = 200;
 
-      if (data.status !== 200) {
-        console.log(data.data);
+      if(!isSuccessful) {
+        Swal.fire({
+          title: 'Lỗi',
+          text: 'Đăng ký thất bại',
+          icon: 'error',
+        })
         return;
       }
-      alert('Sign Up successfully');
       navigate('/sign-in');
     },
   });
