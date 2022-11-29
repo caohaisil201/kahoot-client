@@ -4,65 +4,78 @@ import { UserAddOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { CopyOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
+import { useQuery } from '@tanstack/react-query';
+import { getGroupMembersAPI } from 'api/GroupAPI';
+import Loading from 'views/components/Loading';
 
-const GroupMembers = ({ groupId }) => {
+const GroupMembers = ({ accessToken, groupCode }) => {
   const inviteLink = 'http//localhost:3000/invite/groupId';
   /**
    * Data below is example
    * Will get Data from API by mutate
    */
-  const [list, setList] = useState([
-    {
-      id: 1,
-      name: 'Owner',
-      role: 1,
-    },
-    {
-      id: 2,
-      name: 'Co-owner',
-      role: 2,
-    },
-    {
-      id: 3,
-      name: 'First member',
-      role: 3,
-    },
-    {
-      id: 4,
-      name: 'Second member',
-      role: 3,
-    },
-    {
-      id: 5,
-      name: 'Second member',
-      role: 3,
-    },
-    {
-      id: 31,
-      name: 'First member',
-      role: 3,
-    },
-    {
-      id: 41,
-      name: 'Second member',
-      role: 3,
-    },
-    {
-      id: 51,
-      name: 'Second member',
-      role: 3,
-    },
-  ]);
+  // const [list, setList] = useState([
+  //   {
+  //     id: 1,
+  //     name: 'Owner',
+  //     role: 1,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'Co-owner',
+  //     role: 2,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: 'First member',
+  //     role: 3,
+  //   },
+  //   {
+  //     id: 4,
+  //     name: 'Second member',
+  //     role: 3,
+  //   },
+  //   {
+  //     id: 5,
+  //     name: 'Second member',
+  //     role: 3,
+  //   },
+  //   {
+  //     id: 31,
+  //     name: 'First member',
+  //     role: 3,
+  //   },
+  //   {
+  //     id: 41,
+  //     name: 'Second member',
+  //     role: 3,
+  //   },
+  //   {
+  //     id: 51,
+  //     name: 'Second member',
+  //     role: 3,
+  //   },
+  // ]);
   const [isInviteCoOwnerModalOpen, setIsInviteCoOwnerModalOpen] =
     useState(false);
   const [isInviteMemberModalOpen, setIsInviteMemberModalOpen] = useState(false);
+  const list = useQuery({
+    queryKey: ['groupMembers'],
+    queryFn: () => getGroupMembersAPI(accessToken, groupCode),
+  });
+  if (list.isLoading) {
+    return <Loading />;
+  }
+  if(list.isError) {
+    return <div>error</div>
+  }
   const handleCancel = () => {
     setIsInviteCoOwnerModalOpen(false);
     setIsInviteMemberModalOpen(false);
   };
   const manager = [];
   const normalMember = [];
-  list.forEach((member) => {
+  list.data.forEach((member) => {
     if (member.role === 3) {
       normalMember.push(member);
     } else {
@@ -76,13 +89,13 @@ const GroupMembers = ({ groupId }) => {
       // send API and get list again
       // then setList()
       instanceMember.role = instanceMember.role === 3 ? 2 : 3;
-      setList([...list]);
+      // setList([...list]);
     }
   };
 
   const deleteMember = (id) => {
     // Send api to delete member
-    console.log(groupId, id);
+    console.log(groupCode, id);
   };
 
   return (

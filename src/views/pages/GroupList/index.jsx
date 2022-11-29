@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import {
   BookOutlined,
@@ -10,59 +9,62 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Modal } from 'antd';
-import 'antd/dist/antd.css';
 import { Schema } from 'utils';
 import { useDocumentTitle } from 'hooks';
+import { createGroupAPI, getListGroupAPI } from 'api/GroupAPI';
+import 'antd/dist/antd.css';
 import './style.scss';
+import { useContext } from 'react';
+import { Context } from 'store';
 
 /**
  * This component will get course list from api
  * Data below is example
  */
 
-const groups = [
-  {
-    id: 1,
-    name: 'Group 1',
-    owner: 'Nguyen Van A',
-    description: 'Mô tả group',
-    totalUser: 50,
-  },
-  {
-    id: 2,
-    name: 'Group 1',
-    owner: 'Nguyen Van A',
-    description: 'Mô tả group',
-    totalUser: 50,
-  },
-  {
-    id: 3,
-    name: 'Group 1',
-    owner: 'Nguyen Van A',
-    description: 'Mô tả group',
-    totalUser: 50,
-  },
-  {
-    id: 4,
-    name: 'Group 1',
-    owner: 'Nguyen Van A',
-    description: 'Mô tả group',
-    totalUser: 50,
-  },
-  {
-    id: 5,
-    name: 'Group 1',
-    owner: 'Nguyen Van A',
-    description: 'Mô tả group',
-    totalUser: 50,
-  },
-];
+// const groups = [
+//   {
+//     id: 1,
+//     name: 'Group 1',
+//     owner: 'Nguyen Van A',
+//     description: 'Mô tả group',
+//     capacity: 50,
+//   },
+//   {
+//     id: 2,
+//     name: 'Group 1',
+//     owner: 'Nguyen Van A',
+//     description: 'Mô tả group',
+//     capacity: 50,
+//   },
+//   {
+//     id: 3,
+//     name: 'Group 1',
+//     owner: 'Nguyen Van A',
+//     description: 'Mô tả group',
+//     capacity: 50,
+//   },
+//   {
+//     id: 4,
+//     name: 'Group 1',
+//     owner: 'Nguyen Van A',
+//     description: 'Mô tả group',
+//     capacity: 50,
+//   },
+//   {
+//     id: 5,
+//     name: 'Group 1',
+//     owner: 'Nguyen Van A',
+//     description: 'Mô tả group',
+//     capacity: 50,
+//   },
+// ];
 
 const GroupItem = ({ group }) => {
   const navigate = useNavigate();
-  const { id, name, owner, description, totalUser } = group;
+  const { id, name, owner, description, capacity, code } = group;
   const goToCourse = () => {
-    navigate(`/group/${id}`);
+    navigate(`/group/${code}`);
   };
   return (
     <div
@@ -80,7 +82,7 @@ const GroupItem = ({ group }) => {
       </div>
       <div className="body mt-4">{description}</div>
       <div className="foot">
-        <UserOutlined /> {totalUser} Người tham gia
+        <UserOutlined /> {capacity} Người tham gia
       </div>
     </div>
   );
@@ -88,17 +90,39 @@ const GroupItem = ({ group }) => {
 
 const GroupList = () => {
   useDocumentTitle('Danh sách nhóm');
+  const { accessToken } = useContext(Context).accessTokenState;
+  const [groups, setGroups] = useState([
+    // {
+    //   id: 5,
+    //   name: 'Group 1',
+    //   owner: 'Nguyen Van A',
+    //   description: 'Mô tả group',
+    //   capacity: 50,
+    //   code: '17sb1',
+    // },
+  ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const createNewGroup = () => {
+  const openCreateGroupModal = () => {
     setIsModalOpen(true);
   };
 
-  const createGroup = async () => {
+  const createNewGroup = async () => {
     try {
-      await axios
-        .get('https://jsonplaceholder.typicode.com/todos/1')
-        .then((response) => console.log(response.data));
+      const instanceGroupInfo = await createGroupAPI(
+        accessToken,
+        formik.values
+      );
+      if (!instanceGroupInfo) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Tạo nhóm thất bại',
+          timer: 1500,
+        });
+        return;
+      }
+      setGroups([...groups, instanceGroupInfo]);
     } catch (err) {
       Swal.fire({
         position: 'top-end',
@@ -110,7 +134,7 @@ const GroupList = () => {
   };
 
   const mutation = useMutation({
-    mutationFn: createGroup,
+    mutationFn: createNewGroup,
   });
 
   const createGroupSchema = Schema.createGroupSchema;
@@ -118,7 +142,7 @@ const GroupList = () => {
     initialValues: {
       name: '',
       description: '',
-      maxUser: 20,
+      capacity: 20,
     },
     validationSchema: createGroupSchema,
     onSubmit: (values, { resetForm }) => {
@@ -127,6 +151,18 @@ const GroupList = () => {
       resetForm();
     },
   });
+
+  const getListGroup = async () => {
+    try {
+      const instanceGroups = await getListGroupAPI();
+      if (!instanceGroups) {
+        throw 'Something wrong!';
+      }
+      setGroups(instanceGroups);
+    } catch (err) {
+      throw err;
+    }
+  };
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -142,6 +178,10 @@ const GroupList = () => {
     });
   }
 
+  useEffect(() => {
+    getListGroup();
+  }, []);
+
   return (
     <>
       <div className="course-list">
@@ -151,7 +191,7 @@ const GroupList = () => {
               <BookOutlined />
               <h1 className="mb-0">danh sách các khóa học</h1>
             </div>
-            <button onClick={createNewGroup} className="primary large">
+            <button onClick={openCreateGroupModal} className="primary large">
               Tạo khóa học
             </button>
           </section>
@@ -196,14 +236,14 @@ const GroupList = () => {
           <label htmlFor="group-max-user-input">Số người tối đa</label>
           <input
             id="group-max-user-input"
-            name="maxUser"
+            name="capacity"
             type="number"
-            value={formik.values.maxUser}
+            value={formik.values.capacity}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
           />
           <div className="error">
-            {formik.errors.maxUser && <p>{formik.errors.maxUser}</p>}
+            {formik.errors.capacity && <p>{formik.errors.capacity}</p>}
           </div>
           <footer className="mt-4 d-flex justify-end">
             <button
