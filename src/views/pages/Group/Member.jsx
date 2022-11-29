@@ -1,6 +1,7 @@
 import React from 'react';
 import { MoreOutlined } from '@ant-design/icons';
 import { Dropdown } from 'antd';
+import { CONSTANT } from 'utils';
 
 const Member = ({ member, changeRole, deleteMember }) => {
   const { id, name, role } = member;
@@ -8,7 +9,7 @@ const Member = ({ member, changeRole, deleteMember }) => {
     {
       label: (
         <div>
-          {role === 3 ? 'Chuyển thành Co-owner' : 'Chuyển thành member'}
+          {role === CONSTANT.USER_ROLE.MEMBER ? 'Chuyển thành Co-owner' : 'Chuyển thành member'}
         </div>
       ),
       key: '0',

@@ -11,6 +11,7 @@ export default function Provider({ children }) {
     const access_token = localStorage.getItem('access_token');
     if (!!access_token) {
       setAccessToken(access_token);
+      setIsLogin(true);
     }
   }, []);
 

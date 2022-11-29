@@ -11,6 +11,7 @@ import SignUp from 'views/pages/SignUp';
 import SignIn from 'views/pages/SignIn';
 import PrivateRoute from 'middlewares/Auth';
 import Activate from 'views/pages/Activate';
+import InviteByLink from 'views/pages/InviteByLink';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/invite/:groupCode" element={<InviteByLink />} />
             <Route path="/activate/:token" element={<Activate />} />
             <Route path="/news-feed" />
             <Route path="/tutorial" />

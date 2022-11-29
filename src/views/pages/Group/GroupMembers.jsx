@@ -5,35 +5,90 @@ import { Modal } from 'antd';
 import { CopyOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
 import { useQuery } from '@tanstack/react-query';
-import { getGroupMembersAPI } from 'api/GroupAPI';
+import { addMemberAPI, getGroupMembersAPI } from 'api/GroupAPI';
 import Loading from 'views/components/Loading';
 import { useFormik } from 'formik';
 import { inviteSchema } from 'utils/yupSchema';
 import { useEffect } from 'react';
+import { CONSTANT } from 'utils';
+
+const list = {
+  data: [
+    {
+      id: 1,
+      name: '123',
+      role: 3,
+    }
+  ]
+}
 
 const GroupMembers = ({ accessToken, groupCode }) => {
-  const inviteLink = 'http//localhost:3000/invite/groupId';
+  const inviteLink = `http://localhost:3000/invite/${groupCode}`;
   const [isInviteCoOwnerModalOpen, setIsInviteCoOwnerModalOpen] =
     useState(false);
   const [isInviteMemberModalOpen, setIsInviteMemberModalOpen] = useState(false);
-  const list = useQuery({
-    queryKey: ['groupMembers'],
-    queryFn: async () => await getGroupMembersAPI(accessToken, groupCode),
-    enabled: false,
-  });
+  // const list = useQuery({
+  //   queryKey: ['groupMembers'],
+  //   queryFn: async () => await getGroupMembersAPI(accessToken, groupCode),
+  //   enabled: false,
+  // });
 
   useEffect(() => {
     if (!!accessToken) {
-      list.refetch();
+      // list.refetch();
     }
   }, [accessToken]);
 
-  if (list.isLoading) {
-    return <Loading />;
-  }
-  if (list.isError) {
-    return <div>error</div>;
-  }
+  const addCoOwnerFormik = useFormik({
+    initialValues: {
+      email: '',
+    },
+    validationSchema: inviteSchema,
+    onSubmit: async (values, {resetForm}) => {
+      const isSuccessful = await addMemberAPI(accessToken, groupCode, values.email, CONSTANT.USER_ROLE.CO_OWNER);
+      if(!isSuccessful) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Có lỗi trong quá trình thêm',
+          position: 'top-end',
+          timer: 1000,
+        });
+      }
+      setIsInviteCoOwnerModalOpen(false);
+      resetForm();
+    },
+  });
+
+  const addMemberFormik = useFormik({
+    initialValues: {
+      email: '',
+    },
+    validationSchema: inviteSchema,
+    onSubmit: async (values, {resetForm}) => {
+      const isSuccessful = await addMemberAPI(accessToken, groupCode, values.email, CONSTANT.USER_ROLE.MEMBER);
+      if(!isSuccessful) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Có lỗi trong quá trình thêm',
+          position: 'top-end',
+          timer: 1000,
+        });
+      }
+      setIsInviteMemberModalOpen(false);
+      resetForm();
+    }
+  })
+
+  // if (list.isLoading) {
+  //   return <Loading />;
+  // }
+
+  // if (list.isError) {
+  //   return <div>error</div>;
+  // }
+
   const handleCancel = () => {
     setIsInviteCoOwnerModalOpen(false);
     setIsInviteMemberModalOpen(false);
@@ -62,18 +117,6 @@ const GroupMembers = ({ accessToken, groupCode }) => {
     // Send api to delete member
     console.log(groupCode, id);
   };
-
-  const addMember = async (email, role) => {};
-
-  // const addCoOwnerFormik = useFormik({
-  //   initialValues: {
-  //     email: '',
-  //   },
-  //   validationSchema: inviteSchema,
-  //   onSubmit: (values, {resetForm}) => {
-
-  //   }
-  // })
 
   return (
     <>
@@ -134,19 +177,18 @@ const GroupMembers = ({ accessToken, groupCode }) => {
         <p className="invite-description">Mô tả về quyền của co-owner</p>
         <form
           className="d-flex flex-column"
-          // onSubmit={formik.handleSubmit}
+          onSubmit={addCoOwnerFormik.handleSubmit}
         >
-          <label htmlFor="group-name-input">Nhập email *</label>
+          <label htmlFor="co-owner-email-input">Nhập email *</label>
           <input
-            id="group-name-input"
-            name="name"
-            value="123"
-            // value={formik.values.name}
-            // onBlur={formik.handleBlur}
-            // onChange={formik.handleChange}
+            id="co-owner-email-input"
+            name="email"
+            value={addCoOwnerFormik.values.email}
+            onBlur={addCoOwnerFormik.handleBlur}
+            onChange={addCoOwnerFormik.handleChange}
           />
           <div className="error">
-            {/* {formik.errors.name && <p>{formik.errors.name}</p>} */}
+            {addCoOwnerFormik.errors.email && <p>{addCoOwnerFormik.errors.email}</p>}
           </div>
           <footer className="mt-4 d-flex justify-end">
             <button
@@ -176,7 +218,7 @@ const GroupMembers = ({ accessToken, groupCode }) => {
         <p className="invite-description">Mô tả về quyền của member</p>
         <form
           className="d-flex flex-column"
-          // onSubmit={formik.handleSubmit}
+          // onSubmit={addMemberFormik.handleSubmit}
         >
           <div className="invite-link mb-4 d-flex align-center justify-space-between">
             <div>
@@ -203,14 +245,13 @@ const GroupMembers = ({ accessToken, groupCode }) => {
           <label htmlFor="group-name-input">Nhập email *</label>
           <input
             id="group-name-input"
-            name="name"
-            value="123"
-            // value={formik.values.name}
-            // onBlur={formik.handleBlur}
-            // onChange={formik.handleChange}
+            name="email"
+            value={addMemberFormik.values.email}
+            onBlur={addMemberFormik.handleBlur}
+            onChange={addMemberFormik.handleChange}
           />
           <div className="error">
-            {/* {formik.errors.name && <p>{formik.errors.name}</p>} */}
+            {addMemberFormik.errors.email && <p>{addMemberFormik.errors.email}</p>}
           </div>
           <footer className="mt-4 d-flex justify-end">
             <button
