@@ -4,7 +4,7 @@ import { Dropdown } from 'antd';
 import { CONSTANT } from 'utils';
 
 const Member = ({ member, changeRole, deleteMember }) => {
-  const { id, name, role, code } = member;
+  const { fullName, role, code } = member;
   const items = [
     {
       label: (
@@ -34,12 +34,14 @@ const Member = ({ member, changeRole, deleteMember }) => {
       case '1':
         deleteMember(code);
         break;
+      default:
+        break;
     }
   };
   return (
     <div className="member d-flex justify-space-between align-center px-4">
-      <div>{name}</div>
-      {role !== 1 ? (
+      <div>{fullName}</div>
+      {role !== CONSTANT.USER_ROLE.OWNER ? (
         <Dropdown
           menu={{
             items,

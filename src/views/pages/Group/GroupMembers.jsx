@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 import { CONSTANT } from 'utils';
 
 const GroupMembers = ({ accessToken, groupCode }) => {
-  const inviteLink = `http://localhost:3000/invite/${groupCode}`;
+  const inviteLink = `${process.env.REACT_APP_FRONTEND_URL}/invite/${groupCode}`;
   const [isInviteCoOwnerModalOpen, setIsInviteCoOwnerModalOpen] =
     useState(false);
   const [isInviteMemberModalOpen, setIsInviteMemberModalOpen] = useState(false);
