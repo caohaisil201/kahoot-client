@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-	<React.StrictMode>
+	// <React.StrictMode>
 		<Provider>
 			<QueryClientProvider client={queryClient}>
 				<GoogleOAuthProvider clientId="476406293259-r5mjumke6mjdu6pitqchajv4rirqdsre.apps.googleusercontent.com">
@@ -19,7 +19,7 @@ root.render(
 				</GoogleOAuthProvider>
 			</QueryClientProvider>
 		</Provider>
-	</React.StrictMode>
+	{/* </React.StrictMode> */}
 );
 
 // If you want to start measuring performance in your app, pass a function
