@@ -48,16 +48,7 @@ const GroupItem = ({ group }) => {
 const GroupList = () => {
   useDocumentTitle('Danh sách nhóm');
   const { accessToken } = useContext(Context).accessTokenState;
-  const [groups, setGroups] = useState([
-    {
-      id: 5,
-      name: 'Group 1',
-      owner: 'Nguyen Van A',
-      description: 'Mô tả group',
-      capacity: 50,
-      code: '17sb1',
-    },
-  ]);
+  const [groups, setGroups] = useState([ ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openCreateGroupModal = () => {
@@ -111,7 +102,7 @@ const GroupList = () => {
 
   const getListGroup = async () => {
     try {
-      const instanceGroups = await getListGroupAPI();
+      const instanceGroups = await getListGroupAPI(accessToken);
       if (!instanceGroups) {
         throw 'Something wrong!';
       }

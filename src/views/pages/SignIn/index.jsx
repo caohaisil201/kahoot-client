@@ -13,7 +13,7 @@ import { useContext } from 'react';
 import Swal from 'sweetalert2';
 const SignIn = () => {
   const { state } = useLocation();
-  useDocumentTitle('Sign Up');
+  useDocumentTitle('Sign In');
   const navigate = useNavigate();
   const { loginState, accessTokenState } = useContext(Context);
   const validationSchema = Schema.validationSignInSchema;
@@ -37,10 +37,10 @@ const SignIn = () => {
           });
           return;
         }
-        localStorage.setItem('access_token', instanceAccessToken);
+        sessionStorage.setItem('access_token', instanceAccessToken);
         accessTokenState.setAccessToken(instanceAccessToken);
         loginState.setIsLogin(true);
-        navigate(state.previousPath || '/');
+        state.previousPath ? navigate(state.previousPath) : navigate('/');
       } catch (err) {
         throw err;
       }

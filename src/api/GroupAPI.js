@@ -65,16 +65,16 @@ export const getGroupMembersAPI = async (accessToken, groupCode) => {
 export const addMemberAPI = async (
   accessToken,
   groupCode,
-  memberEmail,
-  role
+  email,
+  roleType
 ) => {
   const response = await axios
     .post(
-      `${process.env.REACT_APP_API_URL}/group-management/assign`,
+      `${process.env.REACT_APP_API_URL}/group-management/add`,
       {
         groupCode,
-        memberEmail,
-        role,
+        email,
+        roleType,
       },
       {
         headers: {
@@ -85,8 +85,7 @@ export const addMemberAPI = async (
     )
     .then((res) => res.data)
     .catch((err) => err);
-  const { meta } = response;
-  return !!(meta.code === 200);
+  return response;
 };
 
 export const assignMemberRoleAPI = async (
@@ -112,8 +111,7 @@ export const assignMemberRoleAPI = async (
     )
     .then((res) => res.data)
     .catch((err) => err);
-  const { meta } = response;
-  return !!(meta.code === 200);
+  return response;
 };
 
 export const deleteMemberAPI = async (accessToken, groupCode, userCode) => {
@@ -133,8 +131,7 @@ export const deleteMemberAPI = async (accessToken, groupCode, userCode) => {
     )
     .then((res) => res.data)
     .catch((err) => err);
-  const { meta } = response;
-  return !!(meta.code === 200);
+  return response;
 };
 
 export const joinGroupByLinkAPI = async (accessToken, groupCode) => {

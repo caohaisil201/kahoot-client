@@ -44,9 +44,10 @@ const GroupMembers = ({ accessToken, groupCode }) => {
           position: 'top-end',
           timer: 1000,
         });
+      }else{
+        setIsInviteCoOwnerModalOpen(false);
+        resetForm();
       }
-      setIsInviteCoOwnerModalOpen(false);
-      resetForm();
     },
   });
 
@@ -68,6 +69,7 @@ const GroupMembers = ({ accessToken, groupCode }) => {
       }
       setIsInviteMemberModalOpen(false);
       resetForm();
+      list.refetch();
     }
   })
 
@@ -83,10 +85,11 @@ const GroupMembers = ({ accessToken, groupCode }) => {
     setIsInviteCoOwnerModalOpen(false);
     setIsInviteMemberModalOpen(false);
   };
+
   const manager = [];
   const normalMember = [];
   list.data.forEach((member) => {
-    if (member.role === 3) {
+    if (member.role === CONSTANT.USER_ROLE.MEMBER) {
       normalMember.push(member);
     } else {
       manager.push(member);
@@ -94,7 +97,7 @@ const GroupMembers = ({ accessToken, groupCode }) => {
   });
 
   const changeRole = async (userCode, toRole) => {
-    const instanceMember = list.find((member) => member.code === userCode);
+    const instanceMember = list.data.find((member) => member.code === userCode);
     if (!!instanceMember) {
       const isSuccessful = await assignMemberRoleAPI(accessToken, groupCode, userCode, toRole);
       if(!isSuccessful) {

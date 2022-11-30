@@ -19,7 +19,7 @@ const Header = () => {
 	const handleLogout = () => {
 		loginState.setIsLogin(false);
 		accessTokenState.setAccessToken('');
-		localStorage.clear();
+		sessionStorage.clear();
 		navigate("/sign-in");
 	};
 	const navLinkClass = ({ isActive }) => {

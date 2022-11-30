@@ -8,7 +8,7 @@ export default function Provider({ children }) {
   const [accessToken, setAccessToken] = useState('');
 
   useEffect(() => {
-    const access_token = localStorage.getItem('access_token');
+    const access_token = sessionStorage.getItem('access_token');
     if (!!access_token) {
       setAccessToken(access_token);
       setIsLogin(true);
