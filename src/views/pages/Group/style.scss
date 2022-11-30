@@ -1,0 +1,73 @@
+@use 'assets/styles/variable' as v;
+
+.group-detail {
+  .container {
+    .tabs-content {
+      width: 1000px;
+      .group-members {
+        // width: 100%;
+        .group-management,
+        .normal-member {
+          .header {
+            width: 100%;
+            border-bottom: 1px solid v.$primary-color;
+            .role {
+              font-size: 2rem;
+              color: v.$primary-color;
+            }
+            button {
+              svg {
+                width: 30px;
+                height: 30px;
+              }
+            }
+          }
+          .list {
+            max-height: 150px;
+            overflow-y: auto;
+            .member {
+              height: 40px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.ant-modal {
+  &.invite-modal {
+    font-family: 'Lato', sans-serif;
+    .ant-modal-title {
+      font-size: 1.5rem;
+    }
+    .ant-modal-body {
+      .invite-description, .or {
+        color: v.$dark-grey-color;
+        font-size: 0.8rem;
+      }
+      .or {
+        color: #666;
+      }
+      .invite-link {
+        span {
+          font-size: 0.8rem;
+        }
+      }
+      .error {
+        min-height: 16px;
+        p {
+          font-size: 14px;
+          color: red;
+          margin: 0px;
+        }
+      }
+      input{
+        outline: none;
+        padding: 5px 10px;
+        border-width: thin;
+        border-radius: 20px;
+      }
+    }
+  }
+}

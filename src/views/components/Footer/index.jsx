@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   FacebookOutlined,
   YoutubeOutlined,
@@ -14,21 +14,22 @@ const Footer = () => {
       <div className="container">
         <Logo />
         <div className="reference">
-          <Link to="/about-us">
-            Về chúng tôi
-          </Link>
-          <Link to="/rules">
-            Điều khoản sử dụng
-          </Link>
+          <Link to="/about-us">Về chúng tôi</Link>
+          <Link to="/rules">Điều khoản sử dụng</Link>
         </div>
         <div className="social">
-          <a href="https://facebook.com" target="_blank">
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            alt="Facebook"
+            rel="noreferrer"
+          >
             <FacebookOutlined />
           </a>
-          <a href="https://instagram.com" target="_blank">
+          <a href="https://instagram.com" target="_blank" rel="noreferrer">
             <InstagramOutlined />
           </a>
-          <a href="https://youtube.com" target="_blank">
+          <a href="https://youtube.com" target="_blank" rel="noreferrer">
             <YoutubeOutlined />
           </a>
         </div>

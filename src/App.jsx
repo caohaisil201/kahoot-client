@@ -5,6 +5,13 @@ import Header from 'views/components/Header';
 import Error from 'views/pages/Error';
 import HomePage from 'views/pages/Home';
 import Footer from 'views/components/Footer';
+import GroupList from 'views/pages/GroupList';
+import Group from 'views/pages/Group';
+import SignUp from 'views/pages/SignUp';
+import SignIn from 'views/pages/SignIn';
+import PrivateRoute from 'middlewares/Auth';
+import Activate from 'views/pages/Activate';
+import InviteByLink from 'views/pages/InviteByLink';
 
 function App() {
   return (
@@ -13,10 +20,28 @@ function App() {
         <Header />
         <div className="app-content">
           <Routes>
+            <Route
+              path="/groups"
+              element={
+                <PrivateRoute>
+                  <GroupList />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/group/:id"
+              element={
+                <PrivateRoute>
+                  <Group />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/invite/:groupCode" element={<InviteByLink />} />
+            <Route path="/activate/:token" element={<Activate />} />
             <Route path="/news-feed" />
             <Route path="/tutorial" />
-            <Route path="/sign-in" />
-            <Route path="/sign-up" />
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<Error />} />
           </Routes>
