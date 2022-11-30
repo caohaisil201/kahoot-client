@@ -5,37 +5,27 @@ import { Modal } from 'antd';
 import { CopyOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
 import { useQuery } from '@tanstack/react-query';
-import { addMemberAPI, getGroupMembersAPI } from 'api/GroupAPI';
+import { addMemberAPI, assignMemberRoleAPI, getGroupMembersAPI, deleteMemberAPI } from 'api/GroupAPI';
 import Loading from 'views/components/Loading';
 import { useFormik } from 'formik';
 import { inviteSchema } from 'utils/yupSchema';
 import { useEffect } from 'react';
 import { CONSTANT } from 'utils';
 
-const list = {
-  data: [
-    {
-      id: 1,
-      name: '123',
-      role: 3,
-    }
-  ]
-}
-
 const GroupMembers = ({ accessToken, groupCode }) => {
   const inviteLink = `http://localhost:3000/invite/${groupCode}`;
   const [isInviteCoOwnerModalOpen, setIsInviteCoOwnerModalOpen] =
     useState(false);
   const [isInviteMemberModalOpen, setIsInviteMemberModalOpen] = useState(false);
-  // const list = useQuery({
-  //   queryKey: ['groupMembers'],
-  //   queryFn: async () => await getGroupMembersAPI(accessToken, groupCode),
-  //   enabled: false,
-  // });
+  const list = useQuery({
+    queryKey: ['groupMembers'],
+    queryFn: async () => await getGroupMembersAPI(accessToken, groupCode),
+    enabled: false,
+  });
 
   useEffect(() => {
     if (!!accessToken) {
-      // list.refetch();
+      list.refetch();
     }
   }, [accessToken]);
 
@@ -81,13 +71,13 @@ const GroupMembers = ({ accessToken, groupCode }) => {
     }
   })
 
-  // if (list.isLoading) {
-  //   return <Loading />;
-  // }
+  if (list.isLoading) {
+    return <Loading />;
+  }
 
-  // if (list.isError) {
-  //   return <div>error</div>;
-  // }
+  if (list.isError) {
+    return <div>Có lỗi xảy ra</div>;
+  }
 
   const handleCancel = () => {
     setIsInviteCoOwnerModalOpen(false);
@@ -103,19 +93,36 @@ const GroupMembers = ({ accessToken, groupCode }) => {
     }
   });
 
-  const changeRole = (id) => {
-    const instanceMember = list.find((member) => member.id === id);
+  const changeRole = async (userCode, toRole) => {
+    const instanceMember = list.find((member) => member.code === userCode);
     if (!!instanceMember) {
-      // send API and get list again
-      // then setList()
-      instanceMember.role = instanceMember.role === 3 ? 2 : 3;
-      // setList([...list]);
+      const isSuccessful = await assignMemberRoleAPI(accessToken, groupCode, userCode, toRole);
+      if(!isSuccessful) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Có lỗi xảy ra',
+        })
+        return;
+      }
+      list.refetch();
     }
   };
 
-  const deleteMember = (id) => {
-    // Send api to delete member
-    console.log(groupCode, id);
+  const deleteMember = async (userCode) => {
+    const instanceMember = list.find((member) => member.code === userCode);
+    if (!!instanceMember) {
+      const isSuccessful = await deleteMemberAPI(accessToken, groupCode, userCode);
+      if(!isSuccessful) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Có lỗi xảy ra',
+        })
+        return;
+      }
+      list.refetch();
+    }
   };
 
   return (
@@ -134,7 +141,7 @@ const GroupMembers = ({ accessToken, groupCode }) => {
           <div className="list">
             {manager.map((member) => (
               <Member
-                key={member.id}
+                key={member.code}
                 member={member}
                 changeRole={changeRole}
                 deleteMember={deleteMember}

@@ -19,8 +19,8 @@ const Header = () => {
 	const handleLogout = () => {
 		loginState.setIsLogin(false);
 		accessTokenState.setAccessToken('');
+		localStorage.clear();
 		navigate("/sign-in");
-
 	};
 	const navLinkClass = ({ isActive }) => {
 		return isActive ? 'nav-link-active' : '';
@@ -36,7 +36,7 @@ const Header = () => {
 							Trang chủ
 						</NavLink>
 						<NavLink className={navLinkClass} to="/groups">
-							Danh sách course
+							Danh sách nhóm
 						</NavLink>
 						<NavLink className={navLinkClass} to="/tutorial">
 							Hướng dẫn sử dụng

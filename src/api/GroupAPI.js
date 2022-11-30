@@ -2,18 +2,12 @@ import axios from 'axios';
 
 export const createGroupAPI = async (accessToken, groupInfo) => {
   const response = await axios
-    .post(
-      `${process.env.REACT_APP_API_URL}/group-management`,
-      {
-        payload: groupInfo,
+    .post(`${process.env.REACT_APP_API_URL}/group-management`, groupInfo, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
       },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    )
+    })
     .then((res) => res.data)
     .catch((err) => err);
   const { meta, data } = response;
@@ -95,25 +89,70 @@ export const addMemberAPI = async (
   return !!(meta.code === 200);
 };
 
-export const changeGroupMemberRoleAPI = async (
+export const assignMemberRoleAPI = async (
   accessToken,
   groupCode,
-  memberId
-) => {};
+  userCode,
+  roleType
+) => {
+  const response = await axios
+    .post(
+      `${process.env.REACT_APP_API_URL}/group-management/assign`,
+      {
+        groupCode,
+        userCode,
+        roleType,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  const { meta } = response;
+  return !!(meta.code === 200);
+};
+
+export const deleteMemberAPI = async (accessToken, groupCode, userCode) => {
+  const response = await axios
+    .post(
+      `${process.env.REACT_APP_API_URL}/group-management/delete`,
+      {
+        groupCode,
+        userCode,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  const { meta } = response;
+  return !!(meta.code === 200);
+};
 
 export const joinGroupByLinkAPI = async (accessToken, groupCode) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_API_URL}/group-management/assign`,
-    {
-      groupCode,
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+  const response = await axios
+    .post(
+      `${process.env.REACT_APP_API_URL}/group-management/assign`,
+      {
+        groupCode,
       },
-    }
-  ).then(res => res.data).catch(err => err);
-  const {meta} = response;
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  const { meta } = response;
   return !!(meta.code === 200);
 };

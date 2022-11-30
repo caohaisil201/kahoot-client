@@ -19,7 +19,7 @@ import { Context } from 'store';
 
 const GroupItem = ({ group }) => {
   const navigate = useNavigate();
-  const { id, name, owner, description, capacity, code } = group;
+  const { name, owner, description, capacity, code } = group;
   const goToCourse = () => {
     navigate(`/group/${code}`);
   };
@@ -31,7 +31,7 @@ const GroupItem = ({ group }) => {
       <div className="head d-flex justify-space-between align-center">
         <div className="info">
           <h2>{name}</h2>
-          <p>{owner}</p>
+          <p>{owner.fullName}</p>
         </div>
         <div className="image">
           <FileImageOutlined />
@@ -154,7 +154,7 @@ const GroupList = () => {
           </section>
           <section className="groups mt-10">
             {groups.map((item) => (
-              <GroupItem group={item} key={item.id} />
+              <GroupItem group={item} key={item.code} />
             ))}
           </section>
         </div>

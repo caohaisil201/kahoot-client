@@ -4,12 +4,14 @@ import { Dropdown } from 'antd';
 import { CONSTANT } from 'utils';
 
 const Member = ({ member, changeRole, deleteMember }) => {
-  const { id, name, role } = member;
+  const { id, name, role, code } = member;
   const items = [
     {
       label: (
         <div>
-          {role === CONSTANT.USER_ROLE.MEMBER ? 'Chuyển thành Co-owner' : 'Chuyển thành member'}
+          {role === CONSTANT.USER_ROLE.MEMBER
+            ? 'Chuyển thành Co-owner'
+            : 'Chuyển thành member'}
         </div>
       ),
       key: '0',
@@ -20,15 +22,17 @@ const Member = ({ member, changeRole, deleteMember }) => {
     },
   ];
 
-
-
   const onMenuItemClick = ({ key }) => {
     switch (key) {
       case '0':
-        changeRole(id);
+        const toRole =
+          role === CONSTANT.USER_ROLE.MEMBER
+            ? CONSTANT.USER_ROLE.CO_OWNER
+            : CONSTANT.USER_ROLE.MEMBER;
+        changeRole(code, toRole);
         break;
       case '1':
-        deleteMember(id);
+        deleteMember(code);
         break;
     }
   };
