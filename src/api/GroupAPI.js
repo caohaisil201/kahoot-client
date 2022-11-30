@@ -137,7 +137,7 @@ export const deleteMemberAPI = async (accessToken, groupCode, userCode) => {
 export const joinGroupByLinkAPI = async (accessToken, groupCode) => {
   const response = await axios
     .post(
-      `${process.env.REACT_APP_API_URL}/group-management/assign`,
+      `${process.env.REACT_APP_API_URL}/group-management/join`,
       {
         groupCode,
       },
