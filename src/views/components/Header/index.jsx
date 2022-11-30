@@ -25,7 +25,9 @@ const Header = () => {
 	const navLinkClass = ({ isActive }) => {
 		return isActive ? 'nav-link-active' : '';
 	};
-
+	const handleEditProfile = () => {
+		navigate("/account");
+	}
 	return (
 		<div id="app-header" className="d-flex align-center py-2">
 			<div className="container d-flex align-center">
@@ -50,7 +52,7 @@ const Header = () => {
 							<button className="icon">
 								<SettingOutlined />
 							</button>
-							<button className="icon">
+							<button className="icon" onClick={handleEditProfile}>
 								<UserOutlined />
 							</button>
 							<button className="icon" onClick={handleLogout}>

@@ -12,44 +12,51 @@ import SignIn from 'views/pages/SignIn';
 import PrivateRoute from 'middlewares/Auth';
 import Activate from 'views/pages/Activate';
 import InviteByLink from 'views/pages/InviteByLink';
-
+import Profile from 'views/pages/EditProfile';
 function App() {
-  return (
-    <div id="App">
-      <BrowserRouter>
-        <Header />
-        <div className="app-content">
-          <Routes>
-            <Route
-              path="/groups"
-              element={
-                <PrivateRoute>
-                  <GroupList />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/group/:id"
-              element={
-                <PrivateRoute>
-                  <Group />
-                </PrivateRoute>
-              }
-            />
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/invite/:groupCode" element={<InviteByLink />} />
-            <Route path="/activate/:token" element={<Activate />} />
-            <Route path="/news-feed" />
-            <Route path="/tutorial" />
-            <Route path="/" element={<HomePage />} />
-            <Route path="*" element={<Error />} />
-          </Routes>
-        </div>
-        <Footer />
-      </BrowserRouter>
-    </div>
-  );
+	return (
+		<div id="App">
+			<BrowserRouter>
+				<Header />
+				<div className="app-content">
+					<Routes>
+						<Route
+							path="/groups"
+							element={
+								<PrivateRoute>
+									<GroupList />
+								</PrivateRoute>
+							}
+						/>
+						<Route
+							path="/group/:id"
+							element={
+								<PrivateRoute>
+									<Group />
+								</PrivateRoute>
+							}
+						/>
+						<Route
+							path="/account"
+							element={
+								<PrivateRoute>
+									<Profile />
+								</PrivateRoute>} />
+
+						<Route path="/sign-in" element={<SignIn />} />
+						<Route path="/sign-up" element={<SignUp />} />
+						<Route path="/invite/:groupCode" element={<InviteByLink />} />
+						<Route path="/activate/:token" element={<Activate />} />
+						<Route path="/news-feed" />
+						<Route path="/tutorial" />
+						<Route path="/" element={<HomePage />} />
+						<Route path="*" element={<Error />} />
+					</Routes>
+				</div>
+				<Footer />
+			</BrowserRouter>
+		</div>
+	);
 }
 
 export default App;
