@@ -36,12 +36,13 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="/presentations" />
+            <Route path="/join-presentation" />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/invite/:groupCode" element={<InviteByLink />} />
             <Route path="/activate/:token" element={<Activate />} />
             <Route path="/news-feed" />
-            <Route path="/tutorial" />
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<Error />} />
           </Routes>

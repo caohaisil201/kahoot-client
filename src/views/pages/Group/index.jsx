@@ -8,13 +8,6 @@ import GroupMembers from './GroupMembers';
 import 'antd/dist/antd.css';
 import './style.scss';
 
-/**
- * Exmaple with role
- * 1: Owner
- * 2: Co-owner
- * 3: member
- */
-
 const Group = () => {
   useDocumentTitle('Thông tin nhóm');
   const { id } = useParams();

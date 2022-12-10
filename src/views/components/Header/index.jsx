@@ -38,8 +38,8 @@ const Header = () => {
 						<NavLink className={navLinkClass} to="/groups">
 							Danh sách nhóm
 						</NavLink>
-						<NavLink className={navLinkClass} to="/tutorial">
-							Hướng dẫn sử dụng
+						<NavLink className={navLinkClass} to="/presentations">
+							Danh sách presentation
 						</NavLink>
 					</div>
 					{isLogin ? (
