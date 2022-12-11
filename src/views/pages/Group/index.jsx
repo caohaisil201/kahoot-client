@@ -11,7 +11,7 @@ import './style.scss';
 const Group = () => {
   useDocumentTitle('Thông tin nhóm');
   const { id } = useParams();
-  const { accessToken } = useContext(Context).accessTokenState;
+  const accessToken = sessionStorage.getItem('access_token');
   return (
     <div className="group-detail">
       <div className="container d-flex justify-center">

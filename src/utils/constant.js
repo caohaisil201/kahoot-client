@@ -4,7 +4,11 @@ const constant = {
     CO_OWNER:'CO_OWNER',
     MEMBER: 'MEMBER',
     KICK_OUT: 'KICK_OUT',
-  }
+  },
+  PRESENTATION_TYPE: {
+    PRIVATE: 'PRIVATE',
+    PUBLIC: 'PUBLIC',
+  },
 }
 
 export default constant;

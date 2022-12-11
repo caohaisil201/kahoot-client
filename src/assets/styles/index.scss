@@ -1742,6 +1742,20 @@
       background-color: #fff;
     }
   }
+  button.small,
+  .button.small {
+    min-width: 120px;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 1.25rem;
+  }
+  button.medium,
+  .button.medium {
+    min-width: 180px;
+    height: 50px;
+    padding: 0 15px;
+    font-size: 1.45rem;
+  }
   button.large,
   .button.large {
     min-width: 240px;

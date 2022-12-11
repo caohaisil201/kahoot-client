@@ -12,6 +12,9 @@ import SignIn from 'views/pages/SignIn';
 import PrivateRoute from 'middlewares/Auth';
 import Activate from 'views/pages/Activate';
 import InviteByLink from 'views/pages/InviteByLink';
+import PresentationList from 'views/pages/PresentationList';
+import JoinPresentation from 'views/pages/JoinPresentation';
+import Game from 'views/pages/Game';
 
 function App() {
   return (
@@ -36,8 +39,30 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route path="/presentations" />
-            <Route path="/join-presentation" />
+            <Route
+              path="/presentations"
+              element={
+                <PrivateRoute>
+                  <PresentationList />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/join-presentation"
+              element={
+                <PrivateRoute>
+                  <JoinPresentation />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/game/:id"
+              element={
+                <PrivateRoute>
+                  < Game/>
+                </PrivateRoute>
+              }
+            />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/invite/:groupCode" element={<InviteByLink />} />

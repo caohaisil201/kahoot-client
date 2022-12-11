@@ -47,7 +47,7 @@ const GroupItem = ({ group }) => {
 
 const GroupList = () => {
   useDocumentTitle('Danh sách nhóm');
-  const { accessToken } = useContext(Context).accessTokenState;
+  const accessToken = sessionStorage.getItem('access_token');
   const [groups, setGroups] = useState([ ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

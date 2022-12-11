@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from 'hooks';
@@ -40,7 +40,11 @@ const SignIn = () => {
         sessionStorage.setItem('access_token', instanceAccessToken);
         accessTokenState.setAccessToken(instanceAccessToken);
         loginState.setIsLogin(true);
-        state.previousPath ? navigate(state.previousPath) : navigate('/');
+        if (state && state.previousPath) {
+          navigate(state.previousPath);
+        } else {
+          navigate('/');
+        }
       } catch (err) {
         throw err;
       }
@@ -57,12 +61,17 @@ const SignIn = () => {
       accessTokenState.setAccessToken(accessToken);
       loginState.setIsLogin(true);
       navigate('/');
-
-      console.log('login state', loginState.isLogin);
     } catch (err) {
       throw err;
     }
   };
+
+  useEffect(() => {
+    const accessToken = sessionStorage.getItem('access_token');
+    if (accessToken) {
+      navigate('/');
+    }
+  }, []);
 
   return (
     <section>
