@@ -1,14 +1,14 @@
 import { activateAccount } from 'api/AuthAPI';
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2';
 
 const Activate = () => {
-  const {token} = useParams();
+  const { token } = useParams();
   useEffect(() => {
-    if(!!token) {
+    if (!!token) {
       const isSuccessful = activateAccount(token);
-      if(isSuccessful) {
+      if (isSuccessful) {
         return;
       }
       Swal.fire({
@@ -19,7 +19,9 @@ const Activate = () => {
     }
   }, [token]);
   return (
-    <div className="d-flex align-center justify-center">Tài khoản của bạn đã được kích hoạt, <Link to="/sign-in">Ấn vào đây để vè trang đăng nhập</Link></div>
+    <div className="d-flex align-center justify-center ma-8">Tài khoản của bạn đã được kích hoạt.
+      <Link to="/sign-in">Ấn vào đây để về trang đăng nhập</Link>
+    </div>
   )
 }
 
