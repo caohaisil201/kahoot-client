@@ -1,5 +1,12 @@
 import * as yup from 'yup';
 
+export const createPresentationSchema = yup.object().shape({
+	name: yup
+		.string()
+		.required('Tên presentation không được bỏ trống!')
+		.max(70, 'Không được vượt quá 70 kí tự'),
+	description: yup.string().max(255, 'Không được vượt quá 255 kí tự'),
+});
 export const createGroupSchema = yup.object().shape({
 	name: yup
 		.string()
@@ -12,7 +19,6 @@ export const createGroupSchema = yup.object().shape({
 		.min(1, 'Bạn phải nhập vào số lớn hơn 0')
 		.max(20, 'Tối đa một nhóm 20 người dùng'),
 });
-
 export const validationSignUpSchema = yup.object().shape({
 	name: yup
 		.string()
