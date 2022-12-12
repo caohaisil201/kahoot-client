@@ -4,61 +4,42 @@ import CustomCountDown from 'views/components/Countdown';
 import { Checkbox } from 'antd';
 import _debounce from 'lodash/debounce';
 
-const Answer = ({ userProfile, setSlideState }) => {
-  const { role } = userProfile;
-  const answerList = [
-    {
-      key: 'A',
-      value: 'Answer A',
-    },
-    {
-      key: 'B',
-      value: 'Answer B',
-    },
-    {
-      key: 'C',
-      value: 'Answer C',
-    },
-    {
-      key: 'D',
-      value: 'Answer D',
-    },
-  ];
-  const [choices, setChoices] = useState([]);
+const Answer = ({ gameName, slide, isHost, setSlideState }) => {
+  const [choicesSelected, setChoicesSelected] = useState([]);
   const onChange = (values) => {
-    setChoices(values.sort());
+    setChoicesSelected(values.sort());
   };
 
+  const {question, choices} = slide;
   const onSubmit = _debounce(() => {
     if (choices.length <= 0) {
       console.log('Ban chua chon dap an');
       return;
     }
     // emit event to socket
-    console.log(choices);
+    console.log(choicesSelected);
     setSlideState(2);
   }, 1000);
 
   useEffect(() => {
-    if (role === 'OWNER') {
-      const timer = setTimeout(() => {
-        setSlideState(3);
-      }, 5 * 1000);
-
-      return () => {
-        clearTimeout(timer);
-      };
-    }
+    // if (isHost) {
+    //   const timer = setTimeout(() => {
+    //     setSlideState(3);
+    //   }, 5 * 1000);
+    //   return () => {
+    //     clearTimeout(timer);
+    //   };
+    // }
   }, []);
 
   return (
     <div className="answer mt-6">
       <div className="header">
-        <h1>Quiz title!</h1>
-        <h2>Question hereeeeeeeeeeeeeeeeeee!</h2>
+        <h1>{gameName}</h1>
+        <h2>{question}</h2>
       </div>
       <div className="statistic d-flex justify-end">
-        {role === 'OWNER' ? (
+        {isHost ? (
           <div className="count-user">
             <UserOutlined />
             &nbsp;20
@@ -73,26 +54,26 @@ const Answer = ({ userProfile, setSlideState }) => {
         </div>
       </div>
 
-      {role === 'OWNER' ? (
+      {isHost ? (
         <div className="answer-list d-flex">
-          {answerList.map((answer) => (
-            <div className="answer-choice pa-2" key={answer.key}>
+          {choices.map((choice) => (
+            <div className="answer-choice pa-2" key={choice.icon}>
               <div className="owner-view d-flex align-center justify-center">
-                {answer.key}. {answer.value}
+                {choice.icon}. {choice.answer}
               </div>
             </div>
           ))}
         </div>
       ) : (
         <Checkbox.Group className="answer-list d-flex" onChange={onChange}>
-          {answerList.map((answer) => {
+          {choices.map((choice) => {
             return (
-              <div className="answer-choice pa-2" key={answer.key}>
+              <div className="answer-choice pa-2" key={choice.icon}>
                 <Checkbox
                   className="d-flex align-center justify-center"
-                  value={answer.key}
+                  value={choice.icon}
                 >
-                  {answer.key}. {answer.value}
+                  {choice.icon}. {choice.answer}
                 </Checkbox>
               </div>
             );
@@ -100,7 +81,7 @@ const Answer = ({ userProfile, setSlideState }) => {
         </Checkbox.Group>
       )}
 
-      {role === 'OWNER' ? (
+      {isHost ? (
         <></>
       ) : (
         <div className="mt-4 submit-answer d-flex align-center justify-center">
