@@ -6,28 +6,37 @@ import Result from './Result';
 
 const Game = () => {
   const userProfile = {
-    role: 'OWNER',
+    role: 'OWNsER',
   };
 
-  const [slideState, setSlideState] = useState(3);
+  const [slideState, setSlideState] = useState(1);
 
   switch (slideState) {
     case 1:
       return (
         <div className="container">
-          <Answer userProfile={userProfile}/>
+          <Answer
+            setSlideState={setSlideState}
+            userProfile={userProfile}
+          />
         </div>
       );
     case 2:
       return (
         <div className="container">
-          <Waiting userProfile={userProfile}/>
+          <Waiting
+            setSlideState={setSlideState}
+            userProfile={userProfile}
+          />
         </div>
       );
     case 3:
       return (
         <div className="container">
-          <Result userProfile={userProfile}/>
+          <Result
+            setSlideState={setSlideState}
+            userProfile={userProfile}
+          />
         </div>
       );
     default:

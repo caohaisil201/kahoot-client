@@ -1,5 +1,4 @@
 import React from 'react';
-// import Loading from 'views/components/Loading';
 import { FundOutlined } from '@ant-design/icons';
 import {
   Chart as ChartJS,
@@ -21,7 +20,7 @@ ChartJS.register(
   Legend
 );
 
-const Result = ({ userProfile }) => {
+const Result = ({ userProfile, setSlideState }) => {
   const { role } = userProfile;
   const trueValue = 1;
   const labels = ['A', 'B', 'C', 'D '];
@@ -30,7 +29,7 @@ const Result = ({ userProfile }) => {
     labels,
     datasets: [
       {
-        label: 'Người chơi',
+        label: '',
         data: result,
         backgroundColor: result.map((item, index) =>
           index === trueValue ? '#1c6758' : '#BBBBBB'
@@ -39,6 +38,7 @@ const Result = ({ userProfile }) => {
     ],
   };
 
+  // socket listen to change slideState
 
   return (
     <div className="result mt-6 d-flex flex-column justify-space-between">

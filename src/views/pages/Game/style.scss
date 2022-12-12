@@ -6,7 +6,8 @@
   .result {
     width: 900px;
     margin: 0 auto;
-    h1, h2 {
+    h1,
+    h2 {
       text-align: center;
     }
     h1 {
@@ -24,10 +25,25 @@
       .answer-choice {
         width: 50%;
         height: 114px;
-        > div {
+        > div.owner-view {
           height: 100%;
           border: 1px solid v.$primary-color;
+          color: v.$primary-color;
           border-radius: 10px;
+        }
+        > .ant-checkbox-wrapper {
+          height: 100%;
+          border: 1px solid v.$primary-color;
+          color: v.$primary-color;
+          border-radius: 10px;
+          transition: all 0.2s ease;
+          > .ant-checkbox {
+            display: none;
+          }
+          &.ant-checkbox-wrapper-checked {
+            background: v.$primary-color;
+            color: #fff;
+          }
         }
       }
     }

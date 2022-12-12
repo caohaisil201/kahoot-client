@@ -1,7 +1,9 @@
 import React from 'react'
 import Loading from 'views/components/Loading'
 
-const Waiting = () => {
+const Waiting = ({setSlideState}) => {
+  // socket listen to change screen 3
+
   return (
     <div className="waiting mt-6 d-flex flex-column justify-space-between">
       <div className="header">
