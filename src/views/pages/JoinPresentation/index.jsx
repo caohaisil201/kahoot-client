@@ -41,23 +41,22 @@ const JoinPresentation = () => {
         access_token: accessToken,
         // gameCode
         presentCode: instanceGame[0].code,
-      })
+      });
     }
   };
 
   // socket to change to game page
   useEffect(() => {
-    socket.on(SOCKET_ACTION.START_GAME, data => {
-      // check game code if same then navigate to game screen
-      // if() {
-      //   navigate(`/game/${gameCode}`, { state: { gameName } });
-      // }
+    socket.on(SOCKET_ACTION.START_GAME, (data) => {
+      if (data.presentCode === gameCode) {
+        navigate(`/game/${gameCode}`, { state: { gameName } });
+      }
     });
 
     return () => {
-      socket.of(SOCKET_ACTION.START_GAME);
-    }
-  }, []);
+      socket.off(SOCKET_ACTION.START_GAME);
+    };
+  }, [gameCode, gameName]);
 
   if (!isWaiting)
     return (

@@ -16,6 +16,7 @@ import PresentationList from 'views/pages/PresentationList';
 import JoinPresentation from 'views/pages/JoinPresentation';
 import Game from 'views/pages/Game';
 import 'assets/styles/index.scss';
+import Test from 'views/pages/Test';
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
               <Route path="/invite/:groupCode" element={<InviteByLink />} />
               <Route path="/activate/:token" element={<Activate />} />
               <Route path="/news-feed" />
+              <Route path="/test" element={<Test />}/>
               <Route path="/" element={<HomePage />} />
               <Route path="*" element={<Error />} />
             </Routes>

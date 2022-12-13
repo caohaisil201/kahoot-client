@@ -9,18 +9,20 @@ import Waiting from './Waiting';
 import Result from './Result';
 import './style.scss';
 import { SOCKET_ACTION } from 'utils';
+import { usePrevious } from 'hooks';
 
 const Game = () => {
   const accessToken = sessionStorage.getItem('access_token');
   const socket = useContext(SocketContext);
+  const { code } = useParams();
   const { state } = useLocation();
   const { gameName } = state;
 
-  const { code } = useParams();
-
   const [slideState, setSlideState] = useState(1);
   const [slideNo, setSlideNo] = useState(0);
-  const [slide, setSlide] = useState({});
+  const [result, setResult] = useState([]);
+  const prevSlideNo = usePrevious(slideNo);
+  // const [slide, setSlide] = useState({});
 
   const slidesQuery = useQuery({
     queryKey: ['getSlides'],
@@ -34,19 +36,35 @@ const Game = () => {
   });
 
   useEffect(() => {
+    if(prevSlideNo !== slideNo) {
+      slidesQuery.refetch();
+    }
+
     socket.on(SOCKET_ACTION.NEXT_SLIDE, (data) => {
-      // set Slide number to call api
-      // slidesQuery.refetch();
-      // setSlideNo()
+      if(data.presentCode === code) {
+        setSlideNo(slideNo + 1);
+        setSlideState(1);
+      }
     });
 
-    socket.on(SOCKET_ACTION.SEND_RESULT, (data) => {});
+    socket.on(SOCKET_ACTION.RECEIVE_RESULT, (data) => {
+      const tempResult = [];
+      Object.keys(data.result).forEach(item => {
+        tempResult.push({
+          name: item,
+          key: item,
+          value: data.result[item],
+        })
+      })
+      setResult([...tempResult]);
+      setSlideState(3);
+    });
 
     socket.on(SOCKET_ACTION.SEND_ANSWER, (data) => {});
 
     return () => {
       socket.off(SOCKET_ACTION.NEXT_SLIDE);
-      socket.off(SOCKET_ACTION.SEND_RESULT);
+      socket.off(SOCKET_ACTION.RECEIVE_RESULT);
       socket.off(SOCKET_ACTION.SEND_ANSWER);
     };
   }, [slideState, slideNo]);
@@ -56,12 +74,12 @@ const Game = () => {
   }
 
   if (slidesQuery.isError && isHostQuery.isError) {
-    return <div>Error</div>;
+    return <div className="container mt-8">Error</div>;
   }
 
   switch (slideState) {
     case 1:
-      return slidesQuery.data.length >= 0 ? (
+      return slidesQuery.data && slidesQuery.data.length >= 0 ? (
         <div className="container">
           <Answer
             gameName={gameName}
@@ -69,6 +87,8 @@ const Game = () => {
             isHost={isHostQuery.data}
             setSlideState={setSlideState}
             accessToken={accessToken}
+            code={code}
+            socket={socket}
           />
         </div>
       ) : (
@@ -77,7 +97,10 @@ const Game = () => {
     case 2:
       return (
         <div className="container">
-          <Waiting gameName={gameName} setSlideState={setSlideState} />
+          <Waiting
+            gameName={gameName}
+            setSlideState={setSlideState}
+          />
         </div>
       );
     case 3:
@@ -85,8 +108,10 @@ const Game = () => {
         <div className="container">
           <Result
             gameName={gameName}
+            slide={slidesQuery.data[0]}
             isHost={isHostQuery.data}
             setSlideState={setSlideState}
+            result={result}
           />
         </div>
       );
