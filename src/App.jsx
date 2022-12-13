@@ -12,7 +12,8 @@ import SignIn from 'views/pages/SignIn';
 import PrivateRoute from 'middlewares/Auth';
 import Activate from 'views/pages/Activate';
 import InviteByLink from 'views/pages/InviteByLink';
-import PresentationList from 'views/pages/Presentation';
+import PresentationList from 'views/pages/PresentationList';
+import Presentation from 'views/pages/Presentation';
 
 function App() {
   return (
@@ -44,6 +45,8 @@ function App() {
             <Route path="/news-feed" />
             {/*Put in PrivateRoute later*/}
             <Route path="/presentations" element={<PresentationList />} />
+            <Route path="/presentation/:id" element={<Presentation />} />
+
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<Error />} />
           </Routes>

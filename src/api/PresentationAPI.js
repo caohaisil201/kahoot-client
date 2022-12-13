@@ -109,18 +109,15 @@ export const assignMemberRoleAPI = async (
   return response;
 };
 
-export const deleteMemberAPI = async (accessToken, groupCode, userCode) => {
+export const deletePresentationAPI = async (accessToken, presentationCode) => {
   const response = await axios
-    .post(
-      `${process.env.REACT_APP_API_URL}/group-management/delete`,
-      {
-        groupCode,
-        userCode,
-      },
+    .delete(
+      `${process.env.REACT_APP_API_URL}/presentations?code=${presentationCode}`,
       {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
+          // 'Access-Control-Allow-Origin': ,
         },
       }
     )
