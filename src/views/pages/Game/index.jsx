@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
-import './style.scss';
+import React, { useState, useEffect, useContext } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { SocketContext } from 'store/socket';
+import { getSlideNoByGameCodeAPI, isHostAPI } from 'api/GameAPI';
+import Loading from 'views/components/Loading';
 import Answer from './Answer';
 import Waiting from './Waiting';
 import Result from './Result';
-import { useLocation, useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { getSlideNoByGameCodeAPI, isHostAPI } from 'api/GameAPI';
-import Loading from 'views/components/Loading';
+import './style.scss';
+import { SOCKET_ACTION } from 'utils';
 
 const Game = () => {
   const accessToken = sessionStorage.getItem('access_token');
+  const socket = useContext(SocketContext);
   const { state } = useLocation();
   const { gameName } = state;
 
@@ -17,6 +20,7 @@ const Game = () => {
 
   const [slideState, setSlideState] = useState(1);
   const [slideNo, setSlideNo] = useState(0);
+  const [slide, setSlide] = useState({});
 
   const slidesQuery = useQuery({
     queryKey: ['getSlides'],
@@ -28,6 +32,24 @@ const Game = () => {
     queryKey: ['getIsHost'],
     queryFn: async () => await isHostAPI(accessToken, code),
   });
+
+  useEffect(() => {
+    socket.on(SOCKET_ACTION.NEXT_SLIDE, (data) => {
+      // set Slide number to call api
+      // slidesQuery.refetch();
+      // setSlideNo()
+    });
+
+    socket.on(SOCKET_ACTION.SEND_RESULT, (data) => {});
+
+    socket.on(SOCKET_ACTION.SEND_ANSWER, (data) => {});
+
+    return () => {
+      socket.off(SOCKET_ACTION.NEXT_SLIDE);
+      socket.off(SOCKET_ACTION.SEND_RESULT);
+      socket.off(SOCKET_ACTION.SEND_ANSWER);
+    };
+  }, [slideState, slideNo]);
 
   if (slidesQuery.isLoading && isHostQuery.isLoading) {
     return <Loading />;
@@ -46,6 +68,7 @@ const Game = () => {
             slide={slidesQuery.data[0]}
             isHost={isHostQuery.data}
             setSlideState={setSlideState}
+            accessToken={accessToken}
           />
         </div>
       ) : (

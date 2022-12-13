@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { ClockCircleOutlined, UserOutlined } from '@ant-design/icons';
 import CustomCountDown from 'views/components/Countdown';
 import { Checkbox } from 'antd';
 import _debounce from 'lodash/debounce';
+import { SocketContext } from 'store/socket';
+import { SOCKET_ACTION } from 'utils';
 
-const Answer = ({ gameName, slide, isHost, setSlideState }) => {
+const Answer = ({accessToken, gameName, slide, isHost, setSlideState }) => {
   const [choicesSelected, setChoicesSelected] = useState([]);
+  const socket = useContext(SocketContext);
   const onChange = (values) => {
     setChoicesSelected(values.sort());
   };
@@ -17,7 +20,11 @@ const Answer = ({ gameName, slide, isHost, setSlideState }) => {
       return;
     }
     // emit event to socket
-    console.log(choicesSelected);
+    socket.emit(SOCKET_ACTION.SEND_ANSWER, {
+      access_token: accessToken,
+      socketId: socket.id,
+      choices: choicesSelected,
+    });
     setSlideState(2);
   }, 1000);
 
@@ -25,7 +32,7 @@ const Answer = ({ gameName, slide, isHost, setSlideState }) => {
     // if (isHost) {
     //   const timer = setTimeout(() => {
     //     setSlideState(3);
-    //   }, 5 * 1000);
+    //   }, 20 * 1000);
     //   return () => {
     //     clearTimeout(timer);
     //   };
