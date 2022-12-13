@@ -288,7 +288,6 @@ const PresentationList = () => {
             value={formik.values.description}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            resize={false}
           />
           <div className="error">
             {formik.errors.description && <p>{formik.errors.description}</p>}
@@ -326,7 +325,6 @@ const PresentationList = () => {
           <div className="error">
             {formik.errors.groupCode && <p>{formik.errors.groupCode}</p>}
           </div>
-
           <footer className="mt-4 d-flex justify-end">
             <button
               type="button"

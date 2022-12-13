@@ -1,0 +1,31 @@
+@use 'assets/styles/variable' as v;
+
+.container {
+  .join-presentation {
+    width: 600px;
+    margin: 0 auto;
+
+    h1, h2{
+      text-align: center;
+      font-size: 4rem;
+      font-weight: bold;
+    }
+
+    h2{
+      font-size: 3rem;
+      font-weight: normal;
+    }
+
+    input {
+      padding: 5px 10px;
+      border: 1px solid v.$primary-color;
+      border-radius: 20px;
+      outline: none;
+      font-size: 3rem;
+    }
+
+    button {
+      font-size: 3rem;
+    }
+  }
+}

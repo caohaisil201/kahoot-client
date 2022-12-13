@@ -1,14 +1,14 @@
 const constant = {
-	USER_ROLE: {
-		OWNER: 'OWNER',
-		CO_OWNER: 'CO_OWNER',
-		MEMBER: 'MEMBER',
-		KICK_OUT: 'KICK_OUT',
-	},
-	PRESENTATION_TYPE: {
-		PUBLIC: 'PUBLIC',
-		PRIVATE: 'PRIVATE'
-	}
+  USER_ROLE: {
+    OWNER: 'OWNER',
+    CO_OWNER:'CO_OWNER',
+    MEMBER: 'MEMBER',
+    KICK_OUT: 'KICK_OUT',
+  },
+  PRESENTATION_TYPE: {
+    PRIVATE: 'PRIVATE',
+    PUBLIC: 'PUBLIC',
+  },
 }
 
 export default constant;

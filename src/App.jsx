@@ -14,6 +14,8 @@ import Activate from 'views/pages/Activate';
 import InviteByLink from 'views/pages/InviteByLink';
 import PresentationList from 'views/pages/PresentationList';
 import Presentation from 'views/pages/Presentation';
+import JoinPresentation from 'views/pages/JoinPresentation';
+import Game from 'views/pages/Game';
 
 function App() {
   return (
@@ -35,6 +37,30 @@ function App() {
               element={
                 <PrivateRoute>
                   <Group />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/presentations"
+              element={
+                <PrivateRoute>
+                  <PresentationList />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/join-presentation"
+              element={
+                <PrivateRoute>
+                  <JoinPresentation />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/game/:code"
+              element={
+                <PrivateRoute>
+                  < Game/>
                 </PrivateRoute>
               }
             />
