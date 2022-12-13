@@ -12,47 +12,46 @@ import SignIn from 'views/pages/SignIn';
 import PrivateRoute from 'middlewares/Auth';
 import Activate from 'views/pages/Activate';
 import InviteByLink from 'views/pages/InviteByLink';
-import PresentationItem from 'views/pages/Presentation/PresentationItem';
 import PresentationList from 'views/pages/Presentation';
 
 function App() {
-	return (
-		<div id="App">
-			<BrowserRouter>
-				<Header />
-				<div className="app-content">
-					<Routes>
-						<Route
-							path="/groups"
-							element={
-								<PrivateRoute>
-									<GroupList />
-								</PrivateRoute>
-							}
-						/>
-						<Route
-							path="/group/:id"
-							element={
-								<PrivateRoute>
-									<Group />
-								</PrivateRoute>
-							}
-						/>
-						<Route path="/sign-in" element={<SignIn />} />
-						<Route path="/sign-up" element={<SignUp />} />
-						<Route path="/invite/:groupCode" element={<InviteByLink />} />
-						<Route path="/activate/:token" element={<Activate />} />
-						<Route path="/news-feed" />
-						{/*Put in PrivateRoute later*/}
-						<Route path="/presentations" element={<PresentationList />} />
-						<Route path="/" element={<HomePage />} />
-						<Route path="*" element={<Error />} />
-					</Routes>
-				</div>
-				<Footer />
-			</BrowserRouter>
-		</div>
-	);
+  return (
+    <div id="App">
+      <BrowserRouter>
+        <Header />
+        <div className="app-content">
+          <Routes>
+            <Route
+              path="/groups"
+              element={
+                <PrivateRoute>
+                  <GroupList />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/group/:id"
+              element={
+                <PrivateRoute>
+                  <Group />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/invite/:groupCode" element={<InviteByLink />} />
+            <Route path="/activate/:token" element={<Activate />} />
+            <Route path="/news-feed" />
+            {/*Put in PrivateRoute later*/}
+            <Route path="/presentations" element={<PresentationList />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="*" element={<Error />} />
+          </Routes>
+        </div>
+        <Footer />
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;
