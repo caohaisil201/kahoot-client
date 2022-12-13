@@ -57,7 +57,6 @@ const PresentationItem = ({ presentation, deletePresentation }) => {
     },
   ];
   const onMenuItemClick = ({ key }) => {
-    console.log(key);
     switch (key) {
       case '0':
         goToPresentation();
@@ -75,6 +74,7 @@ const PresentationItem = ({ presentation, deletePresentation }) => {
         break;
     }
   };
+  console.log(host)
   return (
     <div className="presentation-item pt-9 px-8 pb-5 d-flex flex-column justify-space-between">
       <div className="head d-flex justify-space-between align-center">
@@ -185,16 +185,15 @@ const PresentationList = () => {
       throw err;
     }
   };
-  const deletePresentation = async (presentaionCode) => {
-    const instancePresentation = presentations.find(
-      (presentaion) => presentaion.code === presentaionCode
+  const deletePresentation = async (presentationCode) => {
+    const instancePresentation = await presentations.find(
+      (presentation) => presentation.code === presentationCode
     );
-    console.log('before delete', presentations);
 
     if (!!instancePresentation) {
       const isSuccessful = await deletePresentationAPI(
         accessToken,
-        presentaionCode
+        presentationCode
       );
       if (!isSuccessful) {
         Swal.fire({
@@ -207,10 +206,9 @@ const PresentationList = () => {
     }
     setPresentations(
       presentations.filter(
-        (presentaion) => presentaion.code !== presentaionCode
+        (presentation) => presentation.code !== presentationCode
       )
     );
-    console.log('after delete', presentations);
   };
 
   const handleCancel = () => {
@@ -296,7 +294,7 @@ const PresentationList = () => {
             {formik.errors.description && <p>{formik.errors.description}</p>}
           </div>
           <label htmlFor="presentation-desc-input">
-            Chọn loại presentaion: <span style={{ color: '#36B5B0' }}>*</span>
+            Chọn loại presentation: <span style={{ color: '#36B5B0' }}>*</span>
           </label>
           <Radio.Group
             name="type"

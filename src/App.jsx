@@ -45,7 +45,7 @@ function App() {
             <Route path="/news-feed" />
             {/*Put in PrivateRoute later*/}
             <Route path="/presentations" element={<PresentationList />} />
-            <Route path="/presentation/:id" element={<Presentation />} />
+            <Route path="/presentation/:code" element={<Presentation />} />
 
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<Error />} />

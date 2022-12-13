@@ -14,6 +14,21 @@ export const createPresentationAPI = async (accessToken, presentationInfo) => {
   return meta.code === 200 ? data : null;
 };
 
+export const getPresentationByCodeAPI = async (accessToken, presentCode) => {
+  const response = await axios.get(
+    `${process.env.REACT_APP_API_URL}/presentations?code=${presentCode}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  ).then(res => res.data)
+  .catch(err => err);
+  const {meta, data} = response;
+  return meta.code === 200 ? data[0] : null;
+};
+
 export const getListPresentationAPI = async (accessToken) => {
   const response = await axios
     .get(`${process.env.REACT_APP_API_URL}/presentations`, {
@@ -117,12 +132,14 @@ export const deletePresentationAPI = async (accessToken, presentationCode) => {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
-          // 'Access-Control-Allow-Origin': ,
         },
       }
     )
     .then((res) => res.data)
-    .catch((err) => err);
+    .catch((err) => {
+      console.log(err);
+    });
+  console.log(response);
   return response;
 };
 
@@ -144,4 +161,18 @@ export const joinGroupByLinkAPI = async (accessToken, groupCode) => {
     .catch((err) => err);
   const { meta } = response;
   return !!(meta.code === 200);
+};
+
+export const getSlidesFromPresentCodeAPI = async (accessToken, presentCode) => {
+  const response = await axios
+    .get(`${process.env.REACT_APP_API_URL}/slides?presentCode=${presentCode}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then((res) => res.data)
+    .catch((err) => err);
+  const { meta, data } = response;
+  return meta.code === 200 ? data : null;
 };
