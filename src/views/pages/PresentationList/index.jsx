@@ -74,7 +74,7 @@ const PresentationItem = ({ presentation, deletePresentation }) => {
 				break;
 		}
 	};
-	console.log(host)
+
 	return (
 		<div className="presentation-item pt-9 px-8 pb-5 d-flex flex-column justify-space-between">
 			<div className="head d-flex justify-space-between align-center">
@@ -112,7 +112,6 @@ const PresentationItem = ({ presentation, deletePresentation }) => {
 
 const PresentationList = () => {
 	useDocumentTitle('Danh sách presentation');
-	// const accessToken = useContext(Context).accessTokenState;
 	const accessToken = sessionStorage.getItem('access_token');
 	const [presentations, setPresentations] = useState([]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -176,7 +175,6 @@ const PresentationList = () => {
 	const getListPresentation = async () => {
 		try {
 			const instancePresentations = await getListPresentationAPI(accessToken);
-			console.log(instancePresentations);
 			if (!instancePresentations) {
 				throw 'Something wrong!';
 			}
@@ -186,7 +184,7 @@ const PresentationList = () => {
 		}
 	};
 	const deletePresentation = async (presentationCode) => {
-		const instancePresentation = await presentations.find(
+		const instancePresentation = presentations.find(
 			(presentation) => presentation.code === presentationCode
 		);
 
