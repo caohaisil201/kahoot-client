@@ -9,8 +9,6 @@ import {
 import { DeleteOutlined } from '@ant-design/icons';
 import './style.scss';
 import { Checkbox, Tooltip } from 'antd';
-import SlideSettings from './SlideOption';
-import SlidePreview from './SlidePreview';
 
 //Presentation Edit
 const Presentation = () => {
