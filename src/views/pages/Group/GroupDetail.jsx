@@ -24,15 +24,19 @@ const GroupDetail = ({ accessToken, groupCode }) => {
     return <div>Có lỗi xảy ra</div>;
   }
 
-  return <div className="group-detail">
-    <div className="header d-flex align-baseline">
-      <div style={{fontSize: '1.5rem'}}>Tên nhóm: {groupDetail.data.name}</div>
-      <div className="ml-16">Mã nhóm: {groupDetail.data.code}</div>
+  return (
+    <div className="group-detail">
+      <div className="header d-flex align-baseline">
+        <div style={{ fontSize: '1.5rem' }}>
+          Tên nhóm: {groupDetail.data.name}
+        </div>
+        <div className="ml-16">Mã nhóm: {groupDetail.data.code}</div>
+      </div>
+      <div>Owner: {groupDetail.data.owner.fullName}</div>
+      <div>Mô tả: {groupDetail.data.description}</div>
+      <div>Số lượng thành viên: {groupDetail.data.capacity}</div>
     </div>
-    <div>Owner: {groupDetail.data.owner.fullName}</div>
-    <div>Mô tả: {groupDetail.data.description}</div>
-    <div>Số lượng thành viên: {groupDetail.data.capacity}</div>
-  </div>;
+  );
 };
 
 export default GroupDetail;

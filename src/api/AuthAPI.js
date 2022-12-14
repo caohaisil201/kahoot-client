@@ -9,7 +9,7 @@ export const registerUser = async (username, email, password, fullName) => {
         email: email,
         fullName: fullName,
       })
-      .then(res => res.data)
+      .then((res) => res.data)
       .catch((error) => {
         if (error.response) {
           const objectReturn = {
@@ -39,7 +39,7 @@ export const loginUser = async (email, password) => {
         },
       }
     )
-    .then(res => res.data)
+    .then((res) => res.data)
     .catch((error) => {
       if (error.response) {
         const objectReturn = {
@@ -58,7 +58,7 @@ export const loginWithGoogle = async (credential) => {
     .post(`${process.env.REACT_APP_API_URL}/auth/login-google`, {
       credential,
     })
-    .then(res => res.data)
+    .then((res) => res.data)
     .catch((error) => {
       if (error.response) {
         const objectReturn = {
@@ -68,6 +68,7 @@ export const loginWithGoogle = async (credential) => {
         return objectReturn;
       }
     });
+
   return response;
 };
 

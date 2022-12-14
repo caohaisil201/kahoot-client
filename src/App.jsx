@@ -13,8 +13,10 @@ import PrivateRoute from 'middlewares/Auth';
 import Activate from 'views/pages/Activate';
 import InviteByLink from 'views/pages/InviteByLink';
 import PresentationList from 'views/pages/PresentationList';
+import Presentation from 'views/pages/Presentation';
 import JoinPresentation from 'views/pages/JoinPresentation';
 import Game from 'views/pages/Game';
+import EndGame from 'views/pages/Game/EndGame';
 
 function App() {
   return (
@@ -59,7 +61,23 @@ function App() {
               path="/game/:code"
               element={
                 <PrivateRoute>
-                  < Game/>
+                  <Game />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/presentations"
+              element={
+                <PrivateRoute>
+                  <PresentationList />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/presentation/:code"
+              element={
+                <PrivateRoute>
+                  <Presentation />
                 </PrivateRoute>
               }
             />
@@ -68,6 +86,7 @@ function App() {
             <Route path="/invite/:groupCode" element={<InviteByLink />} />
             <Route path="/activate/:token" element={<Activate />} />
             <Route path="/news-feed" />
+            {/*Put in PrivateRoute later*/}
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<Error />} />
           </Routes>
