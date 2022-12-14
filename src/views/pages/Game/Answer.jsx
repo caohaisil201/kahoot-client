@@ -3,9 +3,17 @@ import { ClockCircleOutlined, UserOutlined } from '@ant-design/icons';
 import CustomCountDown from 'views/components/Countdown';
 import { Checkbox } from 'antd';
 import _debounce from 'lodash/debounce';
-import { SOCKET_ACTION } from 'utils';
+import { HELPER, SOCKET_ACTION } from 'utils';
 
-const Answer = ({ socket, accessToken, code, gameName, slide, isHost, setSlideState }) => {
+const Answer = ({
+  socket,
+  accessToken,
+  code,
+  gameName,
+  slide,
+  isHost,
+  setSlideState,
+}) => {
   const [choicesSelected, setChoicesSelected] = useState([]);
   const onChange = (values) => {
     setChoicesSelected(values.sort());
@@ -20,34 +28,48 @@ const Answer = ({ socket, accessToken, code, gameName, slide, isHost, setSlideSt
     //     clearTimeout(timer);
     //   };
     // }
-    if(isHost) {
-      socket.on(SOCKET_ACTION.RECEIVE_ANSWER, data => {
+    if (isHost) {
+      socket.on(SOCKET_ACTION.RECEIVE_ANSWER, (data) => {
         console.log(data);
-      })
+      });
     }
 
     return () => {
       socket.off(SOCKET_ACTION.RECEIVE_ANSWER);
-    }
+    };
   }, []);
 
-  if(!slide) {
-    return <div className="container mt-8">Error</div>
+  if (!slide) {
+    return <div className="container mt-8">Error</div>;
   }
 
   const { question, choices } = slide;
   const onSubmit = _debounce(
     () => {
-      if (choices.length <= 0) {
+      if (choicesSelected.length <= 0) {
         console.log('Ban chua chon dap an');
         return;
       }
+      const correctChoices = choices.reduce((prev, cur) => {
+        if(cur.isCorrect) {
+          return [
+            ...prev,
+            cur.icon,
+          ];
+        }
+        return [
+          ...prev,
+        ]
+      }, [])
+      const isCorrectAnswer = HELPER.compareArray(choicesSelected, correctChoices);
       // emit event to socket
       socket.emit(SOCKET_ACTION.SEND_ANSWER, {
         access_token: accessToken,
         socketId: socket.id,
+        name: socket.id,
         presentCode: code,
         choices: choicesSelected,
+        isCorrectAnswer,
       });
       setSlideState(2);
     },
@@ -55,10 +77,8 @@ const Answer = ({ socket, accessToken, code, gameName, slide, isHost, setSlideSt
     1000
   );
 
-
-
-  if(!slide) {
-    return <></>
+  if (!slide) {
+    return <></>;
   }
 
   return (

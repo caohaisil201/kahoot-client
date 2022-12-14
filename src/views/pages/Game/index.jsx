@@ -10,6 +10,7 @@ import Result from './Result';
 import './style.scss';
 import { SOCKET_ACTION } from 'utils';
 import { usePrevious } from 'hooks';
+import Ranking from './Ranking';
 
 const Game = () => {
   const accessToken = sessionStorage.getItem('access_token');
@@ -22,7 +23,7 @@ const Game = () => {
   const [slideNo, setSlideNo] = useState(0);
   const [result, setResult] = useState([]);
   const prevSlideNo = usePrevious(slideNo);
-  // const [slide, setSlide] = useState({});
+  const [ranking, setRanking] = useState([]);
 
   const slidesQuery = useQuery({
     queryKey: ['getSlides'],
@@ -77,6 +78,10 @@ const Game = () => {
     return <div className="container mt-8">Error</div>;
   }
 
+  if(slidesQuery.data.length === 0) {
+    setSlideState(4)
+  }
+
   switch (slideState) {
     case 1:
       return slidesQuery.data && slidesQuery.data.length >= 0 ? (
@@ -115,6 +120,12 @@ const Game = () => {
           />
         </div>
       );
+    case 4:
+      return (
+        <div className="container">
+          <Ranking />
+        </div>
+      )
     default:
       return <></>;
   }
