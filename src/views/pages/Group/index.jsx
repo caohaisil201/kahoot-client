@@ -8,17 +8,10 @@ import GroupMembers from './GroupMembers';
 import 'antd/dist/antd.css';
 import './style.scss';
 
-/**
- * Exmaple with role
- * 1: Owner
- * 2: Co-owner
- * 3: member
- */
-
 const Group = () => {
   useDocumentTitle('Thông tin nhóm');
   const { id } = useParams();
-  const { accessToken } = useContext(Context).accessTokenState;
+  const accessToken = sessionStorage.getItem('access_token');
   return (
     <div className="group-detail">
       <div className="container d-flex justify-center">

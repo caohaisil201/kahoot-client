@@ -11,7 +11,7 @@ const InviteByLink = () => {
   const { pathname } = useLocation();
   const context = useContext(Context);
   const { isLogin } = context.loginState;
-  const { accessToken } = context.accessTokenState;
+  const accessToken = sessionStorage.getItem('access_token');
 
   const groupCode = pathname.split('/')[2];
 

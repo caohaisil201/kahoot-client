@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
-import Member from './Member';
-import { UserAddOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
 import { Modal } from 'antd';
-import { CopyOutlined } from '@ant-design/icons';
+import { UserAddOutlined, CopyOutlined } from '@ant-design/icons';
+import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
 import { useQuery } from '@tanstack/react-query';
+import { CONSTANT } from 'utils';
+import { inviteSchema } from 'utils/yupSchema';
 import { addMemberAPI, assignMemberRoleAPI, getGroupMembersAPI, deleteMemberAPI } from 'api/GroupAPI';
 import Loading from 'views/components/Loading';
-import { useFormik } from 'formik';
-import { inviteSchema } from 'utils/yupSchema';
-import { useEffect } from 'react';
-import { CONSTANT } from 'utils';
+import Member from './Member';
 
 const GroupMembers = ({ accessToken, groupCode }) => {
   const inviteLink = `${process.env.REACT_APP_FRONTEND_URL}/invite/${groupCode}`;
