@@ -18,6 +18,7 @@ import JoinPresentation from 'views/pages/JoinPresentation';
 import Game from 'views/pages/Game';
 import EndGame from 'views/pages/Game/EndGame';
 import ResetPassword from 'views/pages/ResetPassword';
+import ForgotPassword from 'views/pages/ForgotPassword';
 
 function App() {
 	return (
@@ -85,6 +86,7 @@ function App() {
 						<Route path="/sign-in" element={<SignIn />} />
 						<Route path="/sign-up" element={<SignUp />} />
 						<Route path="/reset-password" element={<ResetPassword />} />
+						<Route path='/forgot-password' element={<ForgotPassword />} />
 						<Route path="/invite/:groupCode" element={<InviteByLink />} />
 						<Route path="/activate/:token" element={<Activate />} />
 						<Route path="/news-feed" />

@@ -5,10 +5,13 @@ import { useMutation } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import {
 	BookOutlined,
+	DeleteOutlined,
+	EditOutlined,
 	FileImageOutlined,
+	MoreOutlined,
 	UserOutlined,
 } from '@ant-design/icons';
-import { Modal } from 'antd';
+import { Button, Dropdown, Modal } from 'antd';
 import { Schema } from 'utils';
 import { useDocumentTitle } from 'hooks';
 import { createGroupAPI, getListGroupAPI } from 'api/GroupAPI';
@@ -23,9 +26,33 @@ const GroupItem = ({ group }) => {
 	const goToCourse = () => {
 		navigate(`/group/${code}`);
 	};
+	const items = [
+		{
+			key: '0',
+			label: <div>Xem thông tin</div>,
+			icon: <EditOutlined />,
+		},
+
+		{
+			key: '1',
+			label: <div style={{ color: '#ff0000' }}>Xóa nhóm</div>,
+			icon: <DeleteOutlined style={{ color: '#ff0000' }} />,
+		},
+	];
+	const onMenuItemClick = ({ key }) => {
+		switch (key) {
+			case '0':
+				goToCourse();
+				break;
+			case '1':
+				// delelte
+				break;
+			default:
+				break;
+		}
+	};
 	return (
 		<div
-			onClick={goToCourse}
 			className="group-item pt-9 px-8 pb-5 d-flex flex-column justify-space-between"
 		>
 			<div className="head d-flex justify-space-between align-center">
@@ -38,18 +65,33 @@ const GroupItem = ({ group }) => {
 				</div>
 			</div>
 			<div className="body mt-4">{description}</div>
-			<div className="foot">
-				<UserOutlined /> {capacity} Người tham gia
+			<div className="foot d-flex align-center justify-space-between">
+				<div>
+					<UserOutlined /> {capacity} Người tham gia
+				</div>
+				<div>
+					<Dropdown
+						menu={{
+							items,
+							onClick: onMenuItemClick,
+						}}
+						placement="bottomRight"
+					>
+						<Button key={code} className="icon">
+							<MoreOutlined />
+						</Button>
+					</Dropdown>
+				</div>
 			</div>
 		</div>
 	);
 };
 
 const GroupList = () => {
-  useDocumentTitle('Danh sách nhóm');
-  const accessToken = sessionStorage.getItem('access_token');
-  const [groups, setGroups] = useState([ ]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+	useDocumentTitle('Danh sách nhóm');
+	const accessToken = sessionStorage.getItem('access_token');
+	const [groups, setGroups] = useState([]);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const openCreateGroupModal = () => {
 		setIsModalOpen(true);

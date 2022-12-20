@@ -29,7 +29,7 @@ import {
 
 const PresentationItem = ({ presentation, deletePresentation }) => {
 	const navigate = useNavigate();
-	const { code, name, host, description, create_at, numberOfSlides } =
+	const { code, name, host, description, totalSlide } =
 		presentation;
 	const goToPresentation = () => {
 		navigate(`/presentation/${code}`);
@@ -90,7 +90,7 @@ const PresentationItem = ({ presentation, deletePresentation }) => {
 			<div className="body mt-4">{description}</div>
 			<div className="foot d-flex align-center justify-space-between">
 				<div>
-					<LayoutOutlined /> {numberOfSlides} slides
+					<LayoutOutlined /> {totalSlide} slides
 				</div>
 				<div>
 					<Dropdown
