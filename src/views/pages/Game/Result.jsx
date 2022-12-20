@@ -9,32 +9,14 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const Result = ({ gameName, isHost, setSlideState }) => {
-  const trueValues = [1, 2];
-  const data = [
-    {
-      name: 'A',
-      key: 1,
-      value: 20,
-    },
-    {
-      name: 'B',
-      key: 2,
-      value: 30,
-    },
-    {
-      name: 'C',
-      key: 3,
-      value: 40,
-    },
-    {
-      name: 'D',
-      key: 4,
-      value: 10,
-    },
-  ];
-
-  // socket listen to change slideState
+const Result = ({ gameName, result, slide, isHost, setSlideState }) => {
+  const { choices } = slide;
+  const trueValues = choices.reduce((prev, cur) => {
+    return {
+      ...prev,
+      [cur.icon]: cur.isCorrect,
+    };
+  }, {});
 
   return (
     <div className="result mt-6 d-flex flex-column justify-space-between">
@@ -54,18 +36,14 @@ const Result = ({ gameName, isHost, setSlideState }) => {
       </div>
       <div className="chart mt-8">
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart width={150} height={40} data={data}>
+          <BarChart width={150} height={40} data={result}>
             <XAxis dataKey="name" />
             <YAxis />
             <Bar dataKey="value">
-              {data.map((item, index) => (
+              {result.map((item, index) => (
                 <Cell
-                  fill={
-                    trueValues.find((number) => item.key === number)
-                      ? '#1c6758'
-                      : '#BBBBBB'
-                  }
-                  key={item.key}
+                  fill={trueValues[item.name] ? '#1c6758' : '#BBBBBB'}
+                  key={index}
                 />
               ))}
             </Bar>

@@ -69,8 +69,6 @@ const Presentation = () => {
         icon: 'error',
       });
     }
-
-    // const
   };
 
   const selectSlide = (slide) => {
