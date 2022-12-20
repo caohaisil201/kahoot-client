@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import 'assets/styles/index.scss';
+import SocketProvider from 'store/socket';
 import Header from 'views/components/Header';
 import Error from 'views/pages/Error';
 import HomePage from 'views/pages/Home';
@@ -18,62 +18,50 @@ import JoinPresentation from 'views/pages/JoinPresentation';
 import Game from 'views/pages/Game';
 import ResetPassword from 'views/pages/ResetPassword';
 import ForgotPassword from 'views/pages/ForgotPassword';
+import 'assets/styles/index.scss';
+
 
 function App() {
-	return (
-		<div id="App">
-			<BrowserRouter>
-				<Header />
-				<div className="app-content">
-					<Routes>
-						<Route
-							path="/groups"
-							element={
-								<PrivateRoute>
-									<GroupList />
-								</PrivateRoute>
-							}
-						/>
-						<Route
-							path="/group/:id"
-							element={
-								<PrivateRoute>
-									<Group />
-								</PrivateRoute>
-							}
-						/>
-						<Route
-							path="/presentations"
-							element={
-								<PrivateRoute>
-									<PresentationList />
-								</PrivateRoute>
-							}
-						/>
-						<Route
-							path="/join-presentation"
-							element={
-								<PrivateRoute>
-									<JoinPresentation />
-								</PrivateRoute>
-							}
-						/>
-						<Route
-							path="/game/:code"
-							element={
-								<PrivateRoute>
-									<Game />
-								</PrivateRoute>
-							}
-						/>
-						<Route
-							path="/presentations"
-							element={
-								<PrivateRoute>
-									<PresentationList />
-								</PrivateRoute>
-							}
-						/>
+  return (
+    <SocketProvider>
+      <div id="App">
+        <BrowserRouter>
+          <Header />
+          <div className="app-content">
+            <Routes>
+              <Route
+                path="/groups"
+                element={
+                  <PrivateRoute>
+                    <GroupList />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/group/:id"
+                element={
+                  <PrivateRoute>
+                    <Group />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/presentations"
+                element={
+                  <PrivateRoute>
+                    <PresentationList />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/join-presentation"
+                element={
+                  <PrivateRoute>
+                    <JoinPresentation />
+                  </PrivateRoute>
+                }
+              />
+							
 						<Route
 							path="/presentation/:code"
 							element={

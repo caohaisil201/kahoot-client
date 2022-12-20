@@ -46,32 +46,29 @@ const Presentation = () => {
 	if (slidesQuery.isLoading && presentQuery.isLoading) {
 		return <Loading />;
 	}
-
-	if (slidesQuery.isError && presentQuery.isError) {
-		return <div>Error</div>;
-	}
-	const handleSubmit = async () => {
-		if (title === '') return;
-		const isUpdatePresentationSuccess = await updatePresentationAPI(
-			accessToken,
-			code,
-			title
-		);
-		const isUpdateSlidesSuccess = await updateSlidesAPI(
-			accessToken,
-			code,
-			slides
-		);
-		if (!isUpdatePresentationSuccess && isUpdateSlidesSuccess) {
-			Swal.fire({
-				title: 'Error',
-				text: 'Có lỗi xảy ra',
-				icon: 'error',
-			});
-		}
-
-		// const
-	};
+  if (slidesQuery.isError && presentQuery.isError) {
+    return <div>Error</div>;
+  }
+  const handleSubmit = async () => {
+    if (title === '') return;
+    const isUpdatePresentationSuccess = await updatePresentationAPI(
+      accessToken,
+      code,
+      title
+    );
+    const isUpdateSlidesSuccess = await updateSlidesAPI(
+      accessToken,
+      code,
+      slides
+    );
+    if (!isUpdatePresentationSuccess && isUpdateSlidesSuccess) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Có lỗi xảy ra',
+        icon: 'error',
+      });
+    }
+  };
 
 	const selectSlide = (slide) => {
 		setCurrentSlide(slide);

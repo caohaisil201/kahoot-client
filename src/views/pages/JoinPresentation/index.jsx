@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Swal from 'sweetalert2';
 import { findGameByCodeAPI } from 'api/GameAPI';
 import Loading from 'views/components/Loading';
 import './style.scss';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { SocketContext } from 'store/socket';
+import { SOCKET_ACTION } from 'utils';
 
 const JoinPresentation = () => {
   const accessToken = sessionStorage.getItem('access_token');
   const navigate = useNavigate();
+  const socket = useContext(SocketContext);
   const [isWaiting, setIsWaiting] = useState(false);
   const [gameCode, setGameCode] = useState('');
   const [gameName, setGameName] = useState('');
@@ -34,18 +36,27 @@ const JoinPresentation = () => {
     } else {
       setGameName(instanceGame[0].name);
       setIsWaiting(true);
+      socket.emit(SOCKET_ACTION.JOIN_GAME, {
+        socketId: socket.id,
+        access_token: accessToken,
+        // gameCode
+        presentCode: instanceGame[0].code,
+      });
     }
   };
-  
-  // socket to change to game page
-  
-  useEffect(() => {
-    if(gameName!=='') {
-      navigate(`/game/${gameCode}`, { state: {  gameName } });
-    }
 
-  }, [gameName])
-  
+  // socket to change to game page
+  useEffect(() => {
+    socket.on(SOCKET_ACTION.START_GAME, (data) => {
+      if (data.presentCode === gameCode) {
+        navigate(`/game/${gameCode}`, { state: { gameName } });
+      }
+    });
+
+    return () => {
+      socket.off(SOCKET_ACTION.START_GAME);
+    };
+  }, [gameCode, gameName]);
 
   if (!isWaiting)
     return (
