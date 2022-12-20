@@ -4,3 +4,11 @@ export const compareArray = (arr1, arr2) =>
 
 export const objectKeysToArray = (obj) =>
   typeof obj !== 'object' ? null : Object.keys(obj);
+
+export const isEmptyObject = (obj) => {
+  return (
+    obj &&
+    Object.keys(obj).length === 0 &&
+    Object.getPrototypeOf(obj) === Object.prototype
+  );
+};

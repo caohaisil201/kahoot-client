@@ -13,10 +13,12 @@ import PrivateRoute from 'middlewares/Auth';
 import Activate from 'views/pages/Activate';
 import InviteByLink from 'views/pages/InviteByLink';
 import PresentationList from 'views/pages/PresentationList';
+import Presentation from 'views/pages/Presentation';
 import JoinPresentation from 'views/pages/JoinPresentation';
 import Game from 'views/pages/Game';
+import ResetPassword from 'views/pages/ResetPassword';
+import EndGame from 'views/pages/Game/EndGame';
 import 'assets/styles/index.scss';
-import Test from 'views/pages/Test';
 
 function App() {
   return (
@@ -58,6 +60,15 @@ function App() {
                   </PrivateRoute>
                 }
               />
+							
+						<Route
+							path="/presentation/:code"
+							element={
+								<PrivateRoute>
+									<Presentation />
+								</PrivateRoute>
+							}
+						/>
               <Route
                 path="/game/:code"
                 element={
@@ -68,6 +79,7 @@ function App() {
               />
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
+							<Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/invite/:groupCode" element={<InviteByLink />} />
               <Route path="/activate/:token" element={<Activate />} />
               <Route path="/news-feed" />
