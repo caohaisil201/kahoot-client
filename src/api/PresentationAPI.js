@@ -138,7 +138,6 @@ export const deletePresentationAPI = async (accessToken, presentationCode) => {
 		.catch((err) => {
 			console.log(err);
 		});
-	console.log(response);
 	return response;
 };
 
@@ -191,6 +190,5 @@ export const updatePresentationAPI = async (accessToken, code, name) => {
 		.then((res) => res.data)
 		.catch((err) => console.log('error', err));
 	const { meta, data } = response;
-	console.log('presentation', response);
 	return meta.code === 200 ? data : null;
 };

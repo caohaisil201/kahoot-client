@@ -53,7 +53,6 @@ const SignIn = () => {
 	});
 	const handleGoogleLogin = async (values) => {
 		try {
-			console.log(values);
 			const responseLoginWithGoogle = await loginWithGoogle(values.credential);
 			const { data, status } = responseLoginWithGoogle;
 			if (status !== 200) return;

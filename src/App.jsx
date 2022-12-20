@@ -16,7 +16,6 @@ import PresentationList from 'views/pages/PresentationList';
 import Presentation from 'views/pages/Presentation';
 import JoinPresentation from 'views/pages/JoinPresentation';
 import Game from 'views/pages/Game';
-import EndGame from 'views/pages/Game/EndGame';
 import ResetPassword from 'views/pages/ResetPassword';
 import ForgotPassword from 'views/pages/ForgotPassword';
 

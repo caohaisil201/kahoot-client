@@ -153,11 +153,11 @@ const GroupList = () => {
 		}
 	};
 	const deleteGroup = async (groupCode) => {
-		const instancePresentation = groups.find(
+		const instanceGroup = groups.find(
 			(group) => group.code === groupCode
 		);
 
-		if (!!instancePresentation) {
+		if (!!instanceGroup) {
 			const isSuccessful = await deleteGroupAPI(
 				accessToken,
 				groupCode

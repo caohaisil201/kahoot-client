@@ -166,7 +166,6 @@ const PresentationList = () => {
 		validationSchema: createPresentationSchema,
 		onSubmit: (values, { resetForm }) => {
 			mutation.mutate(values);
-			console.log('form value', values);
 			setIsModalOpen(false);
 			resetForm();
 		},

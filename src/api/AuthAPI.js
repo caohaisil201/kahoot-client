@@ -87,7 +87,6 @@ export const fotgotPassword = async (email) => {
 		.then((res) => res.data)
 		.catch((err) => err);
 	const { meta } = response;
-	console.log(meta, 'meta');
 	return !!(meta.code === 200);
 };
 

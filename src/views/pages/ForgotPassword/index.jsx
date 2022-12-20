@@ -16,9 +16,7 @@ const ForgotPassword = () => {
 		validationSchema,
 		onSubmit: async (values) => {
 			try {
-				console.log('values', values.email);
 				const isSuccessful = await fotgotPassword(values.email);
-				console.log(isSuccessful);
 				if (!isSuccessful) {
 					Swal.fire({
 						title: 'Error',

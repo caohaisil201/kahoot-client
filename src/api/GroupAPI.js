@@ -169,6 +169,5 @@ export const deleteGroupAPI = async (accessToken, groupCode) => {
 		.catch((err) => {
 			console.log(err);
 		});
-	console.log(response);
 	return response;
 };
