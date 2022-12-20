@@ -14,13 +14,12 @@ import {
 import { Button, Dropdown, Modal } from 'antd';
 import { Schema } from 'utils';
 import { useDocumentTitle } from 'hooks';
-import { createGroupAPI, getListGroupAPI } from 'api/GroupAPI';
+import { createGroupAPI, deleteGroupAPI, getListGroupAPI } from 'api/GroupAPI';
 import 'antd/dist/antd.css';
 import './style.scss';
-import { useContext } from 'react';
-import { Context } from 'store';
 
-const GroupItem = ({ group }) => {
+
+const GroupItem = ({ group, deleteGroup }) => {
 	const navigate = useNavigate();
 	const { name, owner, description, capacity, code } = group;
 	const goToCourse = () => {
@@ -45,7 +44,7 @@ const GroupItem = ({ group }) => {
 				goToCourse();
 				break;
 			case '1':
-				// delelte
+				deleteGroup(code);
 				break;
 			default:
 				break;
@@ -153,7 +152,38 @@ const GroupList = () => {
 			throw err;
 		}
 	};
+	const deleteGroup = async (groupCode) => {
+		const instancePresentation = groups.find(
+			(group) => group.code === groupCode
+		);
 
+		if (!!instancePresentation) {
+			const isSuccessful = await deleteGroupAPI(
+				accessToken,
+				groupCode
+			);
+			if (!isSuccessful) {
+				Swal.fire({
+					icon: 'error',
+					title: 'Error',
+					text: 'Có lỗi xảy ra',
+				});
+				return;
+			}
+			else {
+				Swal.fire({
+					icon: 'success',
+					title: 'Success',
+					text: 'Xóa thành công!',
+				});
+			}
+		}
+		setGroups(
+			groups.filter(
+				(group) => group.code !== groupCode
+			)
+		);
+	};
 	const handleCancel = () => {
 		setIsModalOpen(false);
 		formik.resetForm();
@@ -187,7 +217,11 @@ const GroupList = () => {
 					</section>
 					<section className="groups mt-10">
 						{groups.map((item) => (
-							<GroupItem group={item} key={item.code} />
+							<GroupItem
+								group={item}
+								key={item.code}
+								deleteGroup={deleteGroup}
+							/>
 						))}
 					</section>
 				</div>
