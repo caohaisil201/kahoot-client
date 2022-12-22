@@ -157,7 +157,7 @@ export const joinGroupByLinkAPI = async (accessToken, groupCode) => {
 export const deleteGroupAPI = async (accessToken, groupCode) => {
 	const response = await axios
 		.get(
-			`${process.env.REACT_APP_API_URL}/group-management/delete?code=${groupCode}`,
+			`${process.env.REACT_APP_API_URL}/group-management/delete?groupCode=${groupCode}`,
 			{
 				headers: {
 					'Content-Type': 'application/json',

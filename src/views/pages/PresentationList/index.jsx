@@ -47,7 +47,7 @@ const PresentationItem = ({ presentation, deletePresentation }) => {
 		},
 		{
 			key: '2',
-			label: <div>Mời collaborator</div>,
+			label: <div>Quản lý collaborator</div>,
 			icon: <UserAddOutlined />,
 		},
 		{
@@ -80,7 +80,6 @@ const PresentationItem = ({ presentation, deletePresentation }) => {
 			<div className="head d-flex justify-space-between align-center">
 				<div className="info">
 					<h2>{name}</h2>
-					{/* {create_at} */}
 					{host.fullName}
 				</div>
 				<div className="image">
@@ -188,15 +187,17 @@ const PresentationList = () => {
 		);
 
 		if (!!instancePresentation) {
-			const isSuccessful = await deletePresentationAPI(
+			const response = await deletePresentationAPI(
 				accessToken,
 				presentationCode
 			);
+			const { meta } = response;
+			const isSuccessful = !!(meta.code === 200)
 			if (!isSuccessful) {
 				Swal.fire({
 					icon: 'error',
 					title: 'Error',
-					text: 'Có lỗi xảy ra',
+					text: `${meta.message}`,
 				});
 				return;
 			}

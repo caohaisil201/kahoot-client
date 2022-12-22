@@ -158,15 +158,17 @@ const GroupList = () => {
 		);
 
 		if (!!instanceGroup) {
-			const isSuccessful = await deleteGroupAPI(
+			const response = await deleteGroupAPI(
 				accessToken,
 				groupCode
 			);
+			const { meta } = response;
+			const isSuccessful = !!(meta.code === 200)
 			if (!isSuccessful) {
 				Swal.fire({
 					icon: 'error',
 					title: 'Error',
-					text: 'Có lỗi xảy ra',
+					text: `${meta.message}`,
 				});
 				return;
 			}
