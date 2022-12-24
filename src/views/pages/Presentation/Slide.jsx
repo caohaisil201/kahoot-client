@@ -3,23 +3,24 @@ import { Select, InputNumber, Input, Checkbox } from 'antd';
 import { HELPER } from 'utils';
 
 const Slide = ({ slide, handleSaveSlide }) => {
-  const questionType = [
+  const questionTypeLabel = [
     {
-      value: 'multiple',
-      label: 'Multiple',
+      value: 1,
+      label: 'Question',
     },
     {
-      value: 'heading',
-      label: 'Heading',
-    },
-    {
-      value: 'paragraph',
+      value: 2,
       label: 'Paragraph',
     },
+    {
+      value: 3,
+      label: 'Heading',
+    },
   ];
-
+  const [questionType , setQuestionType] = useState(1);
   const [timer, setTimer] = useState(10);
-  const [question, setQuestion] = useState('');
+  const [heading, setHeading] = useState('');
+  const [paragraph, setParagraph] = useState('');
   const [point, setPoint] = useState(0);
   const [answerA, setAnswerA] = useState('');
   const [answerB, setAnswerB] = useState('');
@@ -27,9 +28,14 @@ const Slide = ({ slide, handleSaveSlide }) => {
   const [answerD, setAnswerD] = useState('');
   const [correctAnswers, setCorrectAnswers] = useState([]);
 
+  const changeQuestionType = (value) => {
+    setQuestionType(value);
+  }
+
   useEffect(() => {
     if (!HELPER.isEmptyObject(slide)) {
-      setQuestion(slide.question ? slide.question : '');
+      setHeading(slide.heading ? slide.heading : '');
+      setParagraph(slide.paragraph ? slide.paragraph :'');
       setPoint(slide.point ? slide.point : 0);
       setTimer(slide.timer ? slide.timer : 10);
       setAnswerA(slide.choices ? slide.choices[0].answer : '');
@@ -73,7 +79,8 @@ const Slide = ({ slide, handleSaveSlide }) => {
     ];
     const newSlide = {
       ...slide,
-      question,
+      heading,
+      paragraph,
       timer,
       choices,
     };
@@ -89,11 +96,24 @@ const Slide = ({ slide, handleSaveSlide }) => {
       <div className="content d-flex pa-16 flex-column align-center justify-space-between">
         <Input
           style={{ width: '80%' }}
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          placeholder="Nhập câu hỏi"
+          value={heading}
+          onChange={(e) => setHeading(e.target.value)}
+          placeholder="Nhập heading"
         />
-        <div className="choices d-flex">
+        {questionType === 1 || questionType === 2 ? <div className="paragraph d-flex">
+          <Input.Area
+            width='300px'
+            style={{
+              height: 120,
+              resize: false,
+            }}
+            placeholder="Nhập paragraph"
+            value={paragraph}
+            onChange={e => setParagraph(e.target.value)}
+          >
+          </Input.Area>
+        </div> : <></>}
+        {questionType === 1 ? <div className="choices d-flex">
           <div className="pa-2" style={{ width: '50%' }}>
             <Input.TextArea
               maxLength={120}
@@ -142,15 +162,16 @@ const Slide = ({ slide, handleSaveSlide }) => {
               onChange={(e) => setAnswerD(e.target.value)}
             />
           </div>
-        </div>
+        </div> : <></>}
       </div>
       <div className="options d-flex flex-column justify-space-between">
         <div className="question-type">
           <h2>Question type</h2>
           <Select
-            defaultValue="multiple"
+            defaultValue="Question"
             style={{ width: '100%' }}
-            options={questionType}
+            options={questionTypeLabel}
+            onChange={changeQuestionType}
           />
         </div>
         <div className="timer">

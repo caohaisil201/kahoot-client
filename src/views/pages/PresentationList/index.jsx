@@ -122,10 +122,12 @@ const PresentationList = () => {
 
 	const createNewPresentation = async () => {
 		try {
+			console.log('123')
 			const instancePresentationInfo = await createPresentationAPI(
 				accessToken,
 				formik.values
 			);
+			console.log(instancePresentationInfo)
 			if (!instancePresentationInfo) {
 				Swal.fire({
 					position: 'top-end',

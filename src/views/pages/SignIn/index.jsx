@@ -40,11 +40,11 @@ const SignIn = () => {
 				sessionStorage.setItem('access_token', instanceAccessToken);
 				accessTokenState.setAccessToken(instanceAccessToken);
 				loginState.setIsLogin(true);
-				if (state && state.previousPath) {
-					navigate(state.previousPath);
-				} else {
-					navigate('/');
-				}
+				// if (state && state.previousPath) {
+				// 	navigate(state.previousPath);
+				// } else {
+				// 	navigate('/');
+				// }
 			} catch (err) {
 				throw err;
 			}

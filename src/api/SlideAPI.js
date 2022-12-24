@@ -15,7 +15,7 @@ export const createSlideAPI = async (accessToken, slideInfo) => {
 export const updateSlidesAPI = async (accessToken, presentCode, slides) => {
   const response = await axios
     .post(
-      `${process.env.REACT_APP_API_URL}/slides`,
+      `${process.env.REACT_APP_API_URL}/slides/update`,
       { presentCode, slides },
       {
         headers: {

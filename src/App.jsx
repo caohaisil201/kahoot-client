@@ -17,6 +17,7 @@ import Presentation from 'views/pages/Presentation';
 import JoinPresentation from 'views/pages/JoinPresentation';
 import Game from 'views/pages/Game';
 import ResetPassword from 'views/pages/ResetPassword';
+import Test from 'views/pages/Test';
 import EndGame from 'views/pages/Game/EndGame';
 import 'assets/styles/index.scss';
 
