@@ -4,25 +4,25 @@ import { Link, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2';
 
 const Activate = () => {
-  const { token } = useParams();
-  useEffect(() => {
-    if (!!token) {
-      const isSuccessful = activateAccount(token);
-      if (isSuccessful) {
-        return;
-      }
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Có lỗi xảy ra!',
-      })
-    }
-  }, [token]);
-  return (
-    <div className="d-flex align-center justify-center ma-8">Tài khoản của bạn đã được kích hoạt.
-      <Link to="/sign-in">Ấn vào đây để về trang đăng nhập</Link>
-    </div>
-  )
+	const { token } = useParams();
+	useEffect(() => {
+		if (!!token) {
+			const isSuccessful = activateAccount(token);
+			if (isSuccessful) {
+				return;
+			}
+			Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: 'Có lỗi xảy ra!',
+			})
+		}
+	}, [token]);
+	return (
+		<div className="d-flex align-center justify-center ma-8">Tài khoản của bạn đã được kích hoạt.
+			<Link to="/sign-in">Ấn vào đây để về trang đăng nhập</Link>
+		</div>
+	)
 }
 
 export default Activate

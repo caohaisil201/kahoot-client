@@ -5,27 +5,53 @@ import { useMutation } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import {
 	BookOutlined,
+	DeleteOutlined,
+	EditOutlined,
 	FileImageOutlined,
+	MoreOutlined,
 	UserOutlined,
 } from '@ant-design/icons';
-import { Modal } from 'antd';
+import { Button, Dropdown, Modal } from 'antd';
 import { Schema } from 'utils';
 import { useDocumentTitle } from 'hooks';
-import { createGroupAPI, getListGroupAPI } from 'api/GroupAPI';
+import { createGroupAPI, deleteGroupAPI, getListGroupAPI } from 'api/GroupAPI';
 import 'antd/dist/antd.css';
 import './style.scss';
-import { useContext } from 'react';
-import { Context } from 'store';
 
-const GroupItem = ({ group }) => {
+
+const GroupItem = ({ group, deleteGroup }) => {
 	const navigate = useNavigate();
 	const { name, owner, description, capacity, code } = group;
 	const goToCourse = () => {
 		navigate(`/group/${code}`);
 	};
+	const items = [
+		{
+			key: '0',
+			label: <div>Xem thông tin</div>,
+			icon: <EditOutlined />,
+		},
+
+		{
+			key: '1',
+			label: <div style={{ color: '#ff0000' }}>Xóa nhóm</div>,
+			icon: <DeleteOutlined style={{ color: '#ff0000' }} />,
+		},
+	];
+	const onMenuItemClick = ({ key }) => {
+		switch (key) {
+			case '0':
+				goToCourse();
+				break;
+			case '1':
+				deleteGroup(code);
+				break;
+			default:
+				break;
+		}
+	};
 	return (
 		<div
-			onClick={goToCourse}
 			className="group-item pt-9 px-8 pb-5 d-flex flex-column justify-space-between"
 		>
 			<div className="head d-flex justify-space-between align-center">
@@ -38,18 +64,33 @@ const GroupItem = ({ group }) => {
 				</div>
 			</div>
 			<div className="body mt-4">{description}</div>
-			<div className="foot">
-				<UserOutlined /> {capacity} Người tham gia
+			<div className="foot d-flex align-center justify-space-between">
+				<div>
+					<UserOutlined /> {capacity} Người tham gia
+				</div>
+				<div>
+					<Dropdown
+						menu={{
+							items,
+							onClick: onMenuItemClick,
+						}}
+						placement="bottomRight"
+					>
+						<Button key={code} className="icon">
+							<MoreOutlined />
+						</Button>
+					</Dropdown>
+				</div>
 			</div>
 		</div>
 	);
 };
 
 const GroupList = () => {
-  useDocumentTitle('Danh sách nhóm');
-  const accessToken = sessionStorage.getItem('access_token');
-  const [groups, setGroups] = useState([ ]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+	useDocumentTitle('Danh sách nhóm');
+	const accessToken = sessionStorage.getItem('access_token');
+	const [groups, setGroups] = useState([]);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const openCreateGroupModal = () => {
 		setIsModalOpen(true);
@@ -111,7 +152,40 @@ const GroupList = () => {
 			throw err;
 		}
 	};
+	const deleteGroup = async (groupCode) => {
+		const instanceGroup = groups.find(
+			(group) => group.code === groupCode
+		);
 
+		if (!!instanceGroup) {
+			const response = await deleteGroupAPI(
+				accessToken,
+				groupCode
+			);
+			const { meta } = response;
+			const isSuccessful = !!(meta.code === 200)
+			if (!isSuccessful) {
+				Swal.fire({
+					icon: 'error',
+					title: 'Error',
+					text: `${meta.message}`,
+				});
+				return;
+			}
+			else {
+				Swal.fire({
+					icon: 'success',
+					title: 'Success',
+					text: 'Xóa thành công!',
+				});
+			}
+		}
+		setGroups(
+			groups.filter(
+				(group) => group.code !== groupCode
+			)
+		);
+	};
 	const handleCancel = () => {
 		setIsModalOpen(false);
 		formik.resetForm();
@@ -145,7 +219,11 @@ const GroupList = () => {
 					</section>
 					<section className="groups mt-10">
 						{groups.map((item) => (
-							<GroupItem group={item} key={item.code} />
+							<GroupItem
+								group={item}
+								key={item.code}
+								deleteGroup={deleteGroup}
+							/>
 						))}
 					</section>
 				</div>
