@@ -21,7 +21,7 @@ export const registerUser = async (username, email, password, fullName) => {
       });
     return !!(response.meta.code === 200);
   } catch (err) {
-    console.log('err', err);
+    return false;
   }
 };
 
@@ -78,4 +78,27 @@ export const activateAccount = async (token) => {
     .then((res) => res.data)
     .catch((err) => err);
   return !!response.meta.code;
+};
+
+export const fotgotPassword = async (email) => {
+  const response = await axios
+    .get(
+      `${process.env.REACT_APP_API_URL}/user-management/reset-password?username=${email}`
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  const { meta } = response;
+  return !!(meta.code === 200);
+};
+
+export const resetPassword = async (email, password) => {
+  const response = await axios
+    .post(`${process.env.REACT_APP_API_URL}/user-management/update-password`, {
+      username: email,
+      password,
+    })
+    .then((res) => res.data)
+    .catch((err) => err);
+  const { meta } = response;
+  return !!(meta.code === 200);
 };

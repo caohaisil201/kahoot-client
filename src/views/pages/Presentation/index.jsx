@@ -46,7 +46,6 @@ const Presentation = () => {
   if (slidesQuery.isLoading && presentQuery.isLoading) {
     return <Loading />;
   }
-
   if (slidesQuery.isError && presentQuery.isError) {
     return <div>Error</div>;
   }
