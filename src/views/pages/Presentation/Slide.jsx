@@ -93,7 +93,7 @@ const Slide = ({ slide, handleSaveSlide }) => {
 
   return (
     <div className="d-flex slide-preview justify-space-between">
-      <div className="content d-flex pa-16 flex-column align-center justify-space-between">
+      <div className="content d-flex pa-8 flex-column align-center justify-space-between">
         <Input
           style={{ width: '80%' }}
           value={heading}
@@ -101,17 +101,16 @@ const Slide = ({ slide, handleSaveSlide }) => {
           placeholder="Nhập heading"
         />
         {questionType === 1 || questionType === 2 ? <div className="paragraph d-flex">
-          <Input.Area
-            width='300px'
+          <Input.TextArea
             style={{
-              height: 120,
-              resize: false,
+              height: 100,
+              width: 520,
+              resize: 'none',
             }}
             placeholder="Nhập paragraph"
             value={paragraph}
             onChange={e => setParagraph(e.target.value)}
-          >
-          </Input.Area>
+          />
         </div> : <></>}
         {questionType === 1 ? <div className="choices d-flex">
           <div className="pa-2" style={{ width: '50%' }}>

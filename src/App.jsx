@@ -72,6 +72,10 @@ function App() {
 									</PrivateRoute>
 								}
 							/>
+							<Route 
+								path="/game/:code"
+								element={<Game />}
+							/>
 							<Route path="/sign-in" element={<SignIn />} />
 							<Route path="/sign-up" element={<SignUp />} />
 							<Route path="/reset-password" element={<ResetPassword />} />
@@ -88,7 +92,6 @@ function App() {
 				</BrowserRouter>
 			</div>
 		</SocketProvider>
-
 	);
 }
 

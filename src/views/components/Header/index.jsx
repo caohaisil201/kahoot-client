@@ -11,13 +11,11 @@ import Logo from '../Logo';
 import './style.scss';
 
 const Header = () => {
-	const context = useContext(Context);
 	const navigate = useNavigate();
-	const isLogin = context.loginState.isLogin;
-	const { loginState, accessTokenState } = useContext(Context);
+	const accessToken = sessionStorage.getItem('access_token');
+	const { accessTokenState } = useContext(Context);
 
 	const handleLogout = () => {
-		loginState.setIsLogin(false);
 		accessTokenState.setAccessToken('');
 		sessionStorage.clear();
 		navigate("/sign-in");
@@ -42,7 +40,7 @@ const Header = () => {
 							Danh sách presentation
 						</NavLink>
 					</div>
-					{isLogin ? (
+					{accessToken ? (
 						<div className="features d-flex ml-8">
 							<button className="icon">
 								<BellOutlined />

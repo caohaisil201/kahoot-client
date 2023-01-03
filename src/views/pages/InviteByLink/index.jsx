@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { useContext } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
-import { Context } from 'store';
 import { joinGroupByLinkAPI } from 'api/GroupAPI';
 import Loading from 'views/components/Loading';
 
 const InviteByLink = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const context = useContext(Context);
-  const { isLogin } = context.loginState;
   const accessToken = sessionStorage.getItem('access_token');
 
   const groupCode = pathname.split('/')[2];
@@ -20,12 +16,12 @@ const InviteByLink = () => {
   });
 
   useEffect(() => {
-    if (isLogin) {
+    if (accessToken) {
       mutation.mutate({});
     }
   }, []);
 
-  if (!isLogin) {
+  if (!accessToken) {
     return (
       <div className="d-flex align-center justify-center mt-10">
         Bạn cần phải{' '}

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from 'hooks';
 import { Schema } from '../../../utils';
 import { loginUser, loginWithGoogle } from 'api/AuthAPI';
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 const SignIn = () => {
   useDocumentTitle('Sign In');
   const navigate = useNavigate();
-  const { loginState, accessTokenState } = useContext(Context);
+  const { accessTokenState } = useContext(Context);
   const validationSchema = Schema.validationSignInSchema;
   const formik = useFormik({
     initialValues: {
@@ -39,12 +39,7 @@ const SignIn = () => {
         }
         sessionStorage.setItem('access_token', instanceAccessToken);
         accessTokenState.setAccessToken(instanceAccessToken);
-        loginState.setIsLogin(true);
-        // if (state && state.previousPath) {
-        // 	navigate(state.previousPath);
-        // } else {
-        // 	navigate('/');
-        // }
+        navigate('/');
       } catch (err) {
         throw err;
       }
@@ -58,7 +53,6 @@ const SignIn = () => {
 
       const accessToken = data;
       accessTokenState.setAccessToken(accessToken);
-      loginState.setIsLogin(true);
       navigate('/');
     } catch (err) {
       throw err;

@@ -20,7 +20,7 @@ const Presentation = () => {
   const [title, setTitle] = useState('');
   const [slides, setSlides] = useState([]);
   const [currentSlide, setCurrentSlide] = useState({});
-  const [currentSlideNo, setCurrentSlideNo] = useState(1);
+  const [currentSlideNo, setCurrentSlideNo] = useState(0);
 
   const slidesQuery = useQuery({
     queryKey: ['getSlide'],
@@ -76,20 +76,17 @@ const Presentation = () => {
   };
 
   const handleSaveSlide = (slide) => {
-    let newSlide = slides.find((item) => item.itemNo === slide.itemNo);
-    if (!!newSlide) {
-      const tempSlides = [...slides];
-      tempSlides.pop();
-      tempSlides.push(slide);
-      setSlides(tempSlides);
-    }
+    const index = slides.findIndex(item => item.itemNo === slide.itemNo);
+    slides[index] = {
+      ...slide
+    };
   };
 
   const handleAddSlide = () => {
-    setCurrentSlideNo(currentSlideNo + 1);
     const newSlide = {
       itemNo: slides.length + 1,
     };
+    console.log(slides.length);
     setSlides([...slides, newSlide]);
   };
 
@@ -120,19 +117,17 @@ const Presentation = () => {
           {slides.map((slide, index) => {
             return (
               <div
-                className="item pa-2"
+                className={`item pa-2 ${index+1 === currentSlideNo ? 'select' : ''}`}
                 key={index}
-                style={{
-                  background: `#${Math.floor(Math.random() * 16777215).toString(
-                    16
-                  )}`,
-                }}
               >
+                <span className="index">
+                  {index + 1}
+                </span>
                 <div
                   className="d-flex align-center justify-center "
                   onClick={() => selectSlide(slide)}
                 >
-                  {slide.question}
+                  {slide.question || 'New slide'}
                 </div>
                 <button
                   className="icon"
