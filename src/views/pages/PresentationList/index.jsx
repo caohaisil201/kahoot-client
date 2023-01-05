@@ -34,6 +34,9 @@ const PresentationItem = ({ presentation, deletePresentation }) => {
 	const goToPresentation = () => {
 		navigate(`/presentation/${code}`);
 	};
+	const manageCollaborations = () => {
+		navigate(`/presentation/${code}/manage-collab`)
+	}
 	const items = [
 		{
 			key: '0',
@@ -66,6 +69,7 @@ const PresentationItem = ({ presentation, deletePresentation }) => {
 				break;
 			case '2':
 				//Add collab
+				manageCollaborations();
 				break;
 			case '3':
 				deletePresentation(code);

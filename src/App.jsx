@@ -19,6 +19,7 @@ import Game from 'views/pages/Game';
 import ResetPassword from 'views/pages/ResetPassword';
 import ForgotPassword from 'views/pages/ForgotPassword';
 import 'assets/styles/index.scss';
+import CollaborationList from 'views/pages/PresentationList/CollaborationList';
 
 
 function App() {
@@ -67,6 +68,14 @@ function App() {
 								element={
 									<PrivateRoute>
 										<Presentation />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/presentation/:code/manage-collab"
+								element={
+									<PrivateRoute>
+										< CollaborationList />
 									</PrivateRoute>
 								}
 							/>
