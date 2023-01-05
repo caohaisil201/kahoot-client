@@ -114,13 +114,13 @@ export const assignMemberRoleAPI = async (
 	return response;
 };
 
-export const deleteMemberAPI = async (accessToken, groupCode, userCode) => {
+export const deleteMemberAPI = async (accessToken, groupCode, email) => {
 	const response = await axios
 		.post(
-			`${process.env.REACT_APP_API_URL}/group-management/delete`,
+			`${process.env.REACT_APP_API_URL}/group-management/delete-member`,
 			{
 				groupCode,
-				userCode,
+				email,
 			},
 			{
 				headers: {
