@@ -91,3 +91,31 @@
     }
   }
 }
+.container {
+  .group-members {
+    .collab {
+      width: 1000px;
+      .header {
+        width: 100%;
+        border-bottom: 1px solid v.$primary-color;
+        .role {
+          font-size: 2rem;
+          color: v.$primary-color;
+        }
+        button {
+          svg {
+            width: 30px;
+            height: 30px;
+          }
+        }
+      }
+      .list {
+        max-height: 150px;
+        overflow-y: auto;
+        .member {
+          height: 40px;
+        }
+      }
+    }
+  }
+}

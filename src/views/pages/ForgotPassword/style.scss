@@ -1,0 +1,28 @@
+@use 'assets/styles/variable' as v;
+
+.infoform {
+  h1 {
+    color: #000000;
+    font-size: 25px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .instruction {
+    text-align: center;
+  }
+
+  label {
+    margin-top: 0.5rem;
+  }
+  input {
+    border: none;
+    border-bottom: 1px solid black;
+    padding-bottom: 0.25rem;
+    outline: none;
+  }
+  .errorMsg {
+    max-width: 100%;
+    font-size: 0.75rem;
+    color: rgb(248, 106, 106);
+  }
+}

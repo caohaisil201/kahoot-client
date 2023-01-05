@@ -42,7 +42,7 @@
     }
     .slide-preview {
       flex: 1;
-      .content{
+      .content {
         width: 600px;
         height: 470px;
         background-color: #bbb;
@@ -53,7 +53,10 @@
       .options {
         width: 240px;
         height: 470px;
-        .question-type, .timer, .points, .true-answer {
+        .question-type,
+        .timer,
+        .points,
+        .true-answer {
           width: 100%;
           h2 {
             font-weight: bold;

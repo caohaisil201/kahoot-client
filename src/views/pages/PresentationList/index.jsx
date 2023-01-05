@@ -29,11 +29,14 @@ import {
 
 const PresentationItem = ({ presentation, deletePresentation }) => {
 	const navigate = useNavigate();
-	const { code, name, host, description, create_at, numberOfSlides } =
+	const { code, name, host, description, totalSlide } =
 		presentation;
 	const goToPresentation = () => {
 		navigate(`/presentation/${code}`);
 	};
+	const manageCollaborations = () => {
+		navigate(`/presentation/${code}/manage-collab`)
+	}
 	const items = [
 		{
 			key: '0',
@@ -47,7 +50,7 @@ const PresentationItem = ({ presentation, deletePresentation }) => {
 		},
 		{
 			key: '2',
-			label: <div>Mời collaborator</div>,
+			label: <div>Quản lý collaborator</div>,
 			icon: <UserAddOutlined />,
 		},
 		{
@@ -66,6 +69,7 @@ const PresentationItem = ({ presentation, deletePresentation }) => {
 				break;
 			case '2':
 				//Add collab
+				manageCollaborations();
 				break;
 			case '3':
 				deletePresentation(code);
@@ -80,7 +84,6 @@ const PresentationItem = ({ presentation, deletePresentation }) => {
 			<div className="head d-flex justify-space-between align-center">
 				<div className="info">
 					<h2>{name}</h2>
-					{/* {create_at} */}
 					{host.fullName}
 				</div>
 				<div className="image">
@@ -90,7 +93,7 @@ const PresentationItem = ({ presentation, deletePresentation }) => {
 			<div className="body mt-4">{description}</div>
 			<div className="foot d-flex align-center justify-space-between">
 				<div>
-					<LayoutOutlined /> {numberOfSlides} slides
+					<LayoutOutlined /> {totalSlide} slides
 				</div>
 				<div>
 					<Dropdown
@@ -166,7 +169,6 @@ const PresentationList = () => {
 		validationSchema: createPresentationSchema,
 		onSubmit: (values, { resetForm }) => {
 			mutation.mutate(values);
-			console.log('form value', values);
 			setIsModalOpen(false);
 			resetForm();
 		},
@@ -189,15 +191,17 @@ const PresentationList = () => {
 		);
 
 		if (!!instancePresentation) {
-			const isSuccessful = await deletePresentationAPI(
+			const response = await deletePresentationAPI(
 				accessToken,
 				presentationCode
 			);
+			const { meta } = response;
+			const isSuccessful = !!(meta.code === 200)
 			if (!isSuccessful) {
 				Swal.fire({
 					icon: 'error',
 					title: 'Error',
-					text: 'Có lỗi xảy ra',
+					text: `${meta.message}`,
 				});
 				return;
 			}

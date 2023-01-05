@@ -3,34 +3,83 @@ import { ClockCircleOutlined, UserOutlined } from '@ant-design/icons';
 import CustomCountDown from 'views/components/Countdown';
 import { Checkbox } from 'antd';
 import _debounce from 'lodash/debounce';
+import { HELPER, SOCKET_ACTION } from 'utils';
 
-const Answer = ({ gameName, slide, isHost, setSlideState }) => {
+const Answer = ({
+  socket,
+  accessToken,
+  code,
+  gameName,
+  slide,
+  isHost,
+  setSlideState,
+}) => {
   const [choicesSelected, setChoicesSelected] = useState([]);
   const onChange = (values) => {
     setChoicesSelected(values.sort());
   };
 
-  const {question, choices} = slide;
-  const onSubmit = _debounce(() => {
-    if (choices.length <= 0) {
-      console.log('Ban chua chon dap an');
-      return;
-    }
-    // emit event to socket
-    console.log(choicesSelected);
-    setSlideState(2);
-  }, 1000);
-
   useEffect(() => {
     // if (isHost) {
     //   const timer = setTimeout(() => {
     //     setSlideState(3);
-    //   }, 5 * 1000);
+    //   }, 20 * 1000);
     //   return () => {
     //     clearTimeout(timer);
     //   };
     // }
+    if (isHost) {
+      socket.on(SOCKET_ACTION.RECEIVE_ANSWER, (data) => {
+        console.log(data);
+      });
+    }
+
+    return () => {
+      socket.off(SOCKET_ACTION.RECEIVE_ANSWER);
+    };
   }, []);
+
+  if (!slide) {
+    return <div className="container mt-8">Error</div>;
+  }
+
+  const { question, choices } = slide;
+  const onSubmit = _debounce(
+    () => {
+      if (choicesSelected.length <= 0) {
+        console.log('Ban chua chon dap an');
+        return;
+      }
+      const correctChoices = choices.reduce((prev, cur) => {
+        if(cur.isCorrect) {
+          return [
+            ...prev,
+            cur.icon,
+          ];
+        }
+        return [
+          ...prev,
+        ]
+      }, [])
+      const isCorrectAnswer = HELPER.compareArray(choicesSelected, correctChoices);
+      // emit event to socket
+      socket.emit(SOCKET_ACTION.SEND_ANSWER, {
+        access_token: accessToken,
+        socketId: socket.id,
+        name: socket.id,
+        presentCode: code,
+        choices: choicesSelected,
+        isCorrectAnswer,
+      });
+      setSlideState(2);
+    },
+    { leading: true, trailing: true },
+    1000
+  );
+
+  if (!slide) {
+    return <></>;
+  }
 
   return (
     <div className="answer mt-6">
