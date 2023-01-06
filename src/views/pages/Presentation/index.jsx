@@ -123,7 +123,6 @@ const Presentation = () => {
       <div className="presentation-detail container pt-6 d-flex flex-column">
         <div className="header d-flex justify-end">
           <input value={title} onChange={(e) => setTitle(e.target.value)} />
-          {/* <button className="primary small">Tạo slide</button> */}
           <button
             className="primary small"
             style={{ marginLeft: '12px' }}

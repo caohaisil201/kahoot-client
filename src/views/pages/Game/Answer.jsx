@@ -117,16 +117,20 @@ const Answer = ({
         </div>
 
         {isHost ? (
-          <div className="answer-list d-flex">
-            {choices.map((choice) => (
-              <div className="answer-choice pa-2" key={choice.icon}>
-                <div className="owner-view d-flex align-center justify-center">
-                  {choice.icon}. {choice.answer}
+          choices.length !== 0 ? (
+            <div className="answer-list d-flex">
+              {choices.map((choice) => (
+                <div className="answer-choice pa-2" key={choice.icon}>
+                  <div className="owner-view d-flex align-center justify-center">
+                    {choice.icon}. {choice.answer}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        ) : choices ? (
+              ))}
+            </div>
+          ) : (
+            <></>
+          )
+        ) : choices.length !== 0 ? (
           <Checkbox.Group className="answer-list d-flex" onChange={onChange}>
             {choices.map((choice) => {
               return (

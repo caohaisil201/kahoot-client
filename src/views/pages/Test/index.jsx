@@ -5,7 +5,6 @@ import { SOCKET_ACTION } from 'utils';
 
 const Test = () => {
   const socket = useContext(SocketContext);
-  // const [slideNo, setSlideNo] = useState(0);
   const [result, setResult] = useState({
     A: 0,
     B: 0,
@@ -13,7 +12,6 @@ const Test = () => {
     D: 0,
   });
   const [ranking, setRanking] = useState({});
-  // const [marks, setMarks] = useState([]);
   const onClickStart = (presentCode) => {
     socket.emit(SOCKET_ACTION.JOIN_GAME, {
       presentCode,

@@ -48,6 +48,6 @@ export const isHostAPI = async (accessToken, gameCode) => {
     )
     .then((res) => res.data)
     .catch((err) => err);
-  const {meta, data} = response;
+  const { meta, data } = response;
   return meta.code === 200 ? data : null;
 };
