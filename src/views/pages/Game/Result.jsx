@@ -8,8 +8,9 @@ import {
   YAxis,
   ResponsiveContainer,
 } from 'recharts';
+import { SOCKET_ACTION } from 'utils';
 
-const Result = ({ gameName, result, slide, isHost, setSlideState }) => {
+const Result = ({ presentCode, gameName, result, slide, isHost, setSlideState, socket }) => {
   const { choices } = slide;
   const trueValues = choices.reduce((prev, cur) => {
     return {
@@ -17,6 +18,12 @@ const Result = ({ gameName, result, slide, isHost, setSlideState }) => {
       [cur.icon]: cur.isCorrect,
     };
   }, {});
+
+  const handleNextSlide = () => {
+    socket.emit(SOCKET_ACTION.NEXT_SLIDE,{
+      presentCode
+    });
+  }
 
   return (
     <div className="result mt-6 d-flex flex-column justify-space-between">
@@ -29,7 +36,7 @@ const Result = ({ gameName, result, slide, isHost, setSlideState }) => {
           &nbsp;&nbsp; THỐNG KÊ
         </div>
         {isHost ? (
-          <button className="primary medium">TIẾP THEO</button>
+          <button className="primary medium" onClick={handleNextSlide}>TIẾP THEO</button>
         ) : (
           <div>Bạn đã chọn đáp án A, B</div>
         )}

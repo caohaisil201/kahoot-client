@@ -76,6 +76,10 @@ function App() {
 								path="/game/:code"
 								element={<Game />}
 							/>
+							<Route 
+								path="test"
+								element={<Test/>}
+							/>
 							<Route path="/sign-in" element={<SignIn />} />
 							<Route path="/sign-up" element={<SignUp />} />
 							<Route path="/reset-password" element={<ResetPassword />} />

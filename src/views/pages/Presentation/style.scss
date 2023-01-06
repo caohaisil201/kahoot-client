@@ -24,10 +24,11 @@
       flex-wrap: wrap;
       width: 20%;
       .item {
-        width: 100%;
+        width: calc(100% - 5px);
         height: 180px;
         background: #ddd;
         position: relative;
+        border-radius: 5px;
         &.select {
           border: 1px solid #000;
         }
@@ -59,7 +60,7 @@
       .options {
         width: 240px;
         height: 470px;
-        .question-type,
+        .slide-type,
         .timer,
         .points,
         .true-answer {

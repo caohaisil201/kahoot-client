@@ -42,6 +42,7 @@ const Test = () => {
   }
 
   useEffect(() => {
+    
     socket.on(SOCKET_ACTION.RECEIVE_ANSWER, (data) => {
       const tempRanking ={...ranking};
       if(!tempRanking[data.name]) {
@@ -63,9 +64,9 @@ const Test = () => {
 
   return (
     <div className="container d-flex mt-10">
-      <button onClick={() => onClickStart('PR220001')}>START</button>
-      <button onClick={() => onClickNext('PR220001')}>NEXT</button>
-      <button onClick={() => onClickResult('PR220001')}>SHOW RESULT</button>
+      <button onClick={() => onClickStart('PR220003')}>START</button>
+      <button onClick={() => onClickNext('PR220003')}>NEXT</button>
+      <button onClick={() => onClickResult('PR220003')}>SHOW RESULT</button>
       <div className="mx-12"></div>
       <button onClick={() => onClickStart('PR220002')}>START2</button>
       <button onClick={() => onClickNext('PR220002')}>NEXT2</button>

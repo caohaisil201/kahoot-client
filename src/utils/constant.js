@@ -9,6 +9,11 @@ const constant = {
     PRIVATE: 'PRIVATE',
     PUBLIC: 'PUBLIC',
   },
+  SLIDE_TYPE: {
+    HEADING: 'HEADING',
+    PARAGRAPH: 'PARAGRAPH',
+    QUESTION: 'QUESTION',
+  },
 }
 
 export default constant;

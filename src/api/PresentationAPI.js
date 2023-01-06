@@ -39,7 +39,6 @@ export const getListPresentationAPI = async (accessToken) => {
 		.then((res) => res.data)
 		.catch((err) => err);
 	const { meta, data } = response;
-	console.log(response);
 	return meta.code === 200 ? data : null;
 };
 

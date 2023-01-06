@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Select, InputNumber, Input, Checkbox } from 'antd';
-import { HELPER } from 'utils';
+import { HELPER, CONSTANT } from 'utils';
 
 const Slide = ({ slide, handleSaveSlide }) => {
-  const questionTypeLabel = [
+  const slideTypeLabel = [
     {
-      value: 1,
+      value: CONSTANT.SLIDE_TYPE.QUESTION,
       label: 'Question',
+
     },
     {
-      value: 2,
+      value: CONSTANT.SLIDE_TYPE.PARAGRAPH,
       label: 'Paragraph',
     },
     {
-      value: 3,
+      value: CONSTANT.SLIDE_TYPE.HEADING,
       label: 'Heading',
     },
   ];
-  const [questionType , setQuestionType] = useState(1);
+
+  const [slideType , setSlideType] = useState(CONSTANT.SLIDE_TYPE.HEADING);
   const [timer, setTimer] = useState(10);
   const [heading, setHeading] = useState('');
   const [paragraph, setParagraph] = useState('');
@@ -28,8 +30,8 @@ const Slide = ({ slide, handleSaveSlide }) => {
   const [answerD, setAnswerD] = useState('');
   const [correctAnswers, setCorrectAnswers] = useState([]);
 
-  const changeQuestionType = (value) => {
-    setQuestionType(value);
+  const changeSlideType = (value) => {
+    setSlideType(value);
   }
 
   useEffect(() => {
@@ -83,9 +85,18 @@ const Slide = ({ slide, handleSaveSlide }) => {
       paragraph,
       timer,
       choices,
+      type: slideType,
     };
     handleSaveSlide(newSlide);
   };
+
+  useEffect(() => {
+    if(slide.type) {
+      setSlideType(slide.type);
+    }else {
+      setSlideType(CONSTANT.SLIDE_TYPE.HEADING);
+    }
+  }, [slide.type]);
 
   if (HELPER.isEmptyObject(slide)) {
     return <></>;
@@ -100,7 +111,7 @@ const Slide = ({ slide, handleSaveSlide }) => {
           onChange={(e) => setHeading(e.target.value)}
           placeholder="Nhập heading"
         />
-        {questionType === 1 || questionType === 2 ? <div className="paragraph d-flex">
+        {slideType === CONSTANT.SLIDE_TYPE.QUESTION || slideType === CONSTANT.SLIDE_TYPE.PARAGRAPH ? <div className="paragraph d-flex">
           <Input.TextArea
             style={{
               height: 100,
@@ -112,7 +123,7 @@ const Slide = ({ slide, handleSaveSlide }) => {
             onChange={e => setParagraph(e.target.value)}
           />
         </div> : <></>}
-        {questionType === 1 ? <div className="choices d-flex">
+        {slideType === CONSTANT.SLIDE_TYPE.QUESTION ? <div className="choices d-flex">
           <div className="pa-2" style={{ width: '50%' }}>
             <Input.TextArea
               maxLength={120}
@@ -164,13 +175,13 @@ const Slide = ({ slide, handleSaveSlide }) => {
         </div> : <></>}
       </div>
       <div className="options d-flex flex-column justify-space-between">
-        <div className="question-type">
-          <h2>Question type</h2>
+        <div className="slide-type">
+          <h2>Slide type</h2>
           <Select
-            defaultValue="Question"
+            defaultValue="Heading"
             style={{ width: '100%' }}
-            options={questionTypeLabel}
-            onChange={changeQuestionType}
+            options={slideTypeLabel}
+            onChange={changeSlideType}
           />
         </div>
         <div className="timer">
