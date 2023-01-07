@@ -6,3 +6,5 @@ export const SEND_RESULT = 'SEND_RESULT';
 export const RECEIVE_RESULT = 'RECEIVE_RESULT';
 export const NEXT_SLIDE = 'NEXT_SLIDE';
 export const LEAVE_GAME = 'LEAVE_GAME';
+export const SEND_MESSAGE = 'SEND_MESSAGE';
+export const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';

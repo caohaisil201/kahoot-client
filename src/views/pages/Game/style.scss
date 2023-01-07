@@ -1,6 +1,11 @@
 @use 'assets/styles/variable' as v;
 
 .container {
+  position: relative;
+  .button-group {
+    position: absolute;
+    right: 0;
+  }
   .answer,
   .waiting,
   .result {
