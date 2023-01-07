@@ -25,33 +25,32 @@ const ChatBox = React.memo(({ socket, code, accessToken, messageList }) => {
       presentCode: code,
       token: accessToken,
       message: value,
-      // name
+      // will get info by session storage (getMe)
+      sender: 'user',
     });
     setValue('');
   };
 
   useEffect(scrollToBottom, [messageList.length]);
 
-  // useEffect(() => {
-  //   socket.on(SOCKET_ACTION.RECEIVE_MESSAGE, (data) => {
-  //     const { token, message } = data;
-  //     const item = {
-  //       message,
-  //     }
-  //     accessToken === token ? item.isMe = true : item.isMe=false;
-  //     setMessageList([...messageList, item]);
-  //   });
-
-  //   return () => {
-  //     socket.off(SOCKET_ACTION.RECEIVE_ANSWER);
-  //   };
-  // }, [messageList.length]);
-
   return (
     <div className="chat-box pa-4">
       <div className="messages">
         {messageList.map((item, index) => {
-          return <div className={`item d-flex pr-2 ${item.isMe ? 'justify-end' : 'justify-start'}`} key={index}>{item.message}</div>;
+          return (
+            <div
+              className={`item d-flex flex-column pr-2 ${
+                item.isMe ? 'align-end' : 'align-start'
+              }`}
+              key={index}
+            >
+              <div className="user-name">
+                sender
+                {/* {item.sender} */}
+              </div>
+              {item.message}
+            </div>
+          );
         })}
         <div ref={messageEndRef}></div>
       </div>

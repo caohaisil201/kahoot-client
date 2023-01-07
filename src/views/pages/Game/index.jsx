@@ -117,9 +117,10 @@ const Game = () => {
 
   useEffect(() => {
     socket.on(SOCKET_ACTION.RECEIVE_MESSAGE, (data) => {
-      const { token, message } = data;
+      const { token, message, sender } = data;
       const item = {
         message,
+        sender
       }
       accessToken === token ? item.isMe = true : item.isMe=false;
       setMessageList([...messageList, item]);
