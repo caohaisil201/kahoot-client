@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Tabs } from 'antd';
 import { useDocumentTitle } from 'hooks';
-import { Context } from 'store';
 import GroupDetail from './GroupDetail';
 import GroupMembers from './GroupMembers';
+import Presentations from './Presentations';
 import 'antd/dist/antd.css';
 import './style.scss';
 
@@ -34,9 +34,9 @@ const Group = () => {
                 ),
               },
               {
-                label: 'Quiz',
+                label: 'Danh sách presentation',
                 key: '3',
-                children: 'Quiz',
+                children: <Presentations accessToken={accessToken} groupCode={id}/>,
               },
             ]}
           />

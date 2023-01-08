@@ -6,7 +6,12 @@ import Swal from 'sweetalert2';
 import { useQuery } from '@tanstack/react-query';
 import { CONSTANT } from 'utils';
 import { inviteSchema } from 'utils/yupSchema';
-import { addMemberAPI, assignMemberRoleAPI, getGroupMembersAPI, deleteMemberAPI } from 'api/GroupAPI';
+import {
+  addMemberAPI,
+  assignMemberRoleAPI,
+  getGroupMembersAPI,
+  deleteMemberAPI,
+} from 'api/GroupAPI';
 import Loading from 'views/components/Loading';
 import Member from './Member';
 
@@ -32,9 +37,14 @@ const GroupMembers = ({ accessToken, groupCode }) => {
       email: '',
     },
     validationSchema: inviteSchema,
-    onSubmit: async (values, {resetForm}) => {
-      const isSuccessful = await addMemberAPI(accessToken, groupCode, values.email, CONSTANT.USER_ROLE.CO_OWNER);
-      if(!isSuccessful) {
+    onSubmit: async (values, { resetForm }) => {
+      const isSuccessful = await addMemberAPI(
+        accessToken,
+        groupCode,
+        values.email,
+        CONSTANT.USER_ROLE.CO_OWNER
+      );
+      if (!isSuccessful) {
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -42,7 +52,7 @@ const GroupMembers = ({ accessToken, groupCode }) => {
           position: 'top-end',
           timer: 1000,
         });
-      }else{
+      } else {
         setIsInviteCoOwnerModalOpen(false);
         resetForm();
       }
@@ -54,9 +64,14 @@ const GroupMembers = ({ accessToken, groupCode }) => {
       email: '',
     },
     validationSchema: inviteSchema,
-    onSubmit: async (values, {resetForm}) => {
-      const isSuccessful = await addMemberAPI(accessToken, groupCode, values.email, CONSTANT.USER_ROLE.MEMBER);
-      if(!isSuccessful) {
+    onSubmit: async (values, { resetForm }) => {
+      const isSuccessful = await addMemberAPI(
+        accessToken,
+        groupCode,
+        values.email,
+        CONSTANT.USER_ROLE.MEMBER
+      );
+      if (!isSuccessful) {
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -68,8 +83,8 @@ const GroupMembers = ({ accessToken, groupCode }) => {
       setIsInviteMemberModalOpen(false);
       resetForm();
       list.refetch();
-    }
-  })
+    },
+  });
 
   if (list.isLoading) {
     return <Loading />;
@@ -97,13 +112,18 @@ const GroupMembers = ({ accessToken, groupCode }) => {
   const changeRole = async (userCode, toRole) => {
     const instanceMember = list.data.find((member) => member.code === userCode);
     if (!!instanceMember) {
-      const isSuccessful = await assignMemberRoleAPI(accessToken, groupCode, userCode, toRole);
-      if(!isSuccessful) {
+      const isSuccessful = await assignMemberRoleAPI(
+        accessToken,
+        groupCode,
+        userCode,
+        toRole
+      );
+      if (!isSuccessful) {
         Swal.fire({
           icon: 'error',
           title: 'Error',
           text: 'Có lỗi xảy ra',
-        })
+        });
         return;
       }
       list.refetch();
@@ -113,13 +133,17 @@ const GroupMembers = ({ accessToken, groupCode }) => {
   const deleteMember = async (userCode) => {
     const instanceMember = list.find((member) => member.code === userCode);
     if (!!instanceMember) {
-      const isSuccessful = await deleteMemberAPI(accessToken, groupCode, userCode);
-      if(!isSuccessful) {
+      const isSuccessful = await deleteMemberAPI(
+        accessToken,
+        groupCode,
+        userCode
+      );
+      if (!isSuccessful) {
         Swal.fire({
           icon: 'error',
           title: 'Error',
           text: 'Có lỗi xảy ra',
-        })
+        });
         return;
       }
       list.refetch();
@@ -196,7 +220,9 @@ const GroupMembers = ({ accessToken, groupCode }) => {
             onChange={addCoOwnerFormik.handleChange}
           />
           <div className="error">
-            {addCoOwnerFormik.errors.email && <p>{addCoOwnerFormik.errors.email}</p>}
+            {addCoOwnerFormik.errors.email && (
+              <p>{addCoOwnerFormik.errors.email}</p>
+            )}
           </div>
           <footer className="mt-4 d-flex justify-end">
             <button
@@ -259,7 +285,9 @@ const GroupMembers = ({ accessToken, groupCode }) => {
             onChange={addMemberFormik.handleChange}
           />
           <div className="error">
-            {addMemberFormik.errors.email && <p>{addMemberFormik.errors.email}</p>}
+            {addMemberFormik.errors.email && (
+              <p>{addMemberFormik.errors.email}</p>
+            )}
           </div>
           <footer className="mt-4 d-flex justify-end">
             <button
