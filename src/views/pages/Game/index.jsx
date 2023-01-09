@@ -69,6 +69,7 @@ const Game = () => {
   const [result, setResult] = useState([]);
   const [showChatBox, setShowChatBox] = useState(false);
   const [messageList, setMessageList] = useState([]);
+  const [isNotification, setIsNotification] = useState(false);
 
   const prevSlideNo = usePrevious(slideNo);
 
@@ -168,6 +169,7 @@ const Game = () => {
       <div className="button-group d-flex">
         <button className="icon" onClick={() => setShowChatBox(!showChatBox)}>
           <MessageOutlined />
+          {/* {isNotification && <span className="notification"></span>} */}
         </button>
         <button className="icon">
           <QuestionCircleOutlined />
