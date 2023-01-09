@@ -1,4 +1,4 @@
-import { fotgotPassword } from 'api/AuthAPI';
+import { forgotPassword } from 'api/AuthAPI';
 import { useFormik } from 'formik';
 import { useDocumentTitle } from 'hooks';
 import React from 'react';
@@ -16,7 +16,7 @@ const ForgotPassword = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        const isSuccessful = await fotgotPassword(values.email);
+        const isSuccessful = await forgotPassword(values.email);
         if (!isSuccessful) {
           Swal.fire({
             title: 'Error',

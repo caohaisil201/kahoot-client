@@ -9,11 +9,14 @@ import { useNavigate } from 'react-router-dom';
 const Presentations = ({ accessToken, groupCode }) => {
   const socket = useContext(SocketContext);
   const navigate = useNavigate();
+  const userInfo = JSON.parse(sessionStorage.getItem('user_info'));
+
   const presentationList = useQuery({
     queryKey: ['presentation'],
     queryFn: async () =>
       await getPresentationsByGroupAPI(accessToken, groupCode),
   });
+
 
   const onClickStart = (item) => {
     socket.emit(SOCKET_ACTION.JOIN_GAME, {
@@ -48,12 +51,12 @@ const Presentations = ({ accessToken, groupCode }) => {
           >
             {item.code} - {item.name}
             {/* is host will show this button */}
-            <button
+            {item.host.code === userInfo.code && <button
               className="small outline"
               onClick={() => onClickStart(item)}
             >
               Start
-            </button>
+            </button>}
           </div>
         );
       })}

@@ -7,6 +7,8 @@ import { SOCKET_ACTION } from 'utils';
 const ChatBox = React.memo(({ socket, code, accessToken, messageList }) => {
   const [value, setValue] = useState('');
   const messageEndRef = useRef(null);
+  const userInfo = JSON.parse(sessionStorage.getItem('user_info'));
+
   const onKeyDown = (e) => {
     if (e.key === 'Enter') {
       onSendMessage();
@@ -26,7 +28,7 @@ const ChatBox = React.memo(({ socket, code, accessToken, messageList }) => {
       token: accessToken,
       message: value,
       // will get info by session storage (getMe)
-      sender: 'user',
+      sender: userInfo.fullName,
     });
     setValue('');
   };
@@ -45,8 +47,7 @@ const ChatBox = React.memo(({ socket, code, accessToken, messageList }) => {
               key={index}
             >
               <div className="user-name">
-                sender
-                {/* {item.sender} */}
+                {item.sender}
               </div>
               {item.message}
             </div>
