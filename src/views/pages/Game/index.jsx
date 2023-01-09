@@ -125,13 +125,17 @@ const Game = () => {
       }
       accessToken === token ? item.isMe = true : item.isMe=false;
       setMessageList([...messageList, item]);
+      if(showChatBox){
+        setIsNotification(false);
+      }else {
+        setIsNotification(true);
+      }
     });
-
 
     return () => {
       socket.off(SOCKET_ACTION.RECEIVE_ANSWER);
     };
-  }, [messageList.length]);
+  }, [messageList.length, showChatBox]);
 
   if (slidesQuery.isLoading && isHostQuery.isLoading) {
     return <Loading />;
@@ -167,9 +171,14 @@ const Game = () => {
         result={result}
       />
       <div className="button-group d-flex">
-        <button className="icon" onClick={() => setShowChatBox(!showChatBox)}>
+        <button className="icon" onClick={() => {
+          if(!showChatBox) {
+            setIsNotification(false);
+          }
+          setShowChatBox(!showChatBox);
+        }}>
           <MessageOutlined />
-          {/* {isNotification && <span className="notification"></span>} */}
+          {isNotification && <span className="notification"></span>}
         </button>
         <button className="icon">
           <QuestionCircleOutlined />
