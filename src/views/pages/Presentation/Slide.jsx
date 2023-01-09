@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Select, InputNumber, Input, Checkbox } from 'antd';
-import { HELPER } from 'utils';
+import { HELPER, CONSTANT } from 'utils';
 
 const Slide = ({ slide, handleSaveSlide }) => {
-  const questionType = [
+  const slideTypeLabel = [
     {
-      value: 'multiple',
-      label: 'Multiple',
+      value: CONSTANT.SLIDE_TYPE.QUESTION,
+      label: 'Question',
+
     },
     {
-      value: 'heading',
-      label: 'Heading',
-    },
-    {
-      value: 'paragraph',
+      value: CONSTANT.SLIDE_TYPE.PARAGRAPH,
       label: 'Paragraph',
+    },
+    {
+      value: CONSTANT.SLIDE_TYPE.HEADING,
+      label: 'Heading',
     },
   ];
 
+  const [slideType , setSlideType] = useState(CONSTANT.SLIDE_TYPE.HEADING);
   const [timer, setTimer] = useState(10);
-  const [question, setQuestion] = useState('');
+  const [heading, setHeading] = useState('');
+  const [paragraph, setParagraph] = useState('');
   const [point, setPoint] = useState(0);
   const [answerA, setAnswerA] = useState('');
   const [answerB, setAnswerB] = useState('');
@@ -27,9 +30,14 @@ const Slide = ({ slide, handleSaveSlide }) => {
   const [answerD, setAnswerD] = useState('');
   const [correctAnswers, setCorrectAnswers] = useState([]);
 
+  const changeSlideType = (value) => {
+    setSlideType(value);
+  }
+
   useEffect(() => {
     if (!HELPER.isEmptyObject(slide)) {
-      setQuestion(slide.question ? slide.question : '');
+      setHeading(slide.heading ? slide.heading : '');
+      setParagraph(slide.paragraph ? slide.paragraph :'');
       setPoint(slide.point ? slide.point : 0);
       setTimer(slide.timer ? slide.timer : 10);
       setAnswerA(slide.choices ? slide.choices[0].answer : '');
@@ -73,12 +81,22 @@ const Slide = ({ slide, handleSaveSlide }) => {
     ];
     const newSlide = {
       ...slide,
-      question,
+      heading,
+      paragraph,
       timer,
       choices,
+      type: slideType,
     };
     handleSaveSlide(newSlide);
   };
+
+  useEffect(() => {
+    if(slide.type) {
+      setSlideType(slide.type);
+    }else {
+      setSlideType(CONSTANT.SLIDE_TYPE.HEADING);
+    }
+  }, [slide.type]);
 
   if (HELPER.isEmptyObject(slide)) {
     return <></>;
@@ -86,14 +104,26 @@ const Slide = ({ slide, handleSaveSlide }) => {
 
   return (
     <div className="d-flex slide-preview justify-space-between">
-      <div className="content d-flex pa-16 flex-column align-center justify-space-between">
+      <div className="content d-flex pa-8 flex-column align-center justify-space-between">
         <Input
           style={{ width: '80%' }}
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          placeholder="Nhập câu hỏi"
+          value={heading}
+          onChange={(e) => setHeading(e.target.value)}
+          placeholder="Nhập heading"
         />
-        <div className="choices d-flex">
+        {slideType === CONSTANT.SLIDE_TYPE.QUESTION || slideType === CONSTANT.SLIDE_TYPE.PARAGRAPH ? <div className="paragraph d-flex">
+          <Input.TextArea
+            style={{
+              height: 100,
+              width: 520,
+              resize: 'none',
+            }}
+            placeholder="Nhập paragraph"
+            value={paragraph}
+            onChange={e => setParagraph(e.target.value)}
+          />
+        </div> : <></>}
+        {slideType === CONSTANT.SLIDE_TYPE.QUESTION ? <div className="choices d-flex">
           <div className="pa-2" style={{ width: '50%' }}>
             <Input.TextArea
               maxLength={120}
@@ -142,15 +172,16 @@ const Slide = ({ slide, handleSaveSlide }) => {
               onChange={(e) => setAnswerD(e.target.value)}
             />
           </div>
-        </div>
+        </div> : <></>}
       </div>
       <div className="options d-flex flex-column justify-space-between">
-        <div className="question-type">
-          <h2>Question type</h2>
+        <div className="slide-type">
+          <h2>Slide type</h2>
           <Select
-            defaultValue="multiple"
+            defaultValue="Heading"
             style={{ width: '100%' }}
-            options={questionType}
+            options={slideTypeLabel}
+            onChange={changeSlideType}
           />
         </div>
         <div className="timer">

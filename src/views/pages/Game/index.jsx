@@ -7,10 +7,10 @@ import Loading from 'views/components/Loading';
 import Answer from './Answer';
 import Waiting from './Waiting';
 import Result from './Result';
-import './style.scss';
+import EndGame from './EndGame';
 import { SOCKET_ACTION } from 'utils';
 import { usePrevious } from 'hooks';
-import Ranking from './Ranking';
+import './style.scss';
 
 const Game = () => {
   const accessToken = sessionStorage.getItem('access_token');
@@ -20,10 +20,9 @@ const Game = () => {
   const { gameName } = state;
 
   const [slideState, setSlideState] = useState(1);
-  const [slideNo, setSlideNo] = useState(0);
+  const [slideNo, setSlideNo] = useState(1);
   const [result, setResult] = useState([]);
   const prevSlideNo = usePrevious(slideNo);
-  const [ranking, setRanking] = useState([]);
 
   const slidesQuery = useQuery({
     queryKey: ['getSlides'],
@@ -37,12 +36,12 @@ const Game = () => {
   });
 
   useEffect(() => {
-    if(prevSlideNo !== slideNo) {
+    if (prevSlideNo !== slideNo) {
       slidesQuery.refetch();
     }
 
     socket.on(SOCKET_ACTION.NEXT_SLIDE, (data) => {
-      if(data.presentCode === code) {
+      if (data.presentCode === code) {
         setSlideNo(slideNo + 1);
         setSlideState(1);
       }
@@ -50,18 +49,16 @@ const Game = () => {
 
     socket.on(SOCKET_ACTION.RECEIVE_RESULT, (data) => {
       const tempResult = [];
-      Object.keys(data.result).forEach(item => {
+      Object.keys(data.result).forEach((item) => {
         tempResult.push({
           name: item,
           key: item,
           value: data.result[item],
-        })
-      })
+        });
+      });
       setResult([...tempResult]);
       setSlideState(3);
     });
-
-    socket.on(SOCKET_ACTION.SEND_ANSWER, (data) => {});
 
     return () => {
       socket.off(SOCKET_ACTION.NEXT_SLIDE);
@@ -78,8 +75,10 @@ const Game = () => {
     return <div className="container mt-8">Error</div>;
   }
 
-  if(slidesQuery.data.length === 0) {
-    setSlideState(4)
+  if (slidesQuery.data.length === 0) {
+    return <div className="container">
+      <EndGame />
+    </div>
   }
 
   switch (slideState) {
@@ -102,30 +101,23 @@ const Game = () => {
     case 2:
       return (
         <div className="container">
-          <Waiting
-            gameName={gameName}
-            setSlideState={setSlideState}
-          />
+          <Waiting gameName={gameName} setSlideState={setSlideState} />
         </div>
       );
     case 3:
       return (
         <div className="container">
           <Result
+            presentCode={code}
             gameName={gameName}
             slide={slidesQuery.data[0]}
             isHost={isHostQuery.data}
             setSlideState={setSlideState}
             result={result}
+            socket={socket}
           />
         </div>
       );
-    case 4:
-      return (
-        <div className="container">
-          <Ranking />
-        </div>
-      )
     default:
       return <></>;
   }
