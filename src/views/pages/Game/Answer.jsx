@@ -20,6 +20,7 @@ const Answer = ({
   const onChange = (values) => {
     setChoicesSelected(values.sort());
   };
+  const userInfo = JSON.parse(sessionStorage.getItem('user_info'));
 
   useEffect(() => {
     if (isHost) {
@@ -29,14 +30,21 @@ const Answer = ({
         C: 0,
         D: 0,
       };
+      const list = [];
       const timeId = setTimeout(() => {
         setSlideState(3);
         socket.emit(SOCKET_ACTION.SEND_RESULT, {
           presentCode: code,
           result,
+          list,
         });
       }, timer * 1000);
       socket.on(SOCKET_ACTION.RECEIVE_ANSWER, (data) => {
+        list.push({
+          fullName: data.fullName,
+          choices: data.choices,
+          time: Date.now(),
+        });
         data.choices.forEach((choice) => {
           result[choice]++;
         });
@@ -80,6 +88,7 @@ const Answer = ({
         presentCode: code,
         choices: choicesSelected,
         isCorrectAnswer,
+        fullName: userInfo.fullName,
       });
       setSlideState(2);
     },

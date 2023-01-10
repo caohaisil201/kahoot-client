@@ -11,8 +11,8 @@ import EndGame from './EndGame';
 import { MessageOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { SOCKET_ACTION } from 'utils';
 import { usePrevious } from 'hooks';
-import './style.scss';
 import ChatBox from 'views/components/ChatBox';
+import './style.scss';
 
 const Children = ({
   slideState,
@@ -24,6 +24,7 @@ const Children = ({
   code,
   socket,
   result,
+  listAnswer
 }) => {
   switch (slideState) {
     case 1:
@@ -49,6 +50,7 @@ const Children = ({
           isHost={isHost}
           setSlideState={setSlideState}
           result={result}
+          listAnswer={listAnswer}
           socket={socket}
         />
       );
@@ -67,6 +69,7 @@ const Game = () => {
   const [slideState, setSlideState] = useState(1);
   const [slideNo, setSlideNo] = useState(1);
   const [result, setResult] = useState([]);
+  const [listAnswer, setListAnswer] = useState([]);
   const [showChatBox, setShowChatBox] = useState(false);
   const [messageList, setMessageList] = useState([]);
   const [isNotification, setIsNotification] = useState(false);
@@ -105,6 +108,7 @@ const Game = () => {
           value: data.result[item],
         });
       });
+      setListAnswer(data.list);
       setResult([...tempResult]);
       setSlideState(3);
     });
@@ -169,6 +173,7 @@ const Game = () => {
         code={code}
         socket={socket}
         result={result}
+        listAnswer={listAnswer}
       />
       <div className="button-group d-flex">
         <button className="icon" onClick={() => {

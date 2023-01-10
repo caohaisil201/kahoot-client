@@ -75,5 +75,9 @@
         color: v.$primary-color;
       }
     }
+    .list-answer {
+      height: 280px;
+      overflow-y: auto;
+    }
   }
 }
