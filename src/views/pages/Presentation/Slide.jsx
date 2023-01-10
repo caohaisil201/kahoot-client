@@ -7,7 +7,6 @@ const Slide = ({ slide, handleSaveSlide }) => {
     {
       value: CONSTANT.SLIDE_TYPE.QUESTION,
       label: 'Question',
-
     },
     {
       value: CONSTANT.SLIDE_TYPE.PARAGRAPH,
@@ -87,6 +86,17 @@ const Slide = ({ slide, handleSaveSlide }) => {
       choices,
       type: slideType,
     };
+    switch(slideType) {
+      case CONSTANT.SLIDE_TYPE.HEADING:
+        delete newSlide.paragraph;
+        delete newSlide.choices;
+        break;
+      case CONSTANT.SLIDE_TYPE.PARAGRAPH:
+        delete newSlide.choices;
+        break;
+      default:
+        break;
+    }
     handleSaveSlide(newSlide);
   };
 

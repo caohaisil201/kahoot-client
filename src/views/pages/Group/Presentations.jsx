@@ -25,6 +25,10 @@ const Presentations = ({ accessToken, groupCode }) => {
     socket.emit(SOCKET_ACTION.START_GAME, {
       presentCode: item.code,
     });
+    socket.emit(SOCKET_ACTION.NOTIFY_GROUP_GAME_START, {
+      groupCode,
+      presentCode: item.code,
+    })
     navigate(`/game/${item.code}`, { state: { gameName: item.name } });
   };
 
@@ -50,7 +54,6 @@ const Presentations = ({ accessToken, groupCode }) => {
             key={index}
           >
             {item.code} - {item.name}
-            {/* is host will show this button */}
             {item.host.code === userInfo.code && <button
               className="small outline"
               onClick={() => onClickStart(item)}

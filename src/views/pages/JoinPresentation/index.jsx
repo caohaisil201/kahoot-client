@@ -49,6 +49,7 @@ const JoinPresentation = () => {
   useEffect(() => {
     socket.on(SOCKET_ACTION.START_GAME, (data) => {
       if (data.presentCode === gameCode) {
+        socket.join(gameCode);
         navigate(`/game/${gameCode}`, { state: { gameName } });
       }
     });
