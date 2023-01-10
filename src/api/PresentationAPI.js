@@ -254,7 +254,7 @@ export const getPresentationsByGroupAPI = async (accessToken, groupCode) => {
 export const startPresentation = async (accessToken, presentCode) => {
   const response = await axios
     .get(
-      `${process.env.REACT_APP_API_URL}/presentations/start?groupCode=${presentCode}`,
+      `${process.env.REACT_APP_API_URL}/presentations/start?presentCode=${presentCode}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -271,7 +271,7 @@ export const startPresentation = async (accessToken, presentCode) => {
 export const endPresentation = async (accessToken, presentCode) => {
   const response = await axios
   .get(
-    `${process.env.REACT_APP_API_URL}/presentations/end?groupCode=${presentCode}`,
+    `${process.env.REACT_APP_API_URL}/presentations/end?presentCode=${presentCode}`,
     {
       headers: {
         'Content-Type': 'application/json',

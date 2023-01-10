@@ -17,8 +17,8 @@ const Presentations = ({ accessToken, groupCode }) => {
       await getPresentationsByGroupAPI(accessToken, groupCode),
   });
 
-
   const onClickStart = async (item) => {
+    await startPresentation(accessToken, item.code);
     socket.emit(SOCKET_ACTION.JOIN_GAME, {
       presentCode: item.code,
     });
@@ -29,7 +29,6 @@ const Presentations = ({ accessToken, groupCode }) => {
       groupCode,
       presentCode: item.code,
     });
-    await startPresentation(accessToken, item.code);
     navigate(`/game/${item.code}`, { state: { gameName: item.name } });
   };
 
@@ -45,18 +44,19 @@ const Presentations = ({ accessToken, groupCode }) => {
     return <div>Không có presentation nào!</div>;
   }
 
+  console.log(presentationList.data)
+
   return (
     <div className="presentations">
       <h2>Presentations</h2>
       {presentationList.data.map((item, index) => {
-        console.log(item)
         return (
           <div
             className="item px-4 py-2 mb-2 d-flex align-center justify-space-between"
             key={index}
           >
             {item.code} - {item.name}
-            {item.isLoading ? <div>Playing</div> : (item.host.code === userInfo.code && <button
+            {item.isRunning ? <div>Playing</div> : (item.host.code === userInfo.code && <button
               className="small outline"
               onClick={() => onClickStart(item)}
             >
