@@ -97,60 +97,67 @@ export const addMemberAPI = async (accessToken, groupCode, email, roleType) => {
   return response;
 };
 
-export const getPresentationCollaborationsAPI = async (accessToken, presentationCode) => {
-	const response = await axios
-		.get(
-			`${process.env.REACT_APP_API_URL}/collaborator/?presentCode=${presentationCode}`,
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${accessToken}`,
-				},
-			}
-		)
-		.then((res) => res.data)
-		.catch((err) => err);
-	const { meta, data } = response;
-	return meta.code === 200 ? data : null;
+export const getPresentationCollaborationsAPI = async (
+  accessToken,
+  presentationCode
+) => {
+  const response = await axios
+    .get(
+      `${process.env.REACT_APP_API_URL}/collaborator/?presentCode=${presentationCode}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  const { meta, data } = response;
+  return meta.code === 200 ? data : null;
 };
 
 export const addCollaborationAPI = async (accessToken, presentCode, email) => {
-	const response = await axios
-		.post(
-			`${process.env.REACT_APP_API_URL}/collaborator/add`,
-			{
-				presentCode,
-				email,
-			},
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${accessToken}`,
-				},
-			}
-		)
-		.then((res) => res.data)
-		.catch((err) => err);
-	return response;
+  const response = await axios
+    .post(
+      `${process.env.REACT_APP_API_URL}/collaborator/add`,
+      {
+        presentCode,
+        email,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  return response;
 };
-export const deleteCollaborationAPI = async (accessToken, presentCode, email) => {
-	const response = await axios
-		.post(
-			`${process.env.REACT_APP_API_URL}/collaborator/delete`,
-			{
-				presentCode,
-				email,
-			},
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${accessToken}`,
-				},
-			}
-		)
-		.then((res) => res.data)
-		.catch((err) => err);
-	return response;
+export const deleteCollaborationAPI = async (
+  accessToken,
+  presentCode,
+  email
+) => {
+  const response = await axios
+    .post(
+      `${process.env.REACT_APP_API_URL}/collaborator/delete`,
+      {
+        presentCode,
+        email,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  return response;
 };
 
 export const assignMemberRoleAPI = async (
@@ -243,3 +250,37 @@ export const getPresentationsByGroupAPI = async (accessToken, groupCode) => {
   const { meta, data } = response;
   return meta.code === 200 ? data : null;
 };
+
+export const startPresentation = async (accessToken, presentCode) => {
+  const response = await axios
+    .get(
+      `${process.env.REACT_APP_API_URL}/presentations/start?groupCode=${presentCode}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  const { meta } = response;
+  return meta.code === 200;
+};
+
+export const endPresentation = async (accessToken, presentCode) => {
+  const response = await axios
+  .get(
+    `${process.env.REACT_APP_API_URL}/presentations/end?groupCode=${presentCode}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
+  .then((res) => res.data)
+  .catch((err) => err);
+const { meta } = response;
+return meta.code === 200;
+}

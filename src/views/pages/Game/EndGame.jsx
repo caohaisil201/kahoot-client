@@ -1,7 +1,19 @@
+import { endPresentation } from 'api/PresentationAPI';
 import React from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const EndGame = () => {
+const EndGame = ({ accessToken, isHost }) => {
+  const endGame = async () => {
+    await endPresentation(accessToken, isHost);
+  };
+
+  useEffect(() => {
+    if (isHost) {
+      endGame();
+    }
+  }, []);
+
   return (
     <div className="end-game mt-6 d-flex flex-column justify-space-between">
       <div className="header">

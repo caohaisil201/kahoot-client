@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Loading from 'views/components/Loading';
-import { getPresentationsByGroupAPI } from 'api/PresentationAPI';
+import { getPresentationsByGroupAPI, startPresentation } from 'api/PresentationAPI';
 import { SocketContext } from 'store/socket';
 import { SOCKET_ACTION } from 'utils';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +18,7 @@ const Presentations = ({ accessToken, groupCode }) => {
   });
 
 
-  const onClickStart = (item) => {
+  const onClickStart = async (item) => {
     socket.emit(SOCKET_ACTION.JOIN_GAME, {
       presentCode: item.code,
     });
@@ -28,7 +28,8 @@ const Presentations = ({ accessToken, groupCode }) => {
     socket.emit(SOCKET_ACTION.NOTIFY_GROUP_GAME_START, {
       groupCode,
       presentCode: item.code,
-    })
+    });
+    await startPresentation(accessToken, item.code);
     navigate(`/game/${item.code}`, { state: { gameName: item.name } });
   };
 
@@ -48,19 +49,21 @@ const Presentations = ({ accessToken, groupCode }) => {
     <div className="presentations">
       <h2>Presentations</h2>
       {presentationList.data.map((item, index) => {
+        console.log(item)
         return (
           <div
             className="item px-4 py-2 mb-2 d-flex align-center justify-space-between"
             key={index}
           >
             {item.code} - {item.name}
-            {item.host.code === userInfo.code && <button
+            {item.isLoading ? <div>Playing</div> : (item.host.code === userInfo.code && <button
               className="small outline"
               onClick={() => onClickStart(item)}
             >
               Start
-            </button>}
+            </button>)} 
           </div>
+          
         );
       })}
     </div>
