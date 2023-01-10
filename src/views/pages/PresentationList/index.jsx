@@ -27,51 +27,55 @@ import {
 } from 'api/PresentationAPI';
 
 const PresentationItem = ({ presentation, deletePresentation }) => {
-  const navigate = useNavigate();
-  const { code, name, host, description, totalSlide } = presentation;
-  const goToPresentation = () => {
-    navigate(`/presentation/${code}`);
-  };
-  const items = [
-    {
-      key: '0',
-      label: <div>Chỉnh sửa</div>,
-      icon: <EditOutlined />,
-    },
-    {
-      key: '1',
-      label: <div>Present</div>,
-      icon: <PlaySquareOutlined />,
-    },
-    {
-      key: '2',
-      label: <div>Quản lý collaborator</div>,
-      icon: <UserAddOutlined />,
-    },
-    {
-      key: '3',
-      label: <div style={{ color: '#ff0000' }}>Xóa presentation</div>,
-      icon: <DeleteOutlined style={{ color: '#ff0000' }} />,
-    },
-  ];
-  const onMenuItemClick = ({ key }) => {
-    switch (key) {
-      case '0':
-        goToPresentation();
-        break;
-      case '1':
-        //Present this presentation;
-        break;
-      case '2':
-        //Add collab
-        break;
-      case '3':
-        deletePresentation(code);
-        break;
-      default:
-        break;
-    }
-  };
+	const navigate = useNavigate();
+	const { code, name, host, description, totalSlide } = presentation;
+	const goToPresentation = () => {
+		navigate(`/presentation/${code}`);
+	};
+	const manageCollaborations = () => {
+		navigate(`/presentation/${code}/manage-collab`)
+	}
+	const items = [
+		{
+			key: '0',
+			label: <div>Chỉnh sửa</div>,
+			icon: <EditOutlined />,
+		},
+		{
+			key: '1',
+			label: <div>Present</div>,
+			icon: <PlaySquareOutlined />,
+		},
+		{
+			key: '2',
+			label: <div>Quản lý collaborator</div>,
+			icon: <UserAddOutlined />,
+		},
+		{
+			key: '3',
+			label: <div style={{ color: '#ff0000' }}>Xóa presentation</div>,
+			icon: <DeleteOutlined style={{ color: '#ff0000' }} />,
+		},
+	];
+	const onMenuItemClick = ({ key }) => {
+		switch (key) {
+			case '0':
+				goToPresentation();
+				break;
+			case '1':
+				//Present this presentation;
+				break;
+			case '2':
+				//Add collab
+				manageCollaborations();
+				break;
+			case '3':
+				deletePresentation(code);
+				break;
+			default:
+				break;
+		}
+	};
 
   return (
     <div className="presentation-item pt-9 px-8 pb-5 d-flex flex-column justify-space-between">
