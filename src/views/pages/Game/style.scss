@@ -1,6 +1,21 @@
 @use 'assets/styles/variable' as v;
 
 .container {
+  position: relative;
+  .button-group {
+    position: absolute;
+    right: 0;
+    .notification {
+      width: 10px;
+      height: 10px;
+      background: #ff0000;
+      border-radius: 50%;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 15px;
+    }
+  }
   .answer,
   .waiting,
   .result {

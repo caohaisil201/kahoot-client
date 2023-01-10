@@ -11,6 +11,7 @@ import { Context } from 'store';
 import { GoogleLogin } from '@react-oauth/google';
 import { useContext } from 'react';
 import Swal from 'sweetalert2';
+import { getMeAPI } from 'api/UserAPI';
 const SignIn = () => {
   useDocumentTitle('Sign In');
   const navigate = useNavigate();
@@ -39,6 +40,10 @@ const SignIn = () => {
         }
         sessionStorage.setItem('access_token', instanceAccessToken);
         accessTokenState.setAccessToken(instanceAccessToken);
+        const userInfo = await getMeAPI(instanceAccessToken);
+        if(userInfo) {
+          sessionStorage.setItem('user_info', JSON.stringify(userInfo));
+        }
         navigate('/');
       } catch (err) {
         throw err;
@@ -52,7 +57,12 @@ const SignIn = () => {
       if (status !== 200) return;
 
       const accessToken = data;
+      sessionStorage.setItem('access_token', accessToken);
       accessTokenState.setAccessToken(accessToken);
+      const userInfo = await getMeAPI(accessToken);
+      if(userInfo) {
+        sessionStorage.setItem('user_info', JSON.stringify(userInfo));
+      }
       navigate('/');
     } catch (err) {
       throw err;

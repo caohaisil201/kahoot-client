@@ -80,7 +80,7 @@ export const activateAccount = async (token) => {
   return !!response.meta.code;
 };
 
-export const fotgotPassword = async (email) => {
+export const forgotPassword = async (email) => {
   const response = await axios
     .get(
       `${process.env.REACT_APP_API_URL}/user-management/reset-password?username=${email}`
