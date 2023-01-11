@@ -23,7 +23,7 @@ const Result = ({
 }) => {
   const { choices } = slide;
   let trueValues = {};
-  if(choices) {
+  if (choices) {
     trueValues = choices.reduce((prev, cur) => {
       return {
         ...prev,
@@ -53,7 +53,7 @@ const Result = ({
             TIẾP THEO
           </button>
         ) : (
-          <div>Bạn đã chọn đáp án A, B</div>
+          <></>
         )}
       </div>
       <Tabs
@@ -94,7 +94,8 @@ const Result = ({
                       {item.choices.map((choice, i) => (
                         <strong key={i}> {choice}</strong>
                       ))}
-                      &nbsp;vào lúc {`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`}
+                      &nbsp;vào lúc{' '}
+                      {`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`}
                     </div>
                   );
                 })}

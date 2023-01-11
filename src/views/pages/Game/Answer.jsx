@@ -80,7 +80,7 @@ const Answer = ({
         choicesSelected,
         correctChoices
       );
-      // emit event to socket
+
       socket.emit(SOCKET_ACTION.SEND_ANSWER, {
         access_token: accessToken,
         socketId: socket.id,
@@ -110,14 +110,6 @@ const Answer = ({
           <p>{paragraph || ''}</p>
         </div>
         <div className="statistic d-flex justify-end">
-          {isHost ? (
-            <div className="count-user">
-              <UserOutlined />
-              &nbsp;20
-            </div>
-          ) : (
-            <></>
-          )}
           <div className="count-down ml-4">
             <ClockCircleOutlined />
             &nbsp;
@@ -161,11 +153,11 @@ const Answer = ({
         {isHost ? (
           <></>
         ) : (
-          <div className="mt-4 submit-answer d-flex align-center justify-center">
+          choices && choices.length !== 0 ? <div className="mt-4 submit-answer d-flex align-center justify-center">
             <button onClick={onSubmit} className="primary medium">
               SUBMIT
             </button>
-          </div>
+          </div> : <></>
         )}
       </div>
     </>

@@ -28,15 +28,17 @@ const SignUp = () => {
         values.name
       );
 
-      if(!isSuccessful) {
+      if (!isSuccessful) {
         Swal.fire({
           title: 'Lỗi',
           text: 'Đăng ký thất bại',
           icon: 'error',
-        })
+        });
         return;
       }
-      message.info('Đăng ký thành công, kiểm tra email để kích hoạt tài khoản!')
+      message.info(
+        'Đăng ký thành công, kiểm tra email để kích hoạt tài khoản!'
+      );
     },
   });
 

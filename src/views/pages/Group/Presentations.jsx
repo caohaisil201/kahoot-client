@@ -1,7 +1,10 @@
 import React, { useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Loading from 'views/components/Loading';
-import { getPresentationsByGroupAPI, startPresentation } from 'api/PresentationAPI';
+import {
+  getPresentationsByGroupAPI,
+  startPresentation,
+} from 'api/PresentationAPI';
 import { SocketContext } from 'store/socket';
 import { SOCKET_ACTION } from 'utils';
 import { useNavigate } from 'react-router-dom';
@@ -54,12 +57,14 @@ const Presentations = ({ accessToken, groupCode }) => {
             key={index}
           >
             {item.code} - {item.name}
-            {(item.host.code === userInfo.code && <button
-              className="small outline"
-              onClick={() => onClickStart(item)}
-            >
-              Start
-            </button>)}
+            {item.host.code === userInfo.code && (
+              <button
+                className="small outline"
+                onClick={() => onClickStart(item)}
+              >
+                Start
+              </button>
+            )}
             {/* {item.isRunning ? <div>Playing</div> : (item.host.code === userInfo.code && <button
               className="small outline"
               onClick={() => onClickStart(item)}
@@ -67,7 +72,6 @@ const Presentations = ({ accessToken, groupCode }) => {
               Start
             </button>)}  */}
           </div>
-          
         );
       })}
     </div>

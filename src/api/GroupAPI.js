@@ -110,23 +110,23 @@ export const assignMemberRoleAPI = async (
 };
 
 export const deleteMemberAPI = async (accessToken, groupCode, email) => {
-	const response = await axios
-		.post(
-			`${process.env.REACT_APP_API_URL}/group-management/delete-member`,
-			{
-				groupCode,
-				email,
-			},
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${accessToken}`,
-				},
-			}
-		)
-		.then((res) => res.data)
-		.catch((err) => err);
-	return response;
+  const response = await axios
+    .post(
+      `${process.env.REACT_APP_API_URL}/group-management/delete-member`,
+      {
+        groupCode,
+        email,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  return response;
 };
 
 export const joinGroupByLinkAPI = async (accessToken, groupCode) => {

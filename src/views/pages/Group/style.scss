@@ -56,7 +56,8 @@
       font-size: 1.5rem;
     }
     .ant-modal-body {
-      .invite-description, .or {
+      .invite-description,
+      .or {
         color: v.$dark-grey-color;
         font-size: 0.8rem;
       }
@@ -76,7 +77,7 @@
           margin: 0px;
         }
       }
-      input{
+      input {
         outline: none;
         padding: 5px 10px;
         border-width: thin;
