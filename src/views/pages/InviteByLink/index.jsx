@@ -20,6 +20,7 @@ const InviteByLink = () => {
       mutation.mutate({});
     }
   }, []);
+  console.log(accessToken);
 
   if (!accessToken) {
     return (
@@ -32,14 +33,14 @@ const InviteByLink = () => {
       </div>
     );
   }
-  if(mutation.isLoading) {
-    return <Loading />
+  if (mutation.isLoading) {
+    return <Loading />;
   }
-  if(mutation.isError) {
-    return <div>error</div>
+  if (mutation.isError) {
+    return <div>error</div>;
   }
-  if(mutation.isSuccess) {
-    navigate(`/group/${groupCode}`)
+  if (mutation.isSuccess) {
+    navigate(`/group/${groupCode}`);
   }
   return <div>InviteByLink</div>;
 };

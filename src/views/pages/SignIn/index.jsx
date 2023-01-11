@@ -1,22 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from 'hooks';
-import { Schema } from '../../../utils';
-import { loginUser, loginWithGoogle } from 'api/AuthAPI';
-import 'antd/dist/antd.css';
-import './style.scss';
+import { Schema, SOCKET_ACTION } from '../../../utils';
 import { Divider } from 'antd';
 import { Context } from 'store';
+import { SocketContext } from 'store/socket';
 import { GoogleLogin } from '@react-oauth/google';
-import { useContext } from 'react';
 import Swal from 'sweetalert2';
+import { loginUser, loginWithGoogle } from 'api/AuthAPI';
 import { getMeAPI } from 'api/UserAPI';
+import { getListGroupAPI } from 'api/GroupAPI';
+import 'antd/dist/antd.css';
+import './style.scss';
+
 const SignIn = () => {
   useDocumentTitle('Sign In');
   const navigate = useNavigate();
   const { accessTokenState } = useContext(Context);
   const validationSchema = Schema.validationSignInSchema;
+  const socket = useContext(SocketContext);
+
+  const getListGroup = async (accessToken) => {
+    try {
+      const instanceGroups = await getListGroupAPI(accessToken);
+      if (!instanceGroups) {
+        throw { message: 'Something wrong!' };
+      }
+      return instanceGroups;
+    } catch (err) {
+      throw err;
+    }
+  };
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -29,11 +44,12 @@ const SignIn = () => {
           values.email,
           values.password
         );
+        console.log(instanceAccessToken);
 
         if (!instanceAccessToken) {
           Swal.fire({
             title: 'Error',
-            text: 'Có lỗi xảy ra!',
+            text: 'Có lỗi xảy ra, bạn chưa kích hoạt email hoặc nhập sai thông tin!',
             icon: 'error',
           });
           return;
@@ -41,9 +57,14 @@ const SignIn = () => {
         sessionStorage.setItem('access_token', instanceAccessToken);
         accessTokenState.setAccessToken(instanceAccessToken);
         const userInfo = await getMeAPI(instanceAccessToken);
-        if(userInfo) {
+        if (userInfo) {
           sessionStorage.setItem('user_info', JSON.stringify(userInfo));
         }
+        const groups = await getListGroup(instanceAccessToken);
+        const groupCodes = groups.map((group) => group.code);
+        socket.emit(SOCKET_ACTION.JOIN_GROUPS, {
+          groupCodes,
+        });
         navigate('/');
       } catch (err) {
         throw err;
@@ -60,7 +81,7 @@ const SignIn = () => {
       sessionStorage.setItem('access_token', accessToken);
       accessTokenState.setAccessToken(accessToken);
       const userInfo = await getMeAPI(accessToken);
-      if(userInfo) {
+      if (userInfo) {
         sessionStorage.setItem('user_info', JSON.stringify(userInfo));
       }
       navigate('/');
@@ -132,10 +153,7 @@ const SignIn = () => {
         </button>
         <Divider>Hoặc</Divider>
 
-        <GoogleLogin
-          onSuccess={handleGoogleLogin}
-          onError={() => {}}
-        />
+        <GoogleLogin onSuccess={handleGoogleLogin} onError={() => {}} />
       </form>
     </section>
   );

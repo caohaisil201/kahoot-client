@@ -49,6 +49,7 @@ export const loginUser = async (email, password) => {
         return objectReturn;
       }
     });
+  console.log(response);
   const accessToken = response.access_token;
   return accessToken ? accessToken : null;
 };
@@ -72,7 +73,7 @@ export const loginWithGoogle = async (credential) => {
   return response;
 };
 
-export const activateAccount = async (token) => {
+export const activateAccountAPI = async (token) => {
   const response = await axios
     .get(`${process.env.REACT_APP_API_URL}/registration/confirm?token=${token}`)
     .then((res) => res.data)

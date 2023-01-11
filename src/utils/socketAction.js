@@ -8,3 +8,5 @@ export const NEXT_SLIDE = 'NEXT_SLIDE';
 export const LEAVE_GAME = 'LEAVE_GAME';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
+export const NOTIFY_GROUP_GAME_START = 'NOTIFY_GROUP_GAME_START';
+export const JOIN_GROUPS = 'JOIN_GROUPS';

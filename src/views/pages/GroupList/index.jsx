@@ -20,7 +20,7 @@ import './style.scss';
 
 const GroupItem = ({ group, deleteGroup }) => {
   const navigate = useNavigate();
-  const { name, owner, description, capacity, code } = group;
+  const { name, owner, description, capacity, code, total } = group;
   const goToCourse = () => {
     navigate(`/group/${code}`);
   };
@@ -63,7 +63,7 @@ const GroupItem = ({ group, deleteGroup }) => {
       <div className="body mt-4">{description}</div>
       <div className="foot d-flex align-center justify-space-between">
         <div>
-          <UserOutlined /> {capacity} Người tham gia
+          <UserOutlined /> {total} Người tham gia
         </div>
         <div>
           <Dropdown

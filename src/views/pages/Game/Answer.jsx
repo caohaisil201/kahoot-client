@@ -20,6 +20,7 @@ const Answer = ({
   const onChange = (values) => {
     setChoicesSelected(values.sort());
   };
+  const userInfo = JSON.parse(sessionStorage.getItem('user_info'));
 
   useEffect(() => {
     if (isHost) {
@@ -29,14 +30,21 @@ const Answer = ({
         C: 0,
         D: 0,
       };
+      const list = [];
       const timeId = setTimeout(() => {
         setSlideState(3);
         socket.emit(SOCKET_ACTION.SEND_RESULT, {
           presentCode: code,
           result,
+          list,
         });
       }, timer * 1000);
       socket.on(SOCKET_ACTION.RECEIVE_ANSWER, (data) => {
+        list.push({
+          fullName: data.fullName,
+          choices: data.choices,
+          time: Date.now(),
+        });
         data.choices.forEach((choice) => {
           result[choice]++;
         });
@@ -72,7 +80,7 @@ const Answer = ({
         choicesSelected,
         correctChoices
       );
-      // emit event to socket
+
       socket.emit(SOCKET_ACTION.SEND_ANSWER, {
         access_token: accessToken,
         socketId: socket.id,
@@ -80,6 +88,7 @@ const Answer = ({
         presentCode: code,
         choices: choicesSelected,
         isCorrectAnswer,
+        fullName: userInfo.fullName,
       });
       setSlideState(2);
     },
@@ -101,14 +110,6 @@ const Answer = ({
           <p>{paragraph || ''}</p>
         </div>
         <div className="statistic d-flex justify-end">
-          {isHost ? (
-            <div className="count-user">
-              <UserOutlined />
-              &nbsp;20
-            </div>
-          ) : (
-            <></>
-          )}
           <div className="count-down ml-4">
             <ClockCircleOutlined />
             &nbsp;
@@ -117,7 +118,7 @@ const Answer = ({
         </div>
 
         {isHost ? (
-          choices.length !== 0 ? (
+          choices && choices.length !== 0 ? (
             <div className="answer-list d-flex">
               {choices.map((choice) => (
                 <div className="answer-choice pa-2" key={choice.icon}>
@@ -130,7 +131,7 @@ const Answer = ({
           ) : (
             <></>
           )
-        ) : choices.length !== 0 ? (
+        ) : choices && choices.length !== 0 ? (
           <Checkbox.Group className="answer-list d-flex" onChange={onChange}>
             {choices.map((choice) => {
               return (
@@ -152,11 +153,11 @@ const Answer = ({
         {isHost ? (
           <></>
         ) : (
-          <div className="mt-4 submit-answer d-flex align-center justify-center">
+          choices && choices.length !== 0 ? <div className="mt-4 submit-answer d-flex align-center justify-center">
             <button onClick={onSubmit} className="primary medium">
               SUBMIT
             </button>
-          </div>
+          </div> : <></>
         )}
       </div>
     </>

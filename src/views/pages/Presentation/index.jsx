@@ -74,7 +74,7 @@ const Presentation = () => {
     messageApi.open({
       type: 'success',
       content: 'Cập nhật slide thành công!',
-    })
+    });
   };
 
   const selectSlide = (slide) => {
@@ -84,7 +84,7 @@ const Presentation = () => {
 
   const handleSaveSlide = (slide) => {
     const index = slides.findIndex((item) => item.itemNo === slide.itemNo);
-    if(index===-1) {
+    if (index === -1) {
       messageApi.open({
         type: 'error',
         content: 'An error occur!',

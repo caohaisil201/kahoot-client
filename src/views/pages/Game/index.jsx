@@ -11,8 +11,8 @@ import EndGame from './EndGame';
 import { MessageOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { SOCKET_ACTION } from 'utils';
 import { usePrevious } from 'hooks';
-import './style.scss';
 import ChatBox from 'views/components/ChatBox';
+import './style.scss';
 
 const Children = ({
   slideState,
@@ -24,6 +24,7 @@ const Children = ({
   code,
   socket,
   result,
+  listAnswer,
 }) => {
   switch (slideState) {
     case 1:
@@ -49,6 +50,7 @@ const Children = ({
           isHost={isHost}
           setSlideState={setSlideState}
           result={result}
+          listAnswer={listAnswer}
           socket={socket}
         />
       );
@@ -67,6 +69,7 @@ const Game = () => {
   const [slideState, setSlideState] = useState(1);
   const [slideNo, setSlideNo] = useState(1);
   const [result, setResult] = useState([]);
+  const [listAnswer, setListAnswer] = useState([]);
   const [showChatBox, setShowChatBox] = useState(false);
   const [messageList, setMessageList] = useState([]);
   const [isNotification, setIsNotification] = useState(false);
@@ -105,6 +108,7 @@ const Game = () => {
           value: data.result[item],
         });
       });
+      setListAnswer(data.list);
       setResult([...tempResult]);
       setSlideState(3);
     });
@@ -121,13 +125,13 @@ const Game = () => {
       const { token, message, sender } = data;
       const item = {
         message,
-        sender
-      }
-      accessToken === token ? item.isMe = true : item.isMe=false;
+        sender,
+      };
+      accessToken === token ? (item.isMe = true) : (item.isMe = false);
       setMessageList([...messageList, item]);
-      if(showChatBox){
+      if (showChatBox) {
         setIsNotification(false);
-      }else {
+      } else {
         setIsNotification(true);
       }
     });
@@ -152,13 +156,17 @@ const Game = () => {
   if (slidesQuery.data.length === 0) {
     return (
       <div className="container">
-        <EndGame />
+        <EndGame
+          isHost={isHostQuery.data}
+          gameName={gameName}
+          accessToken={accessToken}
+        />
       </div>
     );
   }
 
   return (
-    <div className="container">
+    <div className="container game">
       <Children
         slideState={slideState}
         gameName={gameName}
@@ -169,21 +177,32 @@ const Game = () => {
         code={code}
         socket={socket}
         result={result}
+        listAnswer={listAnswer}
       />
       <div className="button-group d-flex">
-        <button className="icon" onClick={() => {
-          if(!showChatBox) {
-            setIsNotification(false);
-          }
-          setShowChatBox(!showChatBox);
-        }}>
+        <button
+          className="icon"
+          onClick={() => {
+            if (!showChatBox) {
+              setIsNotification(false);
+            }
+            setShowChatBox(!showChatBox);
+          }}
+        >
           <MessageOutlined />
           {isNotification && <span className="notification"></span>}
         </button>
         <button className="icon">
           <QuestionCircleOutlined />
         </button>
-        {showChatBox && <ChatBox socket={socket} code={code} accessToken={accessToken} messageList={messageList}/>}
+        {showChatBox && (
+          <ChatBox
+            socket={socket}
+            code={code}
+            accessToken={accessToken}
+            messageList={messageList}
+          />
+        )}
       </div>
     </div>
   );

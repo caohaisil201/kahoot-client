@@ -34,7 +34,7 @@ const GroupDetail = ({ accessToken, groupCode }) => {
       </div>
       <div>Owner: {groupDetail.data.owner.fullName}</div>
       <div>Mô tả: {groupDetail.data.description}</div>
-      <div>Số lượng thành viên: {groupDetail.data.capacity}</div>
+      <div>Số lượng thành viên: {groupDetail.data.total}</div>
     </div>
   );
 };

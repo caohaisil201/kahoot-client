@@ -2,9 +2,13 @@
 
 .container {
   position: relative;
+  &.game {
+    min-height: 420px;
+  }
   .button-group {
     position: absolute;
     right: 0;
+    bottom: 0;
     .notification {
       width: 10px;
       height: 10px;
@@ -18,7 +22,8 @@
   }
   .answer,
   .waiting,
-  .result {
+  .result,
+  .end-game {
     width: 900px;
     margin: 0 auto;
     h1,
@@ -74,6 +79,10 @@
         font-size: 1.5rem;
         color: v.$primary-color;
       }
+    }
+    .list-answer {
+      height: 280px;
+      overflow-y: auto;
     }
   }
 }

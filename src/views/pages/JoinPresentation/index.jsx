@@ -78,7 +78,7 @@ const JoinPresentation = () => {
   return (
     <div className="container mt-16">
       <div className="join-presentation waiting flex-column d-flex">
-        <h1>Quiz title</h1>
+        <h1>{gameName}</h1>
         <Loading />
         <h2>Vui lòng chờ host bắt đầu game</h2>
       </div>

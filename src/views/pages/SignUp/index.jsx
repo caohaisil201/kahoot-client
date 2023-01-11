@@ -1,15 +1,15 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDocumentTitle } from 'hooks';
 import { Schema } from '../../../utils';
-import 'antd/dist/antd.css';
-import './style.scss';
 import { registerUser } from 'api/AuthAPI';
 import Swal from 'sweetalert2';
+import { message } from 'antd';
+import './style.scss';
+import 'antd/dist/antd.css';
 const SignUp = () => {
   useDocumentTitle('Sign Up');
-  const navigate = useNavigate();
 
   const validationSchema = Schema.validationSignUpSchema;
   const formik = useFormik({
@@ -28,15 +28,17 @@ const SignUp = () => {
         values.name
       );
 
-      if(!isSuccessful) {
+      if (!isSuccessful) {
         Swal.fire({
           title: 'Lỗi',
           text: 'Đăng ký thất bại',
           icon: 'error',
-        })
+        });
         return;
       }
-      navigate('/sign-in');
+      message.info(
+        'Đăng ký thành công, kiểm tra email để kích hoạt tài khoản!'
+      );
     },
   });
 

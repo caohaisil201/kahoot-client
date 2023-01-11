@@ -46,9 +46,7 @@ const ChatBox = React.memo(({ socket, code, accessToken, messageList }) => {
               }`}
               key={index}
             >
-              <div className="user-name">
-                {item.sender}
-              </div>
+              <div className="user-name">{item.sender}</div>
               {item.message}
             </div>
           );

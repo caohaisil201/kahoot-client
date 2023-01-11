@@ -1,13 +1,16 @@
-import { activateAccount } from 'api/AuthAPI';
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { activateAccountAPI } from 'api/AuthAPI';
 import Swal from 'sweetalert2';
 
 const Activate = () => {
   const { token } = useParams();
   useEffect(() => {
+    const activate = async () => {
+      return await activateAccountAPI(token);
+    };
     if (!!token) {
-      const isSuccessful = activateAccount(token);
+      const isSuccessful = activate();
       if (isSuccessful) {
         return;
       }
