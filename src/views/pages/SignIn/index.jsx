@@ -44,6 +44,7 @@ const SignIn = () => {
           values.email,
           values.password
         );
+        console.log(instanceAccessToken);
 
         if (!instanceAccessToken) {
           Swal.fire({

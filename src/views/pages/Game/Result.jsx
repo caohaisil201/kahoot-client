@@ -53,7 +53,7 @@ const Result = ({
             TIẾP THEO
           </button>
         ) : (
-          <div>Bạn đã chọn đáp án A, B</div>
+          <></>
         )}
       </div>
       <Tabs

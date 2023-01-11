@@ -49,6 +49,7 @@ export const loginUser = async (email, password) => {
         return objectReturn;
       }
     });
+  console.log(response);
   const accessToken = response.access_token;
   return accessToken ? accessToken : null;
 };
