@@ -18,7 +18,6 @@ const queryClient = new QueryClient({
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
   <Provider>
     <QueryClientProvider client={queryClient}>
       <SocketProvider>
@@ -28,7 +27,6 @@ root.render(
       </SocketProvider>
     </QueryClientProvider>
   </Provider>
-  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

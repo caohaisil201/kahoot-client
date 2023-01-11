@@ -18,7 +18,7 @@ const Slide = ({ slide, handleSaveSlide }) => {
     },
   ];
 
-  const [slideType , setSlideType] = useState(CONSTANT.SLIDE_TYPE.HEADING);
+  const [slideType, setSlideType] = useState(CONSTANT.SLIDE_TYPE.HEADING);
   const [timer, setTimer] = useState(10);
   const [heading, setHeading] = useState('');
   const [paragraph, setParagraph] = useState('');
@@ -31,12 +31,12 @@ const Slide = ({ slide, handleSaveSlide }) => {
 
   const changeSlideType = (value) => {
     setSlideType(value);
-  }
+  };
 
   useEffect(() => {
     if (!HELPER.isEmptyObject(slide)) {
       setHeading(slide.heading ? slide.heading : '');
-      setParagraph(slide.paragraph ? slide.paragraph :'');
+      setParagraph(slide.paragraph ? slide.paragraph : '');
       setPoint(slide.point ? slide.point : 0);
       setTimer(slide.timer ? slide.timer : 10);
       setAnswerA(slide.choices ? slide.choices[0].answer : '');
@@ -86,7 +86,7 @@ const Slide = ({ slide, handleSaveSlide }) => {
       choices,
       type: slideType,
     };
-    switch(slideType) {
+    switch (slideType) {
       case CONSTANT.SLIDE_TYPE.HEADING:
         delete newSlide.paragraph;
         delete newSlide.choices;
@@ -101,9 +101,9 @@ const Slide = ({ slide, handleSaveSlide }) => {
   };
 
   useEffect(() => {
-    if(slide.type) {
+    if (slide.type) {
       setSlideType(slide.type);
-    }else {
+    } else {
       setSlideType(CONSTANT.SLIDE_TYPE.HEADING);
     }
   }, [slide.type]);
@@ -121,68 +121,77 @@ const Slide = ({ slide, handleSaveSlide }) => {
           onChange={(e) => setHeading(e.target.value)}
           placeholder="Nhập heading"
         />
-        {slideType === CONSTANT.SLIDE_TYPE.QUESTION || slideType === CONSTANT.SLIDE_TYPE.PARAGRAPH ? <div className="paragraph d-flex">
-          <Input.TextArea
-            style={{
-              height: 100,
-              width: 520,
-              resize: 'none',
-            }}
-            placeholder="Nhập paragraph"
-            value={paragraph}
-            onChange={e => setParagraph(e.target.value)}
-          />
-        </div> : <></>}
-        {slideType === CONSTANT.SLIDE_TYPE.QUESTION ? <div className="choices d-flex">
-          <div className="pa-2" style={{ width: '50%' }}>
+        {slideType === CONSTANT.SLIDE_TYPE.QUESTION ||
+        slideType === CONSTANT.SLIDE_TYPE.PARAGRAPH ? (
+          <div className="paragraph d-flex">
             <Input.TextArea
-              maxLength={120}
               style={{
-                height: 80,
+                height: 100,
+                width: 520,
                 resize: 'none',
               }}
-              placeholder="Nhập đáp án A"
-              value={answerA}
-              onChange={(e) => setAnswerA(e.target.value)}
+              placeholder="Nhập paragraph"
+              value={paragraph}
+              onChange={(e) => setParagraph(e.target.value)}
             />
           </div>
-          <div className="pa-2" style={{ width: '50%' }}>
-            <Input.TextArea
-              maxLength={120}
-              style={{
-                height: 80,
-                resize: 'none',
-              }}
-              placeholder="Nhập đáp án B"
-              value={answerB}
-              onChange={(e) => setAnswerB(e.target.value)}
-            />
+        ) : (
+          <></>
+        )}
+        {slideType === CONSTANT.SLIDE_TYPE.QUESTION ? (
+          <div className="choices d-flex">
+            <div className="pa-2" style={{ width: '50%' }}>
+              <Input.TextArea
+                maxLength={120}
+                style={{
+                  height: 80,
+                  resize: 'none',
+                }}
+                placeholder="Nhập đáp án A"
+                value={answerA}
+                onChange={(e) => setAnswerA(e.target.value)}
+              />
+            </div>
+            <div className="pa-2" style={{ width: '50%' }}>
+              <Input.TextArea
+                maxLength={120}
+                style={{
+                  height: 80,
+                  resize: 'none',
+                }}
+                placeholder="Nhập đáp án B"
+                value={answerB}
+                onChange={(e) => setAnswerB(e.target.value)}
+              />
+            </div>
+            <div className="pa-2" style={{ width: '50%' }}>
+              <Input.TextArea
+                maxLength={120}
+                style={{
+                  height: 80,
+                  resize: 'none',
+                }}
+                placeholder="Nhập đáp án C"
+                value={answerC}
+                onChange={(e) => setAnswerC(e.target.value)}
+              />
+            </div>
+            <div className="pa-2" style={{ width: '50%' }}>
+              <Input.TextArea
+                maxLength={120}
+                style={{
+                  height: 80,
+                  resize: 'none',
+                }}
+                placeholder="Nhập đáp án D"
+                value={answerD}
+                onChange={(e) => setAnswerD(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="pa-2" style={{ width: '50%' }}>
-            <Input.TextArea
-              maxLength={120}
-              style={{
-                height: 80,
-                resize: 'none',
-              }}
-              placeholder="Nhập đáp án C"
-              value={answerC}
-              onChange={(e) => setAnswerC(e.target.value)}
-            />
-          </div>
-          <div className="pa-2" style={{ width: '50%' }}>
-            <Input.TextArea
-              maxLength={120}
-              style={{
-                height: 80,
-                resize: 'none',
-              }}
-              placeholder="Nhập đáp án D"
-              value={answerD}
-              onChange={(e) => setAnswerD(e.target.value)}
-            />
-          </div>
-        </div> : <></>}
+        ) : (
+          <></>
+        )}
       </div>
       <div className="options d-flex flex-column justify-space-between">
         <div className="slide-type">

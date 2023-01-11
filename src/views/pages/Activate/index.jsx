@@ -8,7 +8,7 @@ const Activate = () => {
   useEffect(() => {
     const activate = async () => {
       return await activateAccountAPI(token);
-    }
+    };
     if (!!token) {
       const isSuccessful = activate();
       if (isSuccessful) {

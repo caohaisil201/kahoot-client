@@ -36,7 +36,9 @@ const Group = () => {
               {
                 label: 'Danh sách presentation',
                 key: '3',
-                children: <Presentations accessToken={accessToken} groupCode={id}/>,
+                children: (
+                  <Presentations accessToken={accessToken} groupCode={id} />
+                ),
               },
             ]}
           />

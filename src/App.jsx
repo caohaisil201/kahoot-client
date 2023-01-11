@@ -27,7 +27,9 @@ function App() {
   useEffect(() => {
     socket.on(SOCKET_ACTION.NOTIFY_GROUP_GAME_START, (data) => {
       const { groupCode, presentCode } = data;
-      message.info(`Nhóm ${groupCode} có presentation ${presentCode} đang chạy!`);
+      message.info(
+        `Nhóm ${groupCode} có presentation ${presentCode} đang chạy!`
+      );
     });
 
     return () => {

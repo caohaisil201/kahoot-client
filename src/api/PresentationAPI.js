@@ -270,17 +270,17 @@ export const startPresentation = async (accessToken, presentCode) => {
 
 export const endPresentation = async (accessToken, presentCode) => {
   const response = await axios
-  .get(
-    `${process.env.REACT_APP_API_URL}/presentations/end?presentCode=${presentCode}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  )
-  .then((res) => res.data)
-  .catch((err) => err);
-const { meta } = response;
-return meta.code === 200;
-}
+    .get(
+      `${process.env.REACT_APP_API_URL}/presentations/end?presentCode=${presentCode}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  const { meta } = response;
+  return meta.code === 200;
+};

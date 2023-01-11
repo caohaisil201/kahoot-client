@@ -56,12 +56,12 @@ const SignIn = () => {
         sessionStorage.setItem('access_token', instanceAccessToken);
         accessTokenState.setAccessToken(instanceAccessToken);
         const userInfo = await getMeAPI(instanceAccessToken);
-        if(userInfo) {
+        if (userInfo) {
           sessionStorage.setItem('user_info', JSON.stringify(userInfo));
         }
         const groups = await getListGroup(instanceAccessToken);
-        const groupCodes = groups.map(group => group.code);
-        socket.emit(SOCKET_ACTION.JOIN_GROUPS,{
+        const groupCodes = groups.map((group) => group.code);
+        socket.emit(SOCKET_ACTION.JOIN_GROUPS, {
           groupCodes,
         });
         navigate('/');
@@ -80,7 +80,7 @@ const SignIn = () => {
       sessionStorage.setItem('access_token', accessToken);
       accessTokenState.setAccessToken(accessToken);
       const userInfo = await getMeAPI(accessToken);
-      if(userInfo) {
+      if (userInfo) {
         sessionStorage.setItem('user_info', JSON.stringify(userInfo));
       }
       navigate('/');
@@ -152,10 +152,7 @@ const SignIn = () => {
         </button>
         <Divider>Hoặc</Divider>
 
-        <GoogleLogin
-          onSuccess={handleGoogleLogin}
-          onError={() => {}}
-        />
+        <GoogleLogin onSuccess={handleGoogleLogin} onError={() => {}} />
       </form>
     </section>
   );

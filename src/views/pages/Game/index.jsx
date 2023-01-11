@@ -24,7 +24,7 @@ const Children = ({
   code,
   socket,
   result,
-  listAnswer
+  listAnswer,
 }) => {
   switch (slideState) {
     case 1:
@@ -125,13 +125,13 @@ const Game = () => {
       const { token, message, sender } = data;
       const item = {
         message,
-        sender
-      }
-      accessToken === token ? item.isMe = true : item.isMe=false;
+        sender,
+      };
+      accessToken === token ? (item.isMe = true) : (item.isMe = false);
       setMessageList([...messageList, item]);
-      if(showChatBox){
+      if (showChatBox) {
         setIsNotification(false);
-      }else {
+      } else {
         setIsNotification(true);
       }
     });
@@ -156,7 +156,11 @@ const Game = () => {
   if (slidesQuery.data.length === 0) {
     return (
       <div className="container">
-        <EndGame isHost={isHostQuery.data} gameName={gameName} accessToken={accessToken}/>
+        <EndGame
+          isHost={isHostQuery.data}
+          gameName={gameName}
+          accessToken={accessToken}
+        />
       </div>
     );
   }
@@ -176,19 +180,29 @@ const Game = () => {
         listAnswer={listAnswer}
       />
       <div className="button-group d-flex">
-        <button className="icon" onClick={() => {
-          if(!showChatBox) {
-            setIsNotification(false);
-          }
-          setShowChatBox(!showChatBox);
-        }}>
+        <button
+          className="icon"
+          onClick={() => {
+            if (!showChatBox) {
+              setIsNotification(false);
+            }
+            setShowChatBox(!showChatBox);
+          }}
+        >
           <MessageOutlined />
           {isNotification && <span className="notification"></span>}
         </button>
         <button className="icon">
           <QuestionCircleOutlined />
         </button>
-        {showChatBox && <ChatBox socket={socket} code={code} accessToken={accessToken} messageList={messageList}/>}
+        {showChatBox && (
+          <ChatBox
+            socket={socket}
+            code={code}
+            accessToken={accessToken}
+            messageList={messageList}
+          />
+        )}
       </div>
     </div>
   );
