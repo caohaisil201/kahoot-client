@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router';
-import { Tooltip } from 'antd';
+import { Tooltip, message } from 'antd';
 import { DeleteFilled, PlusOutlined } from '@ant-design/icons';
 import Loading from 'views/components/Loading';
+import Slide from './Slide';
+import Swal from 'sweetalert2';
 import {
   getPresentationByCodeAPI,
   getSlidesFromPresentCodeAPI,
   updatePresentationAPI,
 } from 'api/PresentationAPI';
-import Slide from './Slide';
-import './style.scss';
 import { updateSlidesAPI } from 'api/SlideAPI';
-import Swal from 'sweetalert2';
+import './style.scss';
 
 const Presentation = () => {
   const accessToken = sessionStorage.getItem('access_token');
@@ -20,7 +20,9 @@ const Presentation = () => {
   const [title, setTitle] = useState('');
   const [slides, setSlides] = useState([]);
   const [currentSlide, setCurrentSlide] = useState({});
-  const [currentSlideNo, setCurrentSlideNo] = useState(1);
+  const [currentSlideNo, setCurrentSlideNo] = useState(0);
+
+  const [messageApi, contextHolder] = message.useMessage();
 
   const slidesQuery = useQuery({
     queryKey: ['getSlide'],
@@ -46,7 +48,6 @@ const Presentation = () => {
   if (slidesQuery.isLoading && presentQuery.isLoading) {
     return <Loading />;
   }
-
   if (slidesQuery.isError && presentQuery.isError) {
     return <div>Error</div>;
   }
@@ -62,15 +63,18 @@ const Presentation = () => {
       code,
       slides
     );
-    if (!isUpdatePresentationSuccess && isUpdateSlidesSuccess) {
+    if (!isUpdatePresentationSuccess || !isUpdateSlidesSuccess) {
       Swal.fire({
         title: 'Error',
         text: 'Có lỗi xảy ra',
         icon: 'error',
       });
+      return;
     }
-
-    // const
+    messageApi.open({
+      type: 'success',
+      content: 'Cập nhật slide thành công!',
+    })
   };
 
   const selectSlide = (slide) => {
@@ -79,17 +83,25 @@ const Presentation = () => {
   };
 
   const handleSaveSlide = (slide) => {
-    let newSlide = slides.find((item) => item.itemNo === slide.itemNo);
-    if (!!newSlide) {
-      const tempSlides = [...slides];
-      tempSlides.pop();
-      tempSlides.push(slide);
-      setSlides(tempSlides);
+    const index = slides.findIndex((item) => item.itemNo === slide.itemNo);
+    if(index===-1) {
+      messageApi.open({
+        type: 'error',
+        content: 'An error occur!',
+      });
+      return;
     }
+    slides[index] = {
+      ...slide,
+    };
+    setSlides([...slides]);
+    messageApi.open({
+      type: 'success',
+      content: 'Success!',
+    });
   };
 
   const handleAddSlide = () => {
-    setCurrentSlideNo(currentSlideNo + 1);
     const newSlide = {
       itemNo: slides.length + 1,
     };
@@ -106,60 +118,60 @@ const Presentation = () => {
   };
 
   return (
-    <div className="presentation-detail container pt-6 d-flex flex-column">
-      <div className="header d-flex justify-end">
-        <input value={title} onChange={(e) => setTitle(e.target.value)} />
-        {/* <button className="primary small">Tạo slide</button> */}
-        <button
-          className="primary small"
-          style={{ marginLeft: '12px' }}
-          onClick={handleSubmit}
-        >
-          Lưu
-        </button>
-      </div>
-      <div className="body mt-4 d-flex justify-space-between">
-        <div className="slide-list d-flex">
-          {slides.map((slide, index) => {
-            return (
-              <div
-                className="item pa-2"
-                key={index}
-                style={{
-                  background: `#${Math.floor(Math.random() * 16777215).toString(
-                    16
-                  )}`,
-                }}
-              >
+    <>
+      {contextHolder}
+      <div className="presentation-detail container pt-6 d-flex flex-column">
+        <div className="header d-flex justify-end">
+          <input value={title} onChange={(e) => setTitle(e.target.value)} />
+          <button
+            className="primary small"
+            style={{ marginLeft: '12px' }}
+            onClick={handleSubmit}
+          >
+            Lưu
+          </button>
+        </div>
+        <div className="body mt-4 d-flex justify-space-between">
+          <div className="slide-list d-flex">
+            {slides.map((slide, index) => {
+              return (
                 <div
-                  className="d-flex align-center justify-center "
-                  onClick={() => selectSlide(slide)}
+                  className={`item pa-2 ${
+                    index + 1 === currentSlideNo ? 'select' : ''
+                  }`}
+                  key={index}
                 >
-                  {slide.question}
+                  <span className="index">{index + 1}</span>
+                  <div
+                    className="d-flex align-center justify-center "
+                    onClick={() => selectSlide(slide)}
+                  >
+                    {slide.heading || 'New slide'}
+                  </div>
+                  <button
+                    className="icon"
+                    onClick={() => deleteSlide(slide.itemNo)}
+                  >
+                    <Tooltip title="Xóa" color="#ff0000">
+                      <DeleteFilled style={{ color: '#000' }} />
+                    </Tooltip>
+                  </button>
                 </div>
-                <button
-                  className="icon"
-                  onClick={() => deleteSlide(slide.itemNo)}
-                >
-                  <Tooltip title="Xóa" color="#ff0000">
-                    <DeleteFilled style={{ color: '#000' }} />
-                  </Tooltip>
-                </button>
+              );
+            })}
+            <div className="item pa-2">
+              <div
+                className="d-flex align-center justify-center "
+                onClick={handleAddSlide}
+              >
+                <PlusOutlined />
               </div>
-            );
-          })}
-          <div className="item pa-2">
-            <div
-              className="d-flex align-center justify-center "
-              onClick={handleAddSlide}
-            >
-              <PlusOutlined />
             </div>
           </div>
+          <Slide slide={currentSlide} handleSaveSlide={handleSaveSlide} />
         </div>
-        <Slide slide={currentSlide} handleSaveSlide={handleSaveSlide} />
       </div>
-    </div>
+    </>
   );
 };
 

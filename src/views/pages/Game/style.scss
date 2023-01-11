@@ -1,9 +1,28 @@
 @use 'assets/styles/variable' as v;
 
 .container {
+  position: relative;
+  &.game {
+    min-height: 420px;
+  }
+  .button-group {
+    position: absolute;
+    right: 0;
+    .notification {
+      width: 10px;
+      height: 10px;
+      background: #ff0000;
+      border-radius: 50%;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 15px;
+    }
+  }
   .answer,
   .waiting,
-  .result {
+  .result,
+  .end-game {
     width: 900px;
     margin: 0 auto;
     h1,
@@ -59,6 +78,10 @@
         font-size: 1.5rem;
         color: v.$primary-color;
       }
+    }
+    .list-answer {
+      height: 280px;
+      overflow-y: auto;
     }
   }
 }

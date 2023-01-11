@@ -97,6 +97,69 @@ export const addMemberAPI = async (accessToken, groupCode, email, roleType) => {
   return response;
 };
 
+export const getPresentationCollaborationsAPI = async (
+  accessToken,
+  presentationCode
+) => {
+  const response = await axios
+    .get(
+      `${process.env.REACT_APP_API_URL}/collaborator/?presentCode=${presentationCode}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  const { meta, data } = response;
+  return meta.code === 200 ? data : null;
+};
+
+export const addCollaborationAPI = async (accessToken, presentCode, email) => {
+  const response = await axios
+    .post(
+      `${process.env.REACT_APP_API_URL}/collaborator/add`,
+      {
+        presentCode,
+        email,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  return response;
+};
+export const deleteCollaborationAPI = async (
+  accessToken,
+  presentCode,
+  email
+) => {
+  const response = await axios
+    .post(
+      `${process.env.REACT_APP_API_URL}/collaborator/delete`,
+      {
+        presentCode,
+        email,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  return response;
+};
+
 export const assignMemberRoleAPI = async (
   accessToken,
   groupCode,
@@ -135,31 +198,8 @@ export const deletePresentationAPI = async (accessToken, presentationCode) => {
       }
     )
     .then((res) => res.data)
-    .catch((err) => {
-      console.log(err);
-    });
-  console.log(response);
-  return response;
-};
-
-export const joinGroupByLinkAPI = async (accessToken, groupCode) => {
-  const response = await axios
-    .post(
-      `${process.env.REACT_APP_API_URL}/group-management/join`,
-      {
-        groupCode,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    )
-    .then((res) => res.data)
     .catch((err) => err);
-  const { meta } = response;
-  return !!(meta.code === 200);
+  return response;
 };
 
 export const getSlidesFromPresentCodeAPI = async (accessToken, presentCode) => {
@@ -189,8 +229,58 @@ export const updatePresentationAPI = async (accessToken, code, name) => {
       }
     )
     .then((res) => res.data)
-    .catch((err) => console.log('error',err));
+    .catch((err) => err);
   const { meta, data } = response;
-	console.log('presentation', response);
   return meta.code === 200 ? data : null;
 };
+
+export const getPresentationsByGroupAPI = async (accessToken, groupCode) => {
+  const response = await axios
+    .get(
+      `${process.env.REACT_APP_API_URL}/presentations?groupCode=${groupCode}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  const { meta, data } = response;
+  return meta.code === 200 ? data : null;
+};
+
+export const startPresentation = async (accessToken, presentCode) => {
+  const response = await axios
+    .get(
+      `${process.env.REACT_APP_API_URL}/presentations/start?presentCode=${presentCode}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  const { meta } = response;
+  return meta.code === 200;
+};
+
+export const endPresentation = async (accessToken, presentCode) => {
+  const response = await axios
+  .get(
+    `${process.env.REACT_APP_API_URL}/presentations/end?presentCode=${presentCode}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
+  .then((res) => res.data)
+  .catch((err) => err);
+const { meta } = response;
+return meta.code === 200;
+}

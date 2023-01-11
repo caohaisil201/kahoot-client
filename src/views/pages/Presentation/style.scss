@@ -24,10 +24,17 @@
       flex-wrap: wrap;
       width: 20%;
       .item {
-        width: 100%;
+        width: calc(100% - 5px);
         height: 180px;
-        background: #bbb;
+        background: #ddd;
         position: relative;
+        border-radius: 5px;
+        &.select {
+          border: 1px solid #000;
+        }
+        .index {
+          position: absolute;
+        }
         > div {
           width: 100%;
           height: 100%;
@@ -42,10 +49,10 @@
     }
     .slide-preview {
       flex: 1;
-      .content{
+      .content {
         width: 600px;
         height: 470px;
-        background-color: #bbb;
+        background-color: #ddd;
         .choices {
           flex-wrap: wrap;
         }
@@ -53,7 +60,10 @@
       .options {
         width: 240px;
         height: 470px;
-        .question-type, .timer, .points, .true-answer {
+        .slide-type,
+        .timer,
+        .points,
+        .true-answer {
           width: 100%;
           h2 {
             font-weight: bold;

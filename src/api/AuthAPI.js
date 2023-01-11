@@ -21,7 +21,7 @@ export const registerUser = async (username, email, password, fullName) => {
       });
     return !!(response.meta.code === 200);
   } catch (err) {
-    console.log('err', err);
+    return false;
   }
 };
 
@@ -72,10 +72,33 @@ export const loginWithGoogle = async (credential) => {
   return response;
 };
 
-export const activateAccount = async (token) => {
+export const activateAccountAPI = async (token) => {
   const response = await axios
     .get(`${process.env.REACT_APP_API_URL}/registration/confirm?token=${token}`)
     .then((res) => res.data)
     .catch((err) => err);
   return !!response.meta.code;
+};
+
+export const forgotPassword = async (email) => {
+  const response = await axios
+    .get(
+      `${process.env.REACT_APP_API_URL}/user-management/reset-password?username=${email}`
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  const { meta } = response;
+  return !!(meta.code === 200);
+};
+
+export const resetPassword = async (email, password) => {
+  const response = await axios
+    .post(`${process.env.REACT_APP_API_URL}/user-management/update-password`, {
+      username: email,
+      password,
+    })
+    .then((res) => res.data)
+    .catch((err) => err);
+  const { meta } = response;
+  return !!(meta.code === 200);
 };

@@ -12,10 +12,11 @@ export const createSlideAPI = async (accessToken, slideInfo) => {
   const { meta, data } = response;
   return meta.code === 200 ? data : null;
 };
+
 export const updateSlidesAPI = async (accessToken, presentCode, slides) => {
   const response = await axios
     .post(
-      `${process.env.REACT_APP_API_URL}/slides`,
+      `${process.env.REACT_APP_API_URL}/slides/update`,
       { presentCode, slides },
       {
         headers: {
@@ -26,10 +27,10 @@ export const updateSlidesAPI = async (accessToken, presentCode, slides) => {
     )
     .then((res) => res.data)
     .catch((err) => err);
-		console.log('slides', response);
   const { meta, data } = response;
   return meta.code === 200 ? data : null;
 };
+
 export const deleteSlideAPI = async (accessToken, presentationCode, itemNo) => {
   const response = await axios
     .delete(

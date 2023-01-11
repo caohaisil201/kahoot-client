@@ -62,12 +62,7 @@ export const getGroupMembersAPI = async (accessToken, groupCode) => {
   return meta.code === 200 ? data : null;
 };
 
-export const addMemberAPI = async (
-  accessToken,
-  groupCode,
-  email,
-  roleType
-) => {
+export const addMemberAPI = async (accessToken, groupCode, email, roleType) => {
   const response = await axios
     .post(
       `${process.env.REACT_APP_API_URL}/group-management/add`,
@@ -114,24 +109,24 @@ export const assignMemberRoleAPI = async (
   return response;
 };
 
-export const deleteMemberAPI = async (accessToken, groupCode, userCode) => {
-  const response = await axios
-    .post(
-      `${process.env.REACT_APP_API_URL}/group-management/delete`,
-      {
-        groupCode,
-        userCode,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    )
-    .then((res) => res.data)
-    .catch((err) => err);
-  return response;
+export const deleteMemberAPI = async (accessToken, groupCode, email) => {
+	const response = await axios
+		.post(
+			`${process.env.REACT_APP_API_URL}/group-management/delete-member`,
+			{
+				groupCode,
+				email,
+			},
+			{
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${accessToken}`,
+				},
+			}
+		)
+		.then((res) => res.data)
+		.catch((err) => err);
+	return response;
 };
 
 export const joinGroupByLinkAPI = async (accessToken, groupCode) => {
@@ -152,4 +147,20 @@ export const joinGroupByLinkAPI = async (accessToken, groupCode) => {
     .catch((err) => err);
   const { meta } = response;
   return !!(meta.code === 200);
+};
+
+export const deleteGroupAPI = async (accessToken, groupCode) => {
+  const response = await axios
+    .get(
+      `${process.env.REACT_APP_API_URL}/group-management/delete?groupCode=${groupCode}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((err) => err);
+  return response;
 };
