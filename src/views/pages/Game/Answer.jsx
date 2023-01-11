@@ -99,7 +99,7 @@ const Answer = ({
   if (!slide) {
     return <></>;
   }
-  console.log(choices)
+
   return (
     <>
       {contextHolder}

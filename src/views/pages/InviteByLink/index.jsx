@@ -20,6 +20,7 @@ const InviteByLink = () => {
       mutation.mutate({});
     }
   }, []);
+  console.log(accessToken)
 
   if (!accessToken) {
     return (

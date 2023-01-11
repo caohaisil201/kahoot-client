@@ -156,7 +156,7 @@ const Game = () => {
   if (slidesQuery.data.length === 0) {
     return (
       <div className="container">
-        <EndGame isHost={isHostQuery.data} accessToken={accessToken}/>
+        <EndGame isHost={isHostQuery.data} gameName={gameName} accessToken={accessToken}/>
       </div>
     );
   }

@@ -28,7 +28,6 @@ const SignIn = () => {
         throw { message: 'Something wrong!' };
       }
       return instanceGroups;
-      // setGroups(instanceGroups);
     } catch (err) {
       throw err;
     }
@@ -49,7 +48,7 @@ const SignIn = () => {
         if (!instanceAccessToken) {
           Swal.fire({
             title: 'Error',
-            text: 'Có lỗi xảy ra!',
+            text: 'Có lỗi xảy ra, bạn chưa kích hoạt email hoặc nhập sai thông tin!',
             icon: 'error',
           });
           return;
