@@ -196,7 +196,7 @@ const GroupMembers = ({ accessToken, groupCode }) => {
 					<div className="list">
 						{normalMember.map((member) => (
 							<Member
-								key={member.id}
+								key={member.code}
 								member={member}
 								changeRole={changeRole}
 								deleteMember={deleteMember}

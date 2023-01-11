@@ -162,7 +162,7 @@ const Game = () => {
   }
 
   return (
-    <div className="container">
+    <div className="container game">
       <Children
         slideState={slideState}
         gameName={gameName}

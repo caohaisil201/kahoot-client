@@ -22,12 +22,15 @@ const Result = ({
   socket,
 }) => {
   const { choices } = slide;
-  const trueValues = choices.reduce((prev, cur) => {
-    return {
-      ...prev,
-      [cur.icon]: cur.isCorrect,
-    };
-  }, {});
+  let trueValues = {};
+  if(choices) {
+    trueValues = choices.reduce((prev, cur) => {
+      return {
+        ...prev,
+        [cur.icon]: cur.isCorrect,
+      };
+    }, {});
+  }
 
   const handleNextSlide = () => {
     socket.emit(SOCKET_ACTION.NEXT_SLIDE, {

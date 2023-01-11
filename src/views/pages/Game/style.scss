@@ -2,6 +2,9 @@
 
 .container {
   position: relative;
+  &.game {
+    min-height: 420px;
+  }
   .button-group {
     position: absolute;
     right: 0;

@@ -44,8 +44,6 @@ const Presentations = ({ accessToken, groupCode }) => {
     return <div>Không có presentation nào!</div>;
   }
 
-  console.log(presentationList.data)
-
   return (
     <div className="presentations">
       <h2>Presentations</h2>
@@ -56,12 +54,18 @@ const Presentations = ({ accessToken, groupCode }) => {
             key={index}
           >
             {item.code} - {item.name}
-            {item.isRunning ? <div>Playing</div> : (item.host.code === userInfo.code && <button
+            {(item.host.code === userInfo.code && <button
               className="small outline"
               onClick={() => onClickStart(item)}
             >
               Start
-            </button>)} 
+            </button>)}
+            {/* {item.isRunning ? <div>Playing</div> : (item.host.code === userInfo.code && <button
+              className="small outline"
+              onClick={() => onClickStart(item)}
+            >
+              Start
+            </button>)}  */}
           </div>
           
         );
