@@ -16,6 +16,7 @@ import PresentationList from 'views/pages/PresentationList';
 import Presentation from 'views/pages/Presentation';
 import JoinPresentation from 'views/pages/JoinPresentation';
 import Game from 'views/pages/Game';
+import Test from 'views/pages/Test';
 import ResetPassword from 'views/pages/ResetPassword';
 import ForgotPassword from 'views/pages/ForgotPassword';
 import 'assets/styles/index.scss';
@@ -85,6 +86,7 @@ function App() {
                   </PrivateRoute>
                 }
               />
+              <Route path="/test" element={<Test />}/>
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/reset-password" element={<ResetPassword />} />

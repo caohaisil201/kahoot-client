@@ -8,9 +8,54 @@ import Answer from './Answer';
 import Waiting from './Waiting';
 import Result from './Result';
 import EndGame from './EndGame';
+import { MessageOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { SOCKET_ACTION } from 'utils';
 import { usePrevious } from 'hooks';
 import './style.scss';
+import ChatBox from 'views/components/ChatBox';
+
+const Children = ({
+  slideState,
+  gameName,
+  slide,
+  isHost,
+  setSlideState,
+  accessToken,
+  code,
+  socket,
+  result,
+}) => {
+  switch (slideState) {
+    case 1:
+      return (
+        <Answer
+          gameName={gameName}
+          slide={slide}
+          isHost={isHost}
+          setSlideState={setSlideState}
+          accessToken={accessToken}
+          code={code}
+          socket={socket}
+        />
+      );
+    case 2:
+      return <Waiting gameName={gameName} setSlideState={setSlideState} />;
+    case 3:
+      return (
+        <Result
+          presentCode={code}
+          gameName={gameName}
+          slide={slide}
+          isHost={isHost}
+          setSlideState={setSlideState}
+          result={result}
+          socket={socket}
+        />
+      );
+    default:
+      return <></>;
+  }
+};
 
 const Game = () => {
   const accessToken = sessionStorage.getItem('access_token');
@@ -22,6 +67,10 @@ const Game = () => {
   const [slideState, setSlideState] = useState(1);
   const [slideNo, setSlideNo] = useState(1);
   const [result, setResult] = useState([]);
+  const [showChatBox, setShowChatBox] = useState(false);
+  const [messageList, setMessageList] = useState([]);
+  const [isNotification, setIsNotification] = useState(false);
+
   const prevSlideNo = usePrevious(slideNo);
 
   const slidesQuery = useQuery({
@@ -67,6 +116,27 @@ const Game = () => {
     };
   }, [slideState, slideNo]);
 
+  useEffect(() => {
+    socket.on(SOCKET_ACTION.RECEIVE_MESSAGE, (data) => {
+      const { token, message, sender } = data;
+      const item = {
+        message,
+        sender
+      }
+      accessToken === token ? item.isMe = true : item.isMe=false;
+      setMessageList([...messageList, item]);
+      if(showChatBox){
+        setIsNotification(false);
+      }else {
+        setIsNotification(true);
+      }
+    });
+
+    return () => {
+      socket.off(SOCKET_ACTION.RECEIVE_ANSWER);
+    };
+  }, [messageList.length, showChatBox]);
+
   if (slidesQuery.isLoading && isHostQuery.isLoading) {
     return <Loading />;
   }
@@ -75,52 +145,48 @@ const Game = () => {
     return <div className="container mt-8">Error</div>;
   }
 
-  if (slidesQuery.data.length === 0) {
-    return <div className="container">
-      <EndGame />
-    </div>
+  if (!slidesQuery.data) {
+    return <></>;
   }
 
-  switch (slideState) {
-    case 1:
-      return slidesQuery.data && slidesQuery.data.length >= 0 ? (
-        <div className="container">
-          <Answer
-            gameName={gameName}
-            slide={slidesQuery.data[0]}
-            isHost={isHostQuery.data}
-            setSlideState={setSlideState}
-            accessToken={accessToken}
-            code={code}
-            socket={socket}
-          />
-        </div>
-      ) : (
-        <></>
-      );
-    case 2:
-      return (
-        <div className="container">
-          <Waiting gameName={gameName} setSlideState={setSlideState} />
-        </div>
-      );
-    case 3:
-      return (
-        <div className="container">
-          <Result
-            presentCode={code}
-            gameName={gameName}
-            slide={slidesQuery.data[0]}
-            isHost={isHostQuery.data}
-            setSlideState={setSlideState}
-            result={result}
-            socket={socket}
-          />
-        </div>
-      );
-    default:
-      return <></>;
+  if (slidesQuery.data.length === 0) {
+    return (
+      <div className="container">
+        <EndGame />
+      </div>
+    );
   }
+
+  return (
+    <div className="container">
+      <Children
+        slideState={slideState}
+        gameName={gameName}
+        slide={slidesQuery.data[0]}
+        isHost={isHostQuery.data}
+        setSlideState={setSlideState}
+        accessToken={accessToken}
+        code={code}
+        socket={socket}
+        result={result}
+      />
+      <div className="button-group d-flex">
+        <button className="icon" onClick={() => {
+          if(!showChatBox) {
+            setIsNotification(false);
+          }
+          setShowChatBox(!showChatBox);
+        }}>
+          <MessageOutlined />
+          {isNotification && <span className="notification"></span>}
+        </button>
+        <button className="icon">
+          <QuestionCircleOutlined />
+        </button>
+        {showChatBox && <ChatBox socket={socket} code={code} accessToken={accessToken} messageList={messageList}/>}
+      </div>
+    </div>
+  );
 };
 
 export default Game;

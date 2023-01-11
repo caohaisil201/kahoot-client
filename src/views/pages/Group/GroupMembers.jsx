@@ -6,7 +6,12 @@ import Swal from 'sweetalert2';
 import { useQuery } from '@tanstack/react-query';
 import { CONSTANT } from 'utils';
 import { inviteSchema } from 'utils/yupSchema';
-import { addMemberAPI, assignMemberRoleAPI, getGroupMembersAPI, deleteMemberAPI } from 'api/GroupAPI';
+import {
+  addMemberAPI,
+  assignMemberRoleAPI,
+  getGroupMembersAPI,
+  deleteMemberAPI,
+} from 'api/GroupAPI';
 import Loading from 'views/components/Loading';
 import Member from './Member';
 
